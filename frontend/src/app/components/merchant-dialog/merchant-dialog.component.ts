@@ -152,14 +152,16 @@ export class MerchantDialogComponent implements OnInit {
 	}
 
 	public closeDialog(success?: string): void {
+		if (success) {
+			this.dialogRef.close(success);
+			return;
+		}
+
 		const reasonValue = this.form.get('reason')?.value;
 
 		if (reasonValue) {
 			this.showWarningDialog();
-			return;
 		}
-
-		this.dialogRef.close(success);
 	}
 
 	public performAction(): void {
