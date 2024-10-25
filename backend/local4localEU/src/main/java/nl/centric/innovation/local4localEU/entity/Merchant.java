@@ -49,7 +49,7 @@ public class Merchant extends BaseEntity {
     @Column(name = "address", nullable = false)
     private String address;
 
-    @Column(name = "contact_email", nullable = false)
+    @Column(name = "contact_email", nullable = false, unique = true)
     private String contactEmail;
 
     @Enumerated(EnumType.STRING)
