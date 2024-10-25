@@ -221,4 +221,61 @@ describe('MerchantService', () => {
 		expect(req.request.body).toEqual(mockRejectMerchantDto);
 		req.flush(null);
 	});
+
+	it('should retrieve paginated invitations', () => {
+		const pageIndex = 0;
+		const pageSize = 10;
+		const mockInvitations: InviteMerchantsDto[] = [
+			{
+				emails: ['merchant1@example.com'],
+				message: 'Join our platform!'
+			}
+		];
+
+		service.getPaginatedInvitations(pageIndex, pageSize).subscribe((invitations) => {
+			expect(invitations).toEqual(mockInvitations);
+		});
+
+		const req = httpMock.expectOne(`${environmentMock.apiPath}/merchant/invitations?page=0&size=10`);
+		expect(req.request.method).toBe('GET');
+		req.flush(mockInvitations);
+	});
+
+	it('should handle error on getting paginated invitations', () => {
+		const errorMessage = 'Error fetching invitations';
+
+		service.getPaginatedInvitations(0, 10).subscribe({
+			error: (error) => {
+				expect(error).toBe(errorMessage);
+			}
+		});
+
+		const req = httpMock.expectOne(`${environmentMock.apiPath}/merchant/invitations?page=0&size=10`);
+		req.flush(errorMessage, { status: 500, statusText: 'Server Error' });
+	});
+
+	it('should get the invitations count', () => {
+		const mockInvitationsCount = 5;
+
+		service.countAllInvitations().subscribe((count) => {
+			expect(count).toEqual(mockInvitationsCount);
+		});
+
+		const req = httpMock.expectOne(`${environmentMock.apiPath}/merchant/invitations/count`);
+		expect(req.request.method).toBe('GET');
+		req.flush(mockInvitationsCount);
+	});
+
+	it('should handle error on counting invitations', () => {
+		const errorMessage = 'Error fetching invitations count';
+
+		service.countAllInvitations().subscribe({
+			error: (error) => {
+				expect(error).toBe(errorMessage);
+			}
+		});
+
+		const req = httpMock.expectOne(`${environmentMock.apiPath}/merchant/invitations/count`);
+		req.flush(errorMessage, { status: 500, statusText: 'Server Error' });
+	});
 });

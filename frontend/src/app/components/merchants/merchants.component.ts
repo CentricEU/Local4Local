@@ -37,7 +37,7 @@ export class MerchantsComponent implements OnInit {
 
 	public readonly PAGE_SIZE_OPTIONS = [10, 25, 50];
 
-	public columnConfigs: ColumnConfig[] = [
+	public columnConfigs: ColumnConfig<MerchantDto>[] = [
 		{ columnDef: ColumnType.STATUS, header: 'table.column.status', cell: (element) => element.status || '' },
 		{
 			columnDef: ColumnType.COMPANY_NAME,

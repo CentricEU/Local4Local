@@ -42,7 +42,9 @@
             "address": "Address",
             "website": "Website",
             "status": "Status",
-            "actions": "Actions"
+            "actions": "Actions",
+            "email": "E-mail",
+            "sendingDate": "Sending date"
         }
     },
     "tooltip": {
@@ -153,12 +155,16 @@
         },
         "successOne": "The invitation was successfully sent.",
         "successMultiple": "The invitations were successfully sent.",
-        "warning": "The invitation process will be canceled and unsaved changes will be discarded."
-    },
-    "merchants": {
+        "warning": "The invitation process will be canceled and unsaved changes will be discarded.",
         "noData": {
             "title": "Welcome to Invitations",
             "description": "It looks like you haven’t sent any invitations yet. Let's start inviting merchants."
+        }
+    },
+    "merchants": {
+        "noData": {
+            "title": "Welcome to Merchants Management",
+            "description": "It looks like no merchants joined the platform yet. Let's get started by inviting merchants."
         }
     },
     "mfa": {
