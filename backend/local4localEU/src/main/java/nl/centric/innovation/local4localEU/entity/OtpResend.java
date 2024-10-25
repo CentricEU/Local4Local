@@ -13,12 +13,12 @@ import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(schema = "l4l_eu_security", name = "otp_attempts")
+@Table(schema = "l4l_eu_security", name = "otp_resend")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class OtpAttempts extends BaseEntity {
+public class OtpResend extends BaseEntity {
 
     @Column(name = "session_id", nullable = false)
     private UUID sessionId;

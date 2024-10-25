@@ -12,8 +12,8 @@ import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidate
 import nl.centric.innovation.local4localEU.exception.CustomException.InvalidRoleException;
 import nl.centric.innovation.local4localEU.exception.L4LEUException;
 import nl.centric.innovation.local4localEU.exception.RefreshTokenException;
+import nl.centric.innovation.local4localEU.service.impl.OtpResendService;
 import nl.centric.innovation.local4localEU.service.interfaces.AuthenticationService;
-import nl.centric.innovation.local4localEU.service.interfaces.OtpAttemptsService;
 import nl.centric.innovation.local4localEU.service.interfaces.OtpCodesService;
 import nl.centric.innovation.local4localEU.service.interfaces.RefreshTokenService;
 import org.springframework.http.HttpHeaders;
@@ -25,8 +25,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -40,7 +38,8 @@ public class AuthenticationController {
 
     private final OtpCodesService otpCodesService;
 
-    private final OtpAttemptsService otpAttemptsService;
+    private final OtpResendService otpResendService;
+
     @PostMapping
     public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginRequestDto loginRequest,
                                                        @CookieValue(value = "language", defaultValue = "nl-NL") String language,
@@ -71,10 +70,10 @@ public class AuthenticationController {
     }
 
     @PostMapping("/resendOtp")
-    public ResponseEntity<LoginResponseDto> resendOtp(@RequestParam HttpServletRequest request) throws AuthenticationLoginException {
-        AuthResponseDto authResponseDto = otpAttemptsService.validateOtp(request);
-        return ResponseEntity.ok().headers(authResponseDto.httpHeaders()).body(authResponseDto.loginResponseDto());
+    public ResponseEntity<LoginResponseDto> resendOtp(@CookieValue(value = "language", defaultValue = "nl-NL") String language,
+                                                      HttpServletRequest request) throws Exception {
+        HttpHeaders httpHeaders = otpResendService.resendOtp(language, request);
+        return ResponseEntity.ok().headers(httpHeaders).build();
     }
-
-
+    
 }
