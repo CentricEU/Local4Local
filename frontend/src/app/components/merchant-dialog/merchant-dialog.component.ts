@@ -207,7 +207,7 @@ export class MerchantDialogComponent implements OnInit {
 		const translatedValue = this.translateService.instant(toasterMessage);
 
 		this.snackBar.openFromComponent(CustomSnackbarComponent, {
-			duration: 8000,
+			duration: 80000,
 			data: new SnackbarData(translatedValue, SnackbarType.SUCCESS),
 			horizontalPosition: 'right',
 			verticalPosition: 'bottom'
