@@ -25,4 +25,11 @@ public class OtpResend extends BaseEntity {
 
     @Column(name = "user_id", nullable = false)
     private UUID userId;
+
+    public static OtpResend of(UUID sessionId, UUID userId) {
+        return OtpResend.builder()
+                .sessionId(sessionId)
+                .userId(userId)
+                .build();
+    }
 }

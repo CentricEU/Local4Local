@@ -50,9 +50,29 @@ public class OtpResendService {
     @Transactional
     public HttpHeaders resendOtp(String language, HttpServletRequest httpServletRequest)
             throws DtoValidateException, AuthenticationLoginException {
+        Optional<OtpCodes> otpCode =  validateSession(httpServletRequest);
+
+        Optional<OtpResend> otpResend = otpResendRepository.findTopBySessionIdOrderByCreatedDateDesc(otpCode.get().getSessionId());
+
+        validateResend(otpResend);
+
+        User userDetails = otpCode.get().getUser();
+        OtpResend newAttempt = OtpResend.of(otpCode.get().getSessionId(), userDetails.getId());
+        otpResendRepository.save(newAttempt);
+
+        OtpCodes newOtpCode = otpCodesService.createNewOtpWhenResendEmail(otpCode.get());
+        emailService.sendManagerOtpEmail(language, new String[]{userDetails.getEmail()}, newOtpCode.getOtpCode());
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(HttpHeaders.SET_COOKIE, createSessionIdCookie(otpCode.get().getSessionId()).toString());
+
+        return httpHeaders;
+    }
+
+    private Optional<OtpCodes> validateSession(HttpServletRequest httpServletRequest)
+            throws AuthenticationLoginException, DtoValidateNotFoundException {
         String sessionIdFromCookie = jwtUtil.extractTokenFromCookie(httpServletRequest, "sessionId");
 
-        if (sessionIdFromCookie.isEmpty() || sessionIdFromCookie == null) {
+        if (sessionIdFromCookie == null) {
             throw new AuthenticationLoginException(otpNotFound);
         }
 
@@ -63,36 +83,21 @@ public class OtpResendService {
             throw new DtoValidateNotFoundException(errorSessionNotFound);
         }
 
-        Optional<OtpResend> otpAttempts = otpResendRepository.findTopBySessionIdOrderByCreatedDateDesc(sessionId);
+        return otpCode;
+    }
 
-        if (otpAttempts.isPresent()) {
-            LocalDateTime isResendAvailable = otpAttempts.get().getCreatedDate()
+    private void validateResend(Optional<OtpResend> otpResend) throws DtoValidateException {
+        if (otpResend.isPresent()) {
+            LocalDateTime isResendAvailable = otpResend.get().getCreatedDate()
                     .plusMinutes(5);
             if (LocalDateTime.now().isBefore(isResendAvailable)) {
                 throw new DtoValidateException(errorResendMaxAchieved);
             }
         }
-
-        User userDetails = otpCode.get().getUser();
-        OtpResend newAttempt = otpAttemptBuilder(sessionId, userDetails.getId());
-        otpResendRepository.save(newAttempt);
-
-        OtpCodes newOtpCode = otpCodesService.createNewOtpWhenResendEmail(otpCode.get());
-        emailService.sendManagerOtpEmail(language, new String[]{userDetails.getEmail()}, newOtpCode.getOtpCode());
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(HttpHeaders.SET_COOKIE, createSessionIdCookie(sessionId).toString());
-
-        return httpHeaders;
     }
 
     private HttpCookie createSessionIdCookie(UUID sessionId) {
         return SecurityUtils.createCookie("sessionId", sessionId.toString(), otpExpirationTime);
     }
 
-    private OtpResend otpAttemptBuilder(UUID sessionId, UUID userId) {
-        return OtpResend.builder()
-                .sessionId(sessionId)
-                .userId(userId)
-                .build();
-    }
 }
