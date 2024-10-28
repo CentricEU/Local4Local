@@ -9,7 +9,8 @@
             "confirm": "Confirm",
             "link": "Send me link",
             "continueToLogin": "Continue to Login",
-            "continue": "Continue"
+            "continue": "Continue",
+            "stay": "Stay on page"
         },
         "forgotPassword": "Forgot password?",
         "rememberMe": "Remember me",
@@ -20,6 +21,7 @@
         "logout": "Log out",
         "invitations": "Invitations",
         "noData": "No data image",
+        "warning": "Warning",
         "status": {
             "pending": "Pending",
             "rejected": "Rejected",
@@ -28,10 +30,9 @@
         "paginatorResult": "Results per page",
         "congratulations": "Congratulations!",
         "noLocationData": {
-			"noDataTitle": "...Location is turned off",
-			"noDataDescription": "...It looks like location is turned off in your system preferences. Please enable location services to explore the map."
-		}
-        
+            "noDataTitle": "...Location is turned off",
+            "noDataDescription": "...It looks like location is turned off in your system preferences. Please enable location services to explore the map."
+        }
     },
     "table": {
         "column": {
@@ -41,7 +42,9 @@
             "address": "Address",
             "website": "Website",
             "status": "Status",
-            "actions": "Actions"
+            "actions": "Actions",
+            "email": "E-mail",
+            "sendingDate": "Sending date"
         }
     },
     "tooltip": {
@@ -151,12 +154,17 @@
             "emailsLimitReached": "You've reached the limit of 50 emails."
         },
         "successOne": "The invitation was successfully sent.",
-        "successMultiple": "The invitations were successfully sent."
-    },
-    "merchants": {
+        "successMultiple": "The invitations were successfully sent.",
+        "warning": "The invitation process will be canceled and unsaved changes will be discarded.",
         "noData": {
             "title": "Welcome to Invitations",
             "description": "It looks like you haven’t sent any invitations yet. Let's start inviting merchants."
+        }
+    },
+    "merchants": {
+        "noData": {
+            "title": "Welcome to Merchants Management",
+            "description": "It looks like no merchants joined the platform yet. Let's get started by inviting merchants."
         }
     },
     "mfa": {
@@ -180,7 +188,8 @@
         "reason": "Rejection reason",
         "error": {
             "reasonRequired": "Rejection reason is required."
-        }
+        },
+        "warning": "The rejection process will be canceled and unsaved changes will be discarded."
     },
     "errors": {
         "40007": "Ooops we got an error. Invalid credentials. Please try again or use the forgot password option",
@@ -188,6 +197,7 @@
         "40005": "Your attempt was unsuccessful multiple times. Please complete the ReCAPTCHA to proceed.",
         "40014": "You can only initiate three password recovery attempts per day.",
         "40016": "The link for password recovery has expired.",
-        "40017": "Your new password matches your old one. Please choose a different password."
+        "40017": "Your new password matches your old one. Please choose a different password.",
+        "40025": "The citizen account could not be created because the email is already in use. Please use a different email address to create a new account."
     }
 }

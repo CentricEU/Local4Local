@@ -1,31 +1,32 @@
 <section mat-dialog-title class="dialog-header">
-	<span>{{ data.title | translate }}</span>
-	@if(!data.disableClosing) {
-	<button
-		mat-icon-button
-		mat-dialog-close
-		class="close-button"
-		aria-label="{{ 'general.button.close' | translate }}"
-		(click)="close()">
-		<mat-icon>close</mat-icon>
-	</button>
-	}
+    <span>{{ data.title | translate }}</span>
+    @if(!data.disableClosing) {
+        <button
+            mat-icon-button
+            mat-dialog-close
+            class="close-button"
+            aria-label="{{ 'general.button.close' | translate }}"
+            (click)="close()">
+            <mat-icon>close</mat-icon>
+        </button>
+    }
 </section>
-<mat-dialog-content>
-	@if(data.imageName) {
-	<img [src]="'/assets/images/' + data.imageName" alt="logo" class="image" />
-	}
-	<p class="bold main-text" [innerHTML]="data.mainContent | translate"></p>
-	<p [innerHTML]="data.secondaryContent | translate"></p>
+<mat-dialog-content [class]="data.modalTypeClass">
+    @if(data.imageName) {
+        <img [src]="'/assets/images/' + data.imageName" alt="logo" class="image" />
+    }
+    <p class="bold main-text" [innerHTML]="data.mainContent | translate"></p>
+    <p [innerHTML]="data.secondaryContent | translate"></p>
 </mat-dialog-content>
-<mat-dialog-actions>
-	@if(!data.disableClosing) {
-	<button mat-button (click)="close()" id="{{ data.cancelButtonText }}">
-		{{ data.cancelButtonText | translate }}
-	</button>
-	} @if(data.shouldDisplayActionButton) {
-	<button mat-flat-button (click)="accept()" id="{{ data.acceptButtonText }}">
-		{{ data.acceptButtonText | translate }}
-	</button>
-	}
+<mat-dialog-actions [class]="data.modalTypeClass">
+    @if(!data.disableClosing) {
+        <button mat-button (click)="close()" id="{{ data.cancelButtonText }}">
+            {{ data.cancelButtonText | translate }}
+        </button>
+    } 
+    @if(data.shouldDisplayActionButton) {
+        <button mat-flat-button (click)="accept()" id="{{ data.acceptButtonText }}">
+            {{ data.acceptButtonText | translate }}
+        </button>
+    }
 </mat-dialog-actions>

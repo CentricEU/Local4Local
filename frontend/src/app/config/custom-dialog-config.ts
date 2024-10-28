@@ -24,12 +24,15 @@ export class CustomDialogConfigUtil {
 			cancelButtonText: '',
 			acceptButtonText: '',
 			imageName: '',
-			shouldDisplayActionButton: true
+			shouldDisplayActionButton: true,
+			modalTypeClass: ''
 		}
 	};
 
-	public static createMessageModal(successModal: ModalData): MatDialogConfig {
+	public static createMessageModal(successModal: ModalData, width = '600px'): MatDialogConfig {
 		const config: MatDialogConfig = structuredClone(this.MESSAGE_MODAL_CONFIG);
+		config.width = width;
+
 		config.data.title = successModal.title;
 		config.data.mainContent = successModal.mainContent;
 		config.data.secondaryContent = successModal.secondaryContent;
@@ -38,6 +41,8 @@ export class CustomDialogConfigUtil {
 		config.data.disableClosing = successModal.disableClosing;
 		config.data.shouldDisplayActionButton = successModal.shouldDisplayActionButton;
 		config.data.imageName = successModal.imageName;
+		config.data.modalTypeClass = successModal.modalTypeClass;
+
 		return config;
 	}
 }

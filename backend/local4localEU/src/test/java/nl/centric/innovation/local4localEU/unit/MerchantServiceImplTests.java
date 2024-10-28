@@ -70,13 +70,9 @@ public class MerchantServiceImplTests {
     private static final String INVALID_WEBSITE = "invalid-url";
     private static final Integer VALID_CATEGORY = 0;
     private static final Integer INVALID_CATEGORY = 9;
-
     private static final UUID VALID_MERCHANT_ID = UUID.randomUUID();
     private static final String VALID_LANGUAGE = "en";
-
     private static final String CURRENCY_MANAGER_EMAIL = "currency.manager@example.com";
-    private Merchant pendingMerchant;
-    private Merchant approvedMerchant;
 
     private MerchantDto validMerchantDto;
     private MerchantDto invalidKvkMerchantDto;
@@ -237,7 +233,7 @@ public class MerchantServiceImplTests {
         merchant2.setId(UUID.randomUUID());
 
         List<Merchant> merchantList = Arrays.asList(merchant1, merchant2);
-        when(merchantRepository.findByCategoryId(1)).thenReturn(merchantList);
+        when(merchantRepository.findByCategoryIdAndStatus(1, MerchantStatusEnum.APPROVED)).thenReturn(merchantList);
 
         // When
         List<MerchantViewDto> result = merchantService.getByCategory(1);
@@ -246,20 +242,20 @@ public class MerchantServiceImplTests {
         assertEquals(2, result.size());
         assertEquals("Company 1", result.get(0).companyName());
         assertEquals("Company 2", result.get(1).companyName());
-        verify(merchantRepository, times(1)).findByCategoryId(1);
+        verify(merchantRepository, times(1)).findByCategoryIdAndStatus(1, MerchantStatusEnum.APPROVED);
     }
 
     @Test
     public void GivenNoMerchantsInCategory_WhenGetByCategory_ThenReturnEmptyList() {
         // Given
-        when(merchantRepository.findByCategoryId(1)).thenReturn(List.of());
+        when(merchantRepository.findByCategoryIdAndStatus(1, MerchantStatusEnum.APPROVED)).thenReturn(List.of());
 
         // When
         List<MerchantViewDto> result = merchantService.getByCategory(1);
 
         // Then
         assertEquals(0, result.size());
-        verify(merchantRepository, times(1)).findByCategoryId(1);
+        verify(merchantRepository, times(1)).findByCategoryIdAndStatus(1, MerchantStatusEnum.APPROVED);
     }
 
     @Test
@@ -272,7 +268,7 @@ public class MerchantServiceImplTests {
         merchant2.setId(UUID.randomUUID());
 
         List<Merchant> merchantList = Arrays.asList(merchant1, merchant2);
-        when(merchantRepository.findAll()).thenReturn(merchantList);
+        when(merchantRepository.findByStatus(MerchantStatusEnum.APPROVED)).thenReturn(merchantList);
 
         Integer invalidCategoryId = 9;
 
@@ -283,8 +279,7 @@ public class MerchantServiceImplTests {
         assertEquals(2, result.size());
         assertEquals("Company 1", result.get(0).companyName());
         assertEquals("Company 2", result.get(1).companyName());
-        verify(merchantRepository, times(1)).findAll();
-        verify(merchantRepository, never()).findByCategoryId(any(Integer.class));
+        verify(merchantRepository, times(1)).findByStatus(MerchantStatusEnum.APPROVED);
     }
 
     @Test

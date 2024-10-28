@@ -63,7 +63,7 @@ class OtpResendServiceTests {
     }
 
     @Test
-    void GIVEN_InvalidSessionId_WHEN_ResendOtp_THEN_ShouldThrowAuthenticationLoginException() {
+    void GivenInvalidSessionId_WhenResendOtp_ThenShouldThrowAuthenticationLoginException() {
         // Given
         when(jwtUtil.extractTokenFromCookie(httpServletRequest, "sessionId")).thenReturn("");
 
@@ -75,7 +75,7 @@ class OtpResendServiceTests {
     }
 
     @Test
-    void GIVEN_ValidSessionId_But_OtpCodeNotFound_WHEN_ResendOtp_THEN_ShouldThrowDtoValidateNotFoundException() {
+    void GivenValidSessionId_But_OtpCodeNotFound_WhenResendOtp_ThenShouldThrowDtoValidateNotFoundException() {
         // Given
         String sessionId = UUID.randomUUID().toString();
         when(jwtUtil.extractTokenFromCookie(httpServletRequest, "sessionId")).thenReturn(sessionId);
@@ -88,7 +88,7 @@ class OtpResendServiceTests {
     }
 
     @Test
-    void GIVEN_ValidSessionId_But_MaxResendAttemptsReached_WHEN_ResendOtp_THEN_ShouldThrowDtoValidateException() {
+    void GivenValidSessionId_But_MaxResendAttemptsReached_WhenResendOtp_ThenShouldThrowDtoValidateException() {
         // Given
         String sessionId = UUID.randomUUID().toString();
         OtpCodes otpCode = mock(OtpCodes.class);
@@ -107,7 +107,7 @@ class OtpResendServiceTests {
     }
 
     @Test
-    void GIVEN_ValidSessionId_WHEN_ResendOtp_THEN_ShouldResendOtpSuccessfully() throws DtoValidateException, AuthenticationLoginException {
+    void GivenValidSessionId_WhenResendOtp_ThenShouldResendOtpSuccessfully() throws DtoValidateException, AuthenticationLoginException {
         // Given
         String sessionId = UUID.randomUUID().toString();
         OtpCodes otpCode = mock(OtpCodes.class);

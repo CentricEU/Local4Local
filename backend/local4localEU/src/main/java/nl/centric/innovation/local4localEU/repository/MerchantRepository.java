@@ -10,6 +10,10 @@ import java.util.UUID;
 
 public interface MerchantRepository extends JpaRepository<Merchant, UUID> {
     Optional<Merchant> findByKvk(String kvk);
+
+    Optional<Merchant> findByContactEmailIgnoreCase(String email);
+
     List<Merchant> findByStatus(MerchantStatusEnum merchantStatusEnum);
-    List<Merchant> findByCategoryId(Integer categoryId);
+
+    List<Merchant> findByCategoryIdAndStatus(Integer categoryId, MerchantStatusEnum statusEnum);
 }

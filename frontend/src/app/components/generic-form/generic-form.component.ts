@@ -189,7 +189,8 @@ export class GenericFormComponent implements OnInit {
             '',
             true,
             'check.svg',
-            false
+            false,
+            ''
         );
 
         this.dialog.open(GenericDialogComponent, CustomDialogConfigUtil.createMessageModal(successfulRecoveryModalData));
@@ -204,7 +205,8 @@ export class GenericFormComponent implements OnInit {
             'general.button.continueToLogin',
             true,
             'check.svg',
-            true
+            true,
+            ''
         );
 
         const dialogRef = this.dialog.open(GenericDialogComponent, CustomDialogConfigUtil.createMessageModal(successfulRecoveryModalData));

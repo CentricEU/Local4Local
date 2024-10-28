@@ -58,6 +58,9 @@ public class MerchantServiceImpl implements MerchantService {
     @Value("${error.unique.violation}")
     private String errorUniqueViolation;
 
+    @Value("${error.unique.email}")
+    private String errorUniqueEmail;
+
     @Value("${error.general.entityValidate}")
     private String errorEntityValidate;
 
@@ -161,8 +164,8 @@ public class MerchantServiceImpl implements MerchantService {
         boolean isValidCategory = categoryId != null && categoryId >= 0 && categoryId <= 8;
 
         List<Merchant> merchants = isValidCategory
-                ? merchantRepository.findByCategoryId(categoryId)
-                : merchantRepository.findAll();
+                ? merchantRepository.findByCategoryIdAndStatus(categoryId, MerchantStatusEnum.APPROVED)
+                : merchantRepository.findByStatus(MerchantStatusEnum.APPROVED);
 
         return merchants.stream()
                 .map(MerchantViewDto::fromEntity)
@@ -179,6 +182,12 @@ public class MerchantServiceImpl implements MerchantService {
 
         if (existingMerchant.isPresent()) {
             throw new DtoValidateAlreadyExistsException(errorUniqueViolation);
+        }
+
+        Optional<Merchant> existingMerchantByEmail = merchantRepository.findByContactEmailIgnoreCase(merchantDto.contactEmail());
+
+        if (existingMerchantByEmail.isPresent()) {
+            throw new DtoValidateAlreadyExistsException(errorUniqueEmail);
         }
 
         if (!isKvkValid(merchantDto.kvk())) {

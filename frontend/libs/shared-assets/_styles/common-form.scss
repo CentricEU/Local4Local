@@ -72,6 +72,10 @@ $neutral-600: var(--neutral-600);
     }
 
     mat-dialog-actions {
+        height: 88px;
+        margin-top: 24px;
+        border-top: 1px solid var(--neutral-200);
+
         button {
             &:nth-of-type(2) {
                 background-color: $theme-500;

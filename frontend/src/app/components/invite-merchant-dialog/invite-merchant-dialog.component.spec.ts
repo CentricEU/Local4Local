@@ -11,6 +11,7 @@ import { MatChipInput, MatChipInputEvent, MatChipsModule } from '@angular/materi
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { GenericDialogComponent } from '../generic-dialog/generic-dialog.component';
 
 describe('InviteMerchantDialogComponent', () => {
 	let component: InviteMerchantDialogComponent;
@@ -25,10 +26,13 @@ describe('InviteMerchantDialogComponent', () => {
 	};
 
 	beforeEach(async () => {
-
 		const mockChipInput: Partial<MatChipInput> = {
-			clear: jest.fn(),
+			clear: jest.fn()
 		};
+
+		global.structuredClone = jest.fn((val) => {
+			return JSON.parse(JSON.stringify(val));
+		});
 
 		const mockInputElement = document.createElement('input');
 		mockInputElement.value = 'test chip';
@@ -39,15 +43,16 @@ describe('InviteMerchantDialogComponent', () => {
 			chipInput: mockChipInput as MatChipInput
 		} as MatChipInputEvent;
 
-
 		merchantServiceMock = {
-			inviteMerchants: jest.fn(() => of({
-				subscribe: () => jest.fn()
-			})),
+			inviteMerchants: jest.fn(() =>
+				of({
+					subscribe: () => jest.fn()
+				})
+			)
 		} as any;
 
 		await TestBed.configureTestingModule({
-			declarations: [InviteMerchantDialogComponent],
+			declarations: [InviteMerchantDialogComponent, GenericDialogComponent],
 			imports: [
 				TranslateModule.forRoot(),
 				ReactiveFormsModule,
@@ -64,10 +69,9 @@ describe('InviteMerchantDialogComponent', () => {
 				FormBuilder,
 				{ provide: MatDialogRef, useValue: dialogRefStub },
 				{ provide: MerchantService, useValue: merchantServiceMock },
-				{ provide: MAT_DIALOG_DATA, useValue: null },
+				{ provide: MAT_DIALOG_DATA, useValue: null }
 			]
-		})
-			.compileComponents();
+		}).compileComponents();
 
 		fixture = TestBed.createComponent(InviteMerchantDialogComponent);
 		component = fixture.componentInstance;
@@ -90,7 +94,7 @@ describe('InviteMerchantDialogComponent', () => {
 		component.handleEnterKeyup(mockChipInputEvent);
 
 		expect([...component.merchantEmails]).toEqual(['email@domain.com']);
-	})
+	});
 
 	it('should display an error when trying to add an e-mail that is already in the list', () => {
 		component.merchantEmails.add('email@domain.com');
@@ -99,13 +103,13 @@ describe('InviteMerchantDialogComponent', () => {
 		component.handleEnterKeyup(mockChipInputEvent);
 
 		expect(component.emailError).toEqual('inviteMerchants.error.emailAlreadyInList');
-	})
+	});
 
 	it('should display an error when trying to add an invalid e-mail', () => {
 		mockChipInputEvent.value = 'invalidemail@';
 		component.handleEnterKeyup(mockChipInputEvent);
 		expect(component.emailError).toEqual('inviteMerchants.error.emailPattern');
-	})
+	});
 
 	it('should display an error when trying to add more than 50 emails', () => {
 		for (let i = 1; i <= 51; i++) {
@@ -113,7 +117,7 @@ describe('InviteMerchantDialogComponent', () => {
 			component.handleEnterKeyup(mockChipInputEvent);
 		}
 		expect(component.emailError).toEqual('inviteMerchants.error.emailsLimitReached');
-	})
+	});
 
 	it('should mark invitation message as invalid if empty', () => {
 		const invitationMessageControl = component.form.get('invitationMessage');
@@ -129,7 +133,7 @@ describe('InviteMerchantDialogComponent', () => {
 		component.merchantEmails.add('email@domain.com');
 
 		expect(component.isFormValid).toBeTruthy();
-	})
+	});
 
 	it('should remove given email from list', () => {
 		component.merchantEmails.add('email1@domain.com');
@@ -138,7 +142,7 @@ describe('InviteMerchantDialogComponent', () => {
 		component.removeEmailFromList('email1@domain.com');
 
 		expect([...component.merchantEmails]).toEqual(['email2@domain.com']);
-	})
+	});
 
 	it('should get the data from the form and return it as a dto', () => {
 		const invitationMessageControl = component.form.get('invitationMessage');
@@ -149,7 +153,7 @@ describe('InviteMerchantDialogComponent', () => {
 		const result = component['getFormValuesToInviteMerchantsDto']();
 
 		expect(result.message).toBe('Invitation message.');
-	})
+	});
 
 	it('should send the invitations and close the dialog', () => {
 		jest.spyOn(component as any, 'getFormValuesToInviteMerchantsDto');
@@ -162,31 +166,73 @@ describe('InviteMerchantDialogComponent', () => {
 		expect(component['showSuccessToaster']).toHaveBeenCalled();
 		expect(merchantServiceMock.inviteMerchants).toHaveBeenCalled();
 		expect(dialogRefStub.close).toHaveBeenCalled();
-	})
+	});
 
 	it('should not call sendInvitations if the form is invalid', () => {
-		jest.spyOn(component as any, 'sendInvitations');  
+		jest.spyOn(component as any, 'sendInvitations');
 
-        const invitationMessageControl = component.form.get('invitationMessage');
+		const invitationMessageControl = component.form.get('invitationMessage');
 		invitationMessageControl?.setValue('');
 		component.merchantEmails.add('email1@');
 
-        component.inviteMerchants();
+		component.inviteMerchants();
 
-        expect(component['sendInvitations']).not.toHaveBeenCalled();
-    });
+		expect(component['sendInvitations']).not.toHaveBeenCalled();
+	});
 
-    it('should call sendInvitations if the form is valid', () => {
-		jest.spyOn(component as any, 'sendInvitations');  
+	it('should call sendInvitations if the form is valid', () => {
+		jest.spyOn(component as any, 'sendInvitations');
 
 		const invitationMessageControl = component.form.get('invitationMessage');
 		invitationMessageControl?.setValue('Invitation message.');
 
 		component.merchantEmails.add('email1@domain.com');
 
-        component.inviteMerchants();
+		component.inviteMerchants();
 
-        expect(component['sendInvitations']).toHaveBeenCalled();
-    });
+		expect(component['sendInvitations']).toHaveBeenCalled();
+	});
 
+	it('should close the dialog if there are no form changes', () => {
+		jest.spyOn(component, 'hasFormChanges').mockReturnValue(false);
+		jest.spyOn(dialogRefStub, 'close');
+
+		component.closeDialog();
+
+		expect(component.hasFormChanges).toHaveBeenCalled();
+		expect(dialogRefStub.close).toHaveBeenCalled();
+	});
+
+	it('should open warning dialog when showWarningDialog is called', () => {
+		const dialogSpy = jest.spyOn(component['dialog'], 'open').mockReturnValue({
+			afterClosed: () => of(true)
+		} as any);
+
+		component['showWarningDialog']();
+
+		expect(dialogSpy).toHaveBeenCalled();
+	});
+
+	it('should close the dialog if the user confirms the warning dialog', () => {
+		const dialogSpy = jest.spyOn(component['dialog'], 'open').mockReturnValue({
+			afterClosed: () => of(true)
+		} as any);
+
+		jest.spyOn(dialogRefStub, 'close');
+
+		component['showWarningDialog']();
+
+		expect(dialogSpy).toHaveBeenCalled();
+		expect(dialogRefStub.close).toHaveBeenCalled();
+	});
+
+	it('should call showWarningDialog if there are form changes', () => {
+		jest.spyOn(component, 'hasFormChanges').mockReturnValue(true);
+		const showWarningDialogSpy = jest.spyOn(component as any, 'showWarningDialog');
+
+		component.closeDialog();
+
+		expect(component.hasFormChanges).toHaveBeenCalled();
+		expect(showWarningDialogSpy).toHaveBeenCalled();
+	});
 });

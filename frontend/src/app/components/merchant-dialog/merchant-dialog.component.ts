@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormField } from '../../models/form-field.model';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { L4LErrorStateMatcher } from '../../helpers/error-state-matcher';
@@ -21,6 +21,9 @@ import { SnackbarData } from '../../models/snackbar-data.model';
 import { SnackbarType } from '../../_enums/snackbar-type.enum';
 import { MerchantDialogType } from '../../enums/merchant-dialog-type.enum';
 import { RejectMerchantDto } from '../../models/reject-merchant-dto.model';
+import { ModalData } from '../../models/dialog-data.model';
+import { GenericDialogComponent } from '../generic-dialog/generic-dialog.component';
+import { CustomDialogConfigUtil } from '../../config/custom-dialog-config';
 
 type ApprovalDialogValue = string | number | null | undefined;
 
@@ -51,6 +54,7 @@ export class MerchantDialogComponent implements OnInit {
 	private readonly categoryService = inject(CategoryService);
 	private readonly merchantService = inject(MerchantService);
 	private readonly snackBar = inject(MatSnackBar);
+	private readonly dialog = inject(MatDialog);
 
 	private currentMerchantId: string;
 
@@ -148,7 +152,16 @@ export class MerchantDialogComponent implements OnInit {
 	}
 
 	public closeDialog(success?: string): void {
-		this.dialogRef.close(success);
+		if (success) {
+			this.dialogRef.close(success);
+			return;
+		}
+
+		const reasonValue = this.form.get('reason')?.value;
+
+		if (reasonValue) {
+			this.showWarningDialog();
+		}
 	}
 
 	public performAction(): void {
@@ -365,5 +378,30 @@ export class MerchantDialogComponent implements OnInit {
 	private checkFormMode(): void {
 		this.merchantDialogType = this.data?.dialogType ?? MerchantDialogType.REGISTRATION;
 		this.currentMerchantId = this.data?.merchant?.id;
+	}
+
+	private showWarningDialog(): void {
+		const warningModalData = new ModalData(
+			'general.warning',
+			'',
+			'rejectMerchant.warning',
+			'general.button.stay',
+			'general.button.cancel',
+			false,
+			'',
+			true,
+			'warning'
+		);
+
+		this.dialog
+			.open(GenericDialogComponent, CustomDialogConfigUtil.createMessageModal(warningModalData, '400px'))
+			.afterClosed()
+			.subscribe((confirmed: boolean) => {
+				if (!confirmed) {
+					return;
+				}
+
+				this.dialogRef.close();
+			});
 	}
 }

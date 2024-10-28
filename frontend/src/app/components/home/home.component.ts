@@ -70,7 +70,8 @@ export class HomeComponent implements OnInit {
 			'general.button.understand',
 			false,
 			'wait-clock.svg',
-			true
+			true,
+			''
 		);
 
 		this.dialog.open(GenericDialogComponent, CustomDialogConfigUtil.createMessageModal(approvalWaitingModalData));
@@ -85,7 +86,8 @@ export class HomeComponent implements OnInit {
 			'general.button.understand',
 			false,
 			'wait-clock.svg',
-			true
+			true,
+			''
 		);
 
 		this.dialog.open(GenericDialogComponent, CustomDialogConfigUtil.createMessageModal(alreadyRegisteredModalData));

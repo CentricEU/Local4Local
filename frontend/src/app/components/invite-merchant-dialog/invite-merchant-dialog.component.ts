@@ -3,7 +3,7 @@ import { FormField } from '../../models/form-field.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { L4LErrorStateMatcher } from '../../helpers/error-state-matcher';
 import { FormUtil } from '../../util/form.util';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { RegexUtil } from '../../util/regex.util';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MerchantService } from '../../services/merchant.service';
@@ -13,6 +13,9 @@ import { CustomSnackbarComponent } from '../custom-snackbar/custom-snackbar.comp
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { SnackbarData } from '../../models/snackbar-data.model';
+import { ModalData } from '../../models/dialog-data.model';
+import { GenericDialogComponent } from '../generic-dialog/generic-dialog.component';
+import { CustomDialogConfigUtil } from '../../config/custom-dialog-config';
 
 @Component({
 	selector: 'app-invite-merchant-dialog',
@@ -34,6 +37,7 @@ export class InviteMerchantDialogComponent implements OnInit {
 	private readonly merchantService = inject(MerchantService);
 	private readonly snackBar = inject(MatSnackBar);
 	private readonly translateService = inject(TranslateService);
+	private readonly dialog = inject(MatDialog);
 
 
 	public get isFormValid(): boolean {
@@ -52,8 +56,13 @@ export class InviteMerchantDialogComponent implements OnInit {
 		this.createForm();
 	}
 
-	public closeDialog(success?: string): void {
-		this.dialogRef.close(success);
+	public closeDialog(): void {
+		if (!this.hasFormChanges()) {
+			this.dialogRef.close();
+			return;
+		}
+
+		this.showWarningDialog();
 	}
 
 	public handleEnterKeyup(event: MatChipInputEvent): void {
@@ -89,6 +98,12 @@ export class InviteMerchantDialogComponent implements OnInit {
 		this.sendInvitations();
 	}
 
+	public hasFormChanges(): boolean {
+		const invitationValue = this.form.get('invitationMessage')?.value;
+
+		return invitationValue || this.merchantEmailsArray.length > 0;
+	}
+
 	private sendInvitations(): void {
 		const inviteSuppliersDto = this.getFormValuesToInviteMerchantsDto();
 		this.merchantService.inviteMerchants(inviteSuppliersDto).subscribe(() => {
@@ -98,10 +113,7 @@ export class InviteMerchantDialogComponent implements OnInit {
 	}
 
 	private getFormValuesToInviteMerchantsDto(): InviteMerchantsDto {
-		return new InviteMerchantsDto(
-			this.merchantEmailsArray,
-			this.form.controls['invitationMessage'].value
-		);
+		return new InviteMerchantsDto(this.merchantEmailsArray, this.form.controls['invitationMessage'].value);
 	}
 
 	private createForm(): void {
@@ -109,6 +121,31 @@ export class InviteMerchantDialogComponent implements OnInit {
 			invitationMessage: ['', [Validators.required, Validators.maxLength(1024)]],
 			email: ['']
 		});
+	}
+
+	private showWarningDialog(): void {
+		const warningModalData = new ModalData(
+			'general.warning',
+			'',
+			'inviteMerchants.warning',
+			'general.button.stay',
+			'general.button.cancel',
+			false,
+			'',
+			true,
+			'warning'
+		);
+
+		this.dialog
+			.open(GenericDialogComponent, CustomDialogConfigUtil.createMessageModal(warningModalData, '400px'))
+			.afterClosed()
+			.subscribe((confirmed: boolean) => {
+				if (!confirmed) {
+					return;
+				}
+
+				this.dialogRef.close();
+			});
 	}
 
 	private showSuccessToaster(isSingleMail: boolean): void {
@@ -119,8 +156,7 @@ export class InviteMerchantDialogComponent implements OnInit {
 			duration: 8000,
 			data: new SnackbarData(toasterMessage, SnackbarType.SUCCESS),
 			horizontalPosition: 'right',
-			verticalPosition: 'bottom',
+			verticalPosition: 'bottom'
 		});
 	}
-
 }

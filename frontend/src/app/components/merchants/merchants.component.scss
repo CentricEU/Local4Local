@@ -1,55 +1,16 @@
 @use '../.././../../libs/shared-assets/_styles/mixins.scss' as mixins;
+@use '../../../../libs/shared-assets/_styles/common-table.scss';
 
 ::ng-deep {
-    .mat-mdc-paginator-outer-container {
-        background-color: var(--neutral-0);
-    }
-
     .mdc-tooltip__surface {
         color: var(--neutral-900) !important;
         background: var(--neutral-0) !important;
         box-shadow: 0 1px 2px 0 var(--theme-500-rgb) !important;
     }
 
-    tbody {
-        display: block;
-        height: 496px;
-        overflow-y: auto;
-        scrollbar-width: thin;
-    }
-
-    thead,
-    tbody tr {
-        display: table;
-        width: 100%;
-        table-layout: fixed;
-    }
-
 }
 
 :host {
-    overflow: hidden;
-
-    .button-container {
-        @include mixins.flex(row, flex-end);
-        padding-top: 32px;
-        padding-right: 32px;
-
-        button {
-            background-color: var(--theme-500);
-        }
-    }
-
-    .mat-elevation-z8 {
-        box-shadow: none;
-        margin: 0 32px;
-    }
-
-
-    .mat-mdc-table {
-        background-color: var(--neutral-0);
-    }
-
     .status-container {
         @include mixins.flex(row, flex-start, center);
         gap: 8px;
@@ -90,28 +51,6 @@
 
     .action-icon[disabled] {
         cursor: not-allowed;
-    }
-
-    .empty-state {
-        height: 100%;
-    }
-
-    .custom-header {
-        background-color: var(--theme-100);
-
-        p {
-            color: var(--neutral-900);
-        }
-    }
-
-    table tr:first-child th,
-    .table-footer-spacer {
-        border-bottom: 1px solid var(--neutral-200);
-    }
-
-    .main-container {
-        @include mixins.flex(column);
-        gap: 16px;
     }
 
     .no-actions {

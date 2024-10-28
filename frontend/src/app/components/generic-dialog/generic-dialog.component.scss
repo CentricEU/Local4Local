@@ -19,10 +19,33 @@ $theme-500: var(--theme-500);
             }
 
         }
+
+        &.warning {
+            button {
+                &:nth-of-type(2) {
+                    background-color: var(--warning-100);
+                    color: var(--neutral-900);
+                }
+
+                &:nth-of-type(1) {
+                    color: var(--neutral-900);
+                }
+            }
+        }
     }
 
     mat-dialog-content {
-        @include mixins.flex(column, center, center, 16px);
+        @include mixins.flex(column, center, center);
+
+        gap: 16px;
+
+        &.warning {
+            gap: 0;
+
+            p {
+                text-align: start;
+            }
+        }
 
         p {
             text-align: center;

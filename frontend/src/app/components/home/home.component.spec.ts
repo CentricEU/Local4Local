@@ -125,7 +125,8 @@ describe('HomeComponent', () => {
 			'general.button.understand',
 			false,
 			'wait-clock.svg',
-			true
+			true,
+			''
 		);
 
 		(component as any).displayApprovalWaitingPopup();
@@ -147,7 +148,8 @@ describe('HomeComponent', () => {
 			'general.button.understand',
 			false,
 			'wait-clock.svg',
-			true
+			true,
+			''
 		);
 
 		(component as any).displayAlreadyRegisteredDialog();
