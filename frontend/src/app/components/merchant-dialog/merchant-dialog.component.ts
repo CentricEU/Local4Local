@@ -161,7 +161,10 @@ export class MerchantDialogComponent implements OnInit {
 
 		if (reasonValue) {
 			this.showWarningDialog();
+			return;
 		}
+
+		this.dialogRef.close(success);
 	}
 
 	public performAction(): void {

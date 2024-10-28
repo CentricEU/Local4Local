@@ -2,9 +2,8 @@
     <span>{{ title | translate }}</span>
     <button
         mat-icon-button
-        mat-dialog-close
-        aria-label="{{ 'general.button.close' | translate }}"
-        [attr.aria-label]="'general.button.cancel' | translate">
+        [attr.aria-label]="'general.button.cancel' | translate"
+        (click)="closeDialog()">
         <mat-icon>close</mat-icon>
     </button>
 </section>
