@@ -1,3 +1,5 @@
+@use "../.././../../libs/shared-assets/_styles/mixins.scss" as mixins;
+
 $success-100: var(--success-100);
 $danger-100: var(--danger-100);
 $warning-100: var(--warning-100);
@@ -23,9 +25,15 @@ $warning-100: var(--warning-100);
 	.mat-icon {
 		overflow: visible !important;
 	}
+
+	.mat-mdc-icon-button {
+		@include mixins.size(24px, 24px);
+		padding: 0px;
+	}
 }
 
 .custom-snackbar {
+	width: 552px;
 	padding: 12px 8px 12px 12px;
 	border-radius: 4px;
 
@@ -60,5 +68,6 @@ $warning-100: var(--warning-100);
 }
 
 .message {
+	flex: 1;
 	color: var(--neutral-900) !important;
 }
