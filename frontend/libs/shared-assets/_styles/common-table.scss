@@ -26,9 +26,7 @@
 
     .button-container {
         @include mixins.flex(row, flex-end);
-        padding-top: 32px;
-        padding-right: 32px;
-
+        
         button {
             background-color: var(--theme-500);
         }
