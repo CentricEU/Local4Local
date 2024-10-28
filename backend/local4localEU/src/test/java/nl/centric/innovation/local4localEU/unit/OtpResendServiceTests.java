@@ -65,7 +65,7 @@ class OtpResendServiceTests {
     @Test
     void GivenInvalidSessionId_WhenResendOtp_ThenShouldThrowAuthenticationLoginException() {
         // Given
-        when(jwtUtil.extractTokenFromCookie(httpServletRequest, "sessionId")).thenReturn("");
+        when(jwtUtil.extractTokenFromCookie(httpServletRequest, "sessionId")).thenReturn(null);
 
         // When & Then
          assertThrows(AuthenticationLoginException.class, () ->
@@ -95,10 +95,6 @@ class OtpResendServiceTests {
         OtpResend otpResend = mock(OtpResend.class);
 
         when(jwtUtil.extractTokenFromCookie(httpServletRequest, "sessionId")).thenReturn(sessionId);
-        when(otpCodesService.findBySessionId(UUID.fromString(sessionId))).thenReturn(Optional.of(otpCode));
-        when(otpResendRepository.findTopBySessionIdOrderByCreatedDateDesc(UUID.fromString(sessionId)))
-                .thenReturn(Optional.of(otpResend));
-        when(otpResend.getCreatedDate()).thenReturn(LocalDateTime.now().minusMinutes(3));
 
         // When & Then
        assertThrows(DtoValidateException.class, () ->
@@ -110,22 +106,25 @@ class OtpResendServiceTests {
     void GivenValidSessionId_WhenResendOtp_ThenShouldResendOtpSuccessfully() throws DtoValidateException, AuthenticationLoginException {
         // Given
         String sessionId = UUID.randomUUID().toString();
-        OtpCodes otpCode = mock(OtpCodes.class);
+        OtpCodes otpCode = OtpCodes.builder()
+                .sessionId(UUID.fromString(sessionId))
+                .user(User.builder().build())
+                .otpCode(123456)
+                .build();
         OtpResend otpResend = mock(OtpResend.class);
         User user = mock(User.class);
         String userEmail = "test@example.com";
-        OtpCodes newOtpCode = mock(OtpCodes.class);
+        OtpCodes newOtpCode = OtpCodes.builder()
+                .sessionId(UUID.fromString(sessionId))
+                .otpCode(123458)
+                .build();
 
         when(jwtUtil.extractTokenFromCookie(httpServletRequest, "sessionId")).thenReturn(sessionId);
         when(otpCodesService.findBySessionId(UUID.fromString(sessionId))).thenReturn(Optional.of(otpCode));
         when(otpResendRepository.findTopBySessionIdOrderByCreatedDateDesc(UUID.fromString(sessionId)))
                 .thenReturn(Optional.of(otpResend));
         when(otpResend.getCreatedDate()).thenReturn(LocalDateTime.now().minusMinutes(10));
-        when(otpCode.getUser()).thenReturn(user);
-        when(user.getId()).thenReturn(UUID.randomUUID());
-        when(user.getEmail()).thenReturn(userEmail);
         when(otpCodesService.createNewOtpWhenResendEmail(otpCode)).thenReturn(newOtpCode);
-        when(newOtpCode.getOtpCode()).thenReturn(Integer.valueOf("123456"));
 
         // When
         HttpHeaders responseHeaders = otpResendService.resendOtp("en", httpServletRequest);
