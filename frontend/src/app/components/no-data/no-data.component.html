@@ -1,6 +1,6 @@
 <img [src]="getImagePath()" alt="{{ 'general.noData' | translate }}" />
 <section class="no-data-description">
 	<p class="bold title-container">{{ noDataTitle | translate }}</p>
-	<p>{{ noDataDescription | translate }}</p>
+	<p [innerHTML]="noDataDescription | translate"></p>
 	<ng-content button></ng-content>
 </section>
