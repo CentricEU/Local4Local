@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import java.io.Serial;
 import java.util.Collection;
 import java.util.Collections;
@@ -41,6 +42,9 @@ public class User extends BaseEntity implements UserDetails {
 
     @Column(name = "is_active")
     private boolean isActive;
+
+    @Column(name = "is_locked")
+    private boolean isLocked;
 
     @OneToOne
     @Enumerated(EnumType.STRING)
@@ -70,7 +74,7 @@ public class User extends BaseEntity implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !this.isLocked;
     }
 
     @Override

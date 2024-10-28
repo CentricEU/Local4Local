@@ -12,6 +12,7 @@ import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidate
 import nl.centric.innovation.local4localEU.exception.CustomException.InvalidRoleException;
 import nl.centric.innovation.local4localEU.exception.L4LEUException;
 import nl.centric.innovation.local4localEU.exception.RefreshTokenException;
+import nl.centric.innovation.local4localEU.service.impl.OtpResendService;
 import nl.centric.innovation.local4localEU.service.interfaces.AuthenticationService;
 import nl.centric.innovation.local4localEU.service.interfaces.OtpCodesService;
 import nl.centric.innovation.local4localEU.service.interfaces.RefreshTokenService;
@@ -25,8 +26,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
-
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -38,6 +37,8 @@ public class AuthenticationController {
     private final RefreshTokenService refreshTokenService;
 
     private final OtpCodesService otpCodesService;
+
+    private final OtpResendService otpResendService;
 
     @PostMapping
     public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginRequestDto loginRequest,
@@ -68,4 +69,11 @@ public class AuthenticationController {
         return ResponseEntity.ok().headers(authResponseDto.httpHeaders()).body(authResponseDto.loginResponseDto());
     }
 
+    @PostMapping("/resendOtp")
+    public ResponseEntity<LoginResponseDto> resendOtp(@CookieValue(value = "language", defaultValue = "nl-NL") String language,
+                                                      HttpServletRequest request) throws Exception {
+        HttpHeaders httpHeaders = otpResendService.resendOtp(language, request);
+        return ResponseEntity.ok().headers(httpHeaders).build();
+    }
+    
 }
