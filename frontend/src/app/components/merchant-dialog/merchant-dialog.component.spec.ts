@@ -513,4 +513,16 @@ describe('MerchantDialogComponent', () => {
 			expect(matDialogRefStub.close).toHaveBeenCalledWith('success_code');
 		});
 	});
+
+	it('should close the dialog without success code when reason is not provided', () => {
+		component.form.get('reason')?.setValue(null);
+		component.closeDialog();
+		expect(matDialogRefStub.close).toHaveBeenCalledWith(undefined);
+	});
+
+	it('should close the dialog with provided success code', () => {
+		const successCode = 'SUCCESS_CODE';
+		component.closeDialog(successCode);
+		expect(matDialogRefStub.close).toHaveBeenCalledWith(successCode);
+	});
 });
