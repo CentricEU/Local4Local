@@ -201,6 +201,7 @@
         "40014": "You can only initiate three password recovery attempts per day.",
         "40016": "The link for password recovery has expired.",
         "40017": "Your new password matches your old one. Please choose a different password.",
-        "40025": "The citizen account could not be created because the email is already in use. Please use a different email address to create a new account."
+        "40025": "The citizen account could not be created because the email is already in use. Please use a different email address to create a new account.",
+        "40027": "You need to wait 5 minutes before resending a new code."
     }
 }

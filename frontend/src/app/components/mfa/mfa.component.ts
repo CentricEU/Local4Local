@@ -27,13 +27,13 @@ export class MfaComponent implements OnInit {
     public get invalidCode(): boolean | undefined {
         return this.form.get('code')?.hasError('invalidCode');
     }
-    
+
     private returnUrl: string = commonRoutingConstants.dashboard;
     private fb = inject(FormBuilder);
     private authService = inject(AuthService);
     private router = inject(Router);
     private route = inject(ActivatedRoute);
-	private timerService= inject(TimerService);
+    private timerService = inject(TimerService);
     private translateService = inject(TranslateService);
 
     public ngOnInit(): void {
@@ -54,13 +54,13 @@ export class MfaComponent implements OnInit {
             this.resendButtonDisabled = true;
             this.startCountdown();
         });
-        
+
     }
 
     public getResendMessageWithSeconds(): string {
         const messageTemplate = this.translateService.instant('mfa.resendMessageWithSeconds');
         return messageTemplate.replace('{{seconds}}', this.countdown.toString());
-      }
+    }
 
     private setReturnUrl(): void {
         const encodedReturnUrl = this.route.snapshot.queryParams['returnUrl'] || commonRoutingConstants.dashboard;
@@ -80,18 +80,18 @@ export class MfaComponent implements OnInit {
             this.timerService.stopTimer();
             this.router.navigateByUrl(this.returnUrl);
         },
-        () => {
+            () => {
                 this.form.get('code')?.setErrors({ invalidCode: true });
-        });
+            });
     }
 
     private startCountdown(): void {
         setInterval(() => {
-          if (this.countdown > 0) {
-            this.countdown--;
-          } else {
-            this.resendButtonDisabled = false;
-          }
+            if (this.countdown > 0) {
+                this.countdown--;
+            } else {
+                this.resendButtonDisabled = false;
+            }
         }, 1000);
-      }
+    }
 }
