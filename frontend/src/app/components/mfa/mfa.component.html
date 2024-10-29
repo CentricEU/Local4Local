@@ -34,6 +34,14 @@
 			{{ 'general.button.continue' | translate }}
 		</button>
 
-		<p class="resend-message">{{ 'mfa.resendMessage' | translate }}</p>
+		@if(!resendButtonDisabled) {
+			<p class="resend-message">{{ 'mfa.resendMessage' | translate }}</p>
+		}
+		@else {
+			<p class="resend-message">{{ 'mfa.resendMessageWithSeconds' | translate }}</p>
+		}
+		<button mat-stroked-button class="resend-button" [disabled]="resendButtonDisabled" (click)="resendOtp()">
+			{{ 'general.button.resendCode' | translate }}
+		</button>
 	</div>
 </div>

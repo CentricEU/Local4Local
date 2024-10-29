@@ -1,3 +1,4 @@
+@use '../../../../libs/shared-assets/_styles/mixins.scss' as mixins;
 @use '../.././../../libs/shared-assets/_styles/common-input-style';
 
 :host {
@@ -7,7 +8,18 @@
 		}
 	}
 
+	.form-button {
+		 margin-top: 12px !important;
+	}
+
     .resend-message {
         margin-top: 32px !important; 
     }
+
+	.resend-button {
+		@include mixins.size(150px, 40px);
+		margin-top: 8px;
+		align-items: center;
+		
+	}
 }

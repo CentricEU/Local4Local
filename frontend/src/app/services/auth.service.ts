@@ -63,6 +63,13 @@ export class AuthService {
 		);
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	public resendOtp(): Observable<any> {
+		return this.http.post(`${environment.apiPath}/authenticate/resendOtp`, {}, {
+			withCredentials: true,
+		});
+	}
+
 	public setDto(login: LoginResponseDto) {
 		this.loginResponseDto = login;
 		this.isAuthenticatedSubject.next(this.isTokenValid());
