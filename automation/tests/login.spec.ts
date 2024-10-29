@@ -23,5 +23,6 @@ test('User can log in with correct credentials', async ({page}) => {
     await expect(page).toHaveURL(/dashboard/);
 
     await LoginPage.logoutFomApp(page);
+
     await expect(page.locator('.bold')).toContainText('...Log in');
 })
