@@ -24,12 +24,21 @@
 :host {
     overflow: hidden;
 
-    .button-container {
+    .flex-end-row {
         @include mixins.flex(row, flex-end);
-        
+    }
+
+    .button-container {
+        @extend .flex-end-row;
+
         button {
             background-color: var(--theme-500);
         }
+    }
+
+    .top-button-container {
+        @extend .flex-end-row;
+        margin: 32px 32px 0 0;
     }
 
     .mat-elevation-z8 {
