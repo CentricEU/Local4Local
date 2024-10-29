@@ -76,14 +76,25 @@ public class OtpCodesServiceImpl implements OtpCodesService {
 
                 if (LocalDateTime.now().isAfter(expiryTime)) {
                     otpCodesRepository.delete(otpCode.get());
-                    return createNewOtpCode(user);
+                    return createNewOtpCode(user, UUID.randomUUID());
                 }
 
                 return otpCode.get();
             }
         }
 
-        return createNewOtpCode(user);
+        return createNewOtpCode(user, UUID.randomUUID());
+    }
+
+    @Override
+    public Optional<OtpCodes> findBySessionId(UUID sessionId) {
+        return otpCodesRepository.findBySessionId(sessionId);
+    }
+
+    @Override
+    public OtpCodes createNewOtpWhenResendEmail(OtpCodes otpCode) {
+        otpCodesRepository.delete(otpCode);
+        return createNewOtpCode(otpCode.getUser(), otpCode.getSessionId());
     }
 
     @Override
@@ -125,16 +136,17 @@ public class OtpCodesServiceImpl implements OtpCodesService {
         throw new AuthenticationLoginException(otpNotFound);
     }
 
-    private OtpCodes createNewOtpCode(User user) {
+    private OtpCodes createNewOtpCode(User user, UUID sessiodId) {
         OtpCodes otpCode = OtpCodes.builder()
                 .otpCode(otpCodeGenerator())
-                .sessionId(UUID.randomUUID())
+                .sessionId(sessiodId)
                 .user(user)
                 .build();
         otpCodesRepository.save(otpCode);
 
         return otpCode;
     }
+
 
     private AuthResponseDto generateAuthenticationResponse(User userDetails, boolean rememberMe) {
         HttpHeaders httpHeaders = new HttpHeaders();
