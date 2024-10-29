@@ -21,8 +21,8 @@ export class MfaComponent implements OnInit {
     public form: FormGroup;
     public matcher = new L4LErrorStateMatcher();
     public userIsBlocked = false;
-    public countdown = 300;
-    public resendButtonDisabled = false;
+    public countDownValue = 300;
+    public isResendButtonDisabled  = false;
 
     public get invalidCode(): boolean | undefined {
         return this.form.get('code')?.hasError('invalidCode');
@@ -49,9 +49,9 @@ export class MfaComponent implements OnInit {
         this.performMfa();
     }
 
-    public resendOtp() {
+    public resendOtp(): void {
         this.authService.resendOtp().subscribe(() => {
-            this.resendButtonDisabled = true;
+            this.isResendButtonDisabled  = true;
             this.startCountdown();
         });
 
@@ -59,7 +59,7 @@ export class MfaComponent implements OnInit {
 
     public getResendMessageWithSeconds(): string {
         const messageTemplate = this.translateService.instant('mfa.resendMessageWithSeconds');
-        return messageTemplate.replace('{{seconds}}', this.countdown.toString());
+        return messageTemplate.replace('{{seconds}}', this.countDownValue.toString());
     }
 
     private setReturnUrl(): void {
@@ -87,10 +87,10 @@ export class MfaComponent implements OnInit {
 
     private startCountdown(): void {
         setInterval(() => {
-            if (this.countdown > 0) {
-                this.countdown--;
+            if (this.countDownValue > 0) {
+                this.countDownValue--;
             } else {
-                this.resendButtonDisabled = false;
+                this.isResendButtonDisabled  = false;
             }
         }, 1000);
     }

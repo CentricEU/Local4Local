@@ -20,8 +20,6 @@ export class TimerService {
   }
 
   public stopTimer(): void {
-    if (this.timerSubscription) {
-      this.timerSubscription.unsubscribe();
-    }
+    this.timerSubscription?.unsubscribe();
   }
 }
