@@ -57,9 +57,12 @@ export class MfaComponent implements OnInit {
 
     }
 
-    public getResendMessageWithSeconds(): string {
-        const messageTemplate = this.translateService.instant('mfa.resendMessageWithSeconds');
-        return messageTemplate.replace('{{seconds}}', this.countDownValue.toString());
+    public getResendMessageKey(): string {
+        return this.isResendButtonDisabled ? 'mfa.resendMessageWithSeconds' : 'mfa.resendMessage';
+    }
+    
+    public getTranslationParams(): { seconds?: number } {
+        return this.isResendButtonDisabled ? { seconds: this.countDownValue } : {};
     }
 
     private setReturnUrl(): void {
@@ -87,11 +90,8 @@ export class MfaComponent implements OnInit {
 
     private startCountdown(): void {
         setInterval(() => {
-            if (this.countDownValue > 0) {
-                this.countDownValue--;
-            } else {
-                this.isResendButtonDisabled  = false;
-            }
+            this.countDownValue = Math.max(0, this.countDownValue - 1);
+            this.isResendButtonDisabled = this.countDownValue !== 0;
         }, 1000);
     }
 }

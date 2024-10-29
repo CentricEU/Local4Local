@@ -98,48 +98,63 @@ describe('MfaComponent', () => {
         expect(component.form.get('code')?.hasError('invalidCode')).toBeTruthy();
     });
 
-    it('should call resendOtp and start countdown indirectly', () => {
+    it('should call resendOtp and start countDownValue indirectly', () => {
         jest.useFakeTimers();
         component.resendOtp();
 
         expect(authServiceMock.resendOtp).toHaveBeenCalled();
-        expect(component.resendButtonDisabled).toBe(true);
+        expect(component.isResendButtonDisabled).toBe(true);
 
         jest.advanceTimersByTime(3000);
 
-        expect(component.countdown).toBe(297);
+        expect(component.countDownValue).toBe(297);
         jest.useRealTimers();
     });
 
-    it('should return resend message with countdown seconds', () => {
-        component.countdown = 120;
-        const result = component.getResendMessageWithSeconds();
-        expect(result).toBe('mfa.resendMessageWithSeconds');
-    });
-
-    it('should countdown to be 0 when times completes', () => {
+    it('should countDownValue to be 0 when times completes', () => {
         jest.useFakeTimers();
         component.resendOtp();
-        component.countdown = 2; 
+        component.countDownValue = 2; 
 
         jest.advanceTimersByTime(2000);
 
-        expect(component.countdown).toBe(0);
+        expect(component.countDownValue).toBe(0);
         jest.useRealTimers();
     });
 
-    it('should re-enable resend button when countdown reaches zero', () => {
+    it('should re-enable resend button when countDownValue reaches zero', () => {
         jest.useFakeTimers();
     
         component.resendOtp();
-        component.countdown = 0; 
+        component.countDownValue = 0; 
     
         jest.advanceTimersByTime(2000);
     
-        expect(component.countdown).toBe(0);
-        expect(component.resendButtonDisabled).toBe(false);
+        expect(component.countDownValue).toBe(0);
+        expect(component.isResendButtonDisabled).toBe(false);
     
         jest.useRealTimers();
     });
+
+    describe('MfaComponent message and translation parameter methods', () => {
+        it.each([
+            { isResendButtonDisabled: true, expectedKey: 'mfa.resendMessageWithSeconds' },
+            { isResendButtonDisabled: false, expectedKey: 'mfa.resendMessage' }
+        ])('should return the correct message key based on isResendButtonDisabled', ({ isResendButtonDisabled, expectedKey }) => {
+            component.isResendButtonDisabled = isResendButtonDisabled;
+            const result = component.getResendMessageKey();
+            expect(result).toBe(expectedKey);
+        });
+    
+        it.each([
+            { isResendButtonDisabled: true, countDownValue: 120, expectedParams: { seconds: 120 } },
+            { isResendButtonDisabled: false, countDownValue: 120, expectedParams: {} }
+        ])('should return the correct translation params based on isResendButtonDisabled', ({ isResendButtonDisabled, countDownValue, expectedParams }) => {
+            component.isResendButtonDisabled = isResendButtonDisabled;
+            component.countDownValue = countDownValue;
+            const result = component.getTranslationParams();
+            expect(result).toEqual(expectedParams);
+        });
+    });    
     
 });
