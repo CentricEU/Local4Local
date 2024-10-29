@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
 
 	public ngOnInit(): void {
 		this.createForm();
-		this.timerService.startTimer(300000);
+		this.timerService.startTimer(600000);
 	}
 
 	public login(): void {
