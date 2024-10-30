@@ -6,7 +6,7 @@ import { of, throwError } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { commonRoutingConstants } from '../../_constants/common-routing.constants';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { TimerService } from '../../services/timer.service';
 
 describe('MfaComponent', () => {
@@ -45,7 +45,6 @@ describe('MfaComponent', () => {
                 { provide: Router, useValue: routerMock },
                 { provide: ActivatedRoute, useValue: activatedRouteMock },
                 { provide: TimerService, useValue: timerServiceMock },
-                TranslateService
             ]
         }).compileComponents();
 
