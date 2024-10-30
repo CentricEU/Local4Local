@@ -52,7 +52,18 @@
                                     [errorStateMatcher]="matcher"
                                     (input)="onKvkInput($event)"/>
                             }
+                            @case ('website') {
+                                <input
+                                matInput
+                                [readonly]="field.isReadOnly"
+                                [maxlength]="field.maxLength ?? null"
+                                [placeholder]="field.labelKey | translate"
+                                [formControlName]="field.formControl"
+                                [errorStateMatcher]="matcher"
+                                />
+                                <span matTextPrefix>https://&nbsp;</span>
 
+                            }
                             @default {
                                 <input
                                     matInput
