@@ -6,6 +6,7 @@ import { commonRoutingConstants } from '../../_constants/common-routing.constant
 import { AuthService } from '../../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RegexUtil } from '../../util/regex.util';
+import { TimerService } from '../../services/timer.service';
 
 @Component({
     selector: 'app-mfa',
@@ -19,16 +20,19 @@ export class MfaComponent implements OnInit {
     public form: FormGroup;
     public matcher = new L4LErrorStateMatcher();
     public userIsBlocked = false;
+    public countDownValue = 300;
+    public isResendButtonDisabled  = false;
 
     public get invalidCode(): boolean | undefined {
         return this.form.get('code')?.hasError('invalidCode');
     }
-    
+
     private returnUrl: string = commonRoutingConstants.dashboard;
     private fb = inject(FormBuilder);
     private authService = inject(AuthService);
     private router = inject(Router);
     private route = inject(ActivatedRoute);
+    private timerService = inject(TimerService);
 
     public ngOnInit(): void {
         this.createForm();
@@ -41,6 +45,22 @@ export class MfaComponent implements OnInit {
         }
 
         this.performMfa();
+    }
+
+    public resendOtp(): void {
+        this.authService.resendOtp().subscribe(() => {
+            this.isResendButtonDisabled  = true;
+            this.startCountdown();
+        });
+
+    }
+
+    public getResendMessageKey(): string {
+        return this.isResendButtonDisabled ? 'mfa.resendMessageWithSeconds' : 'mfa.resendMessage';
+    }
+    
+    public getTranslationParams(): { seconds?: number } {
+        return this.isResendButtonDisabled ? { seconds: this.countDownValue } : {};
     }
 
     private setReturnUrl(): void {
@@ -58,10 +78,18 @@ export class MfaComponent implements OnInit {
         const mfaCode = this.form.get('code')?.value;
 
         this.authService.verifyOtpCode(mfaCode).subscribe(() => {
+            this.timerService.stopTimer();
             this.router.navigateByUrl(this.returnUrl);
         },
-        () => {
+            () => {
                 this.form.get('code')?.setErrors({ invalidCode: true });
-        });
+            });
+    }
+
+    private startCountdown(): void {
+        setInterval(() => {
+            this.countDownValue = Math.max(0, this.countDownValue - 1);
+            this.isResendButtonDisabled = this.countDownValue !== 0;
+        }, 1000);
     }
 }

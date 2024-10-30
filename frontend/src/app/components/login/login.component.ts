@@ -11,6 +11,7 @@ import { commonRoutingConstants } from '../../_constants/common-routing.constant
 import { ActivatedRoute, Router } from '@angular/router';
 import { CaptchaService } from '../../services/captcha.service';
 import { CaptchaStatus } from '../../_enums/captcha.enum';
+import { TimerService } from '../../services/timer.service';
 
 @Component({
 	selector: 'app-login',
@@ -33,6 +34,7 @@ export class LoginComponent implements OnInit {
 	private router = inject(Router);
 	private captchaService = inject(CaptchaService);
 	private route = inject(ActivatedRoute);
+	private timerService = inject(TimerService);
 
 	constructor() {
 		this.subscribeToCaptcha();
@@ -40,6 +42,7 @@ export class LoginComponent implements OnInit {
 
 	public ngOnInit(): void {
 		this.createForm();
+		this.timerService.startTimer(600000);
 	}
 
 	public login(): void {
@@ -92,7 +95,7 @@ export class LoginComponent implements OnInit {
 				if (!this.ngRecaptcha) {
 					return;
 				}
-				
+
 				this.ngRecaptcha.reset();
 			}
 

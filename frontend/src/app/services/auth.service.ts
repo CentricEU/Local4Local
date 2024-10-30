@@ -63,6 +63,12 @@ export class AuthService {
 		);
 	}
 
+	public resendOtp(): Observable<void> {
+		return this.http.post<void>(`${environment.apiPath}/authenticate/resendOtp`, {}, {
+			withCredentials: true,
+		});
+	}
+
 	public setDto(login: LoginResponseDto) {
 		this.loginResponseDto = login;
 		this.isAuthenticatedSubject.next(this.isTokenValid());

@@ -270,6 +270,17 @@ describe('AuthService', () => {
 		expect(req.request.headers.get('Content-Type')).toBe('application/json');
 		req.flush(mockLoginResponseDto);
 	});
+
+	it('should call resendOtp and make a POST request', (done) => {
+		service.resendOtp().subscribe(() => {
+			done();
+		});
+	
+		const req = httpMock.expectOne(`${environment.apiPath}/authenticate/resendOtp`);
+		expect(req.request.method).toBe('POST');
+		expect(req.request.withCredentials).toBe(true);
+		req.flush(null);
+	});
 	
 	describe('isRememberMeActive', () => {
         it('should return null if loginResponseDto is undefined', () => {

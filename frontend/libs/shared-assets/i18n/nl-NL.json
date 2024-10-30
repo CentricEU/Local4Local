@@ -10,7 +10,9 @@
 			"link": "...Send me link",
 			"continueToLogin": "...Continue to Login",
 			"continue": "...Continue",
-			"stay": "...Stay on page"
+			"stay": "...Stay on page",
+			"resendCode": "...Resend code"
+
 		},
 		"forgotPassword": "...Forgot password?",
 		"rememberMe": "...Remember me",
@@ -171,7 +173,8 @@
 		"title": "...Two-factor authentication",
 		"subtitle": "...To continue, enter the secure code we sent to your e-mail.<br>Check junk mail if it’s not in your inbox.",
 		"label": "...6-digit code",
-		"resendMessage": "...Didn’t receive an e-mail? You can request another code in 13s.",
+		"resendMessage": "...Didn’t receive an e-mail? You can request another code.",
+        "resendMessageWithSeconds": "...Didn’t receive an e-mail? You can request another code in {{seconds}}s.",
 		"error": {
 			"required": "...Enter the one time code.",
 			"invalid": "...Invalid code"
@@ -199,6 +202,8 @@
 		"40014": "U kunt slechts drie pogingen tot wachtwoordherstel per dag initiëren.",
 		"40016": "De link voor wachtwoordherstel is verlopen.",
 		"40017": "Uw nieuwe wachtwoord komt overeen met uw oude wachtwoord. Kies alstublieft een ander wachtwoord.",
-		"40025": "...The citizen account could not be created because the email is already in use. Please use a different email address to create a new account."
+		"40025": "...The citizen account could not be created because the email is already in use. Please use a different email address to create a new account.",
+		"40027": "...You need to wait 5 minutes before resending a new code."
+
 	}
 }
