@@ -201,6 +201,7 @@
 		"40005": "...Your attempt was unsuccessful multiple times. Please complete the ReCAPTCHA to proceed.",
 		"40014": "U kunt slechts drie pogingen tot wachtwoordherstel per dag initiëren.",
 		"40016": "De link voor wachtwoordherstel is verlopen.",
+		"40021": "The code provided is not valid.",
 		"40017": "Uw nieuwe wachtwoord komt overeen met uw oude wachtwoord. Kies alstublieft een ander wachtwoord.",
 		"40025": "...The citizen account could not be created because the email is already in use. Please use a different email address to create a new account.",
 		"40027": "...You need to wait 5 minutes before resending a new code."
