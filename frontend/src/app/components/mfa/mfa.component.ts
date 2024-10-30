@@ -7,7 +7,6 @@ import { AuthService } from '../../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RegexUtil } from '../../util/regex.util';
 import { TimerService } from '../../services/timer.service';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-mfa',
@@ -34,7 +33,6 @@ export class MfaComponent implements OnInit {
     private router = inject(Router);
     private route = inject(ActivatedRoute);
     private timerService = inject(TimerService);
-    private translateService = inject(TranslateService);
 
     public ngOnInit(): void {
         this.createForm();
