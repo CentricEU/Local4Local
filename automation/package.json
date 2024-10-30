@@ -1,0 +1,21 @@
+{
+	"name": "L4L_EU_Automation_Tests",
+	"description": "Playwright tests for L4L EU app",
+	"version": "1.0.0",
+	"main": "index.js",
+	"scripts": {
+	"cleanup:chrome": "rm -rf ./path/to/test-data-dir/* || true",
+	"test": "playwright test --reporter=list"
+	},
+	"keywords": [],
+	"author": "Software Tester Centric Team",
+	"license": "ISC",
+	"devDependencies": {
+		"@playwright/test": "^1.48.1",
+		"@types/node": "^22.7.9",
+		"dotenv": "^16.4.5",
+		"faker": "^5.5.3",
+		"typescript": "^5.6.2",
+	  	"pg": "^8.11.3"
+	}
+}
