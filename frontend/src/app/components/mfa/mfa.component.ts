@@ -20,7 +20,7 @@ export class MfaComponent implements OnInit {
     public form: FormGroup;
     public matcher = new L4LErrorStateMatcher();
     public userIsBlocked = false;
-    public countDownValue = 300;
+    public countDownValue: number;
     public isResendButtonDisabled  = false;
 
     public get invalidCode(): boolean | undefined {
@@ -49,6 +49,7 @@ export class MfaComponent implements OnInit {
 
     public resendOtp(): void {
         this.authService.resendOtp().subscribe(() => {
+            this.countDownValue = 300;
             this.isResendButtonDisabled  = true;
             this.startCountdown();
         });
@@ -87,9 +88,13 @@ export class MfaComponent implements OnInit {
     }
 
     private startCountdown(): void {
-        setInterval(() => {
+        const intervalId = setInterval(() => {
             this.countDownValue = Math.max(0, this.countDownValue - 1);
             this.isResendButtonDisabled = this.countDownValue !== 0;
+
+            if (this.countDownValue === 0) {
+                clearInterval(intervalId);
+            }
         }, 1000);
     }
 }
