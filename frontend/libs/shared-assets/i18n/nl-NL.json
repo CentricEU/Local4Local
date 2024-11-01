@@ -1,162 +1,161 @@
 {
 	"general": {
-		"noResults": "...No results for this input",
-		"noActions": "...No actions",
+		"noResults": "Geen resultaten voor deze input",
+		"noActions": "Geen acties",
 		"button": {
-			"cancel": "...Cancel",
-			"delete": "...Delete button",
-			"understand": "...I understand",
-			"confirm": "...Confirm",
-			"link": "...Send me link",
-			"continueToLogin": "...Continue to Login",
-			"continue": "...Continue",
+			"cancel": "Annuleer",
+			"delete": "Verwijderknop",
+			"understand": "Begrepen",
+			"confirm": "Bevestig",
+			"link": "Stuur me een link",
+			"continueToLogin": "Ga verder naar login",
+			"continue": "Doorgaan",
 			"stay": "...Stay on page",
 			"resendCode": "...Resend code"
-
 		},
-		"forgotPassword": "...Forgot password?",
-		"rememberMe": "...Remember me",
-		"logo": "...Logo",
-		"dashboard": "...Dashboard",
-		"merchants": "...Merchants",
-		"profile": "...Profile page",
-		"logout": "...Log out",
-		"invitations": "...Invitations",
-		"noData": "...No data image",
+		"forgotPassword": "Wachtwoord vergeten?",
+		"rememberMe": "Onthoud mijn gegevens",
+		"logo": "Logo",
+		"dashboard": "Dashboard",
+		"merchants": "Deelnemende locaties",
+		"profile": "Profielpagina",
+		"logout": "Uitloggen",
+		"invitations": "Uitnodigingen",
+		"noData": "Geen afbeelding",
 		"warning": "...Warning",
 		"status": {
-			"pending": "...Pending",
-			"rejected": "...Rejected",
-			"approved": "...Approved"
+			"pending": "In behandeling",
+			"rejected": "Afgewezen",
+			"approved": "Goedgekeurd"
 		},
-		"paginatorResult": "...Results per page",
-		"congratulations": "...Congratulations!",
+		"paginatorResult": "Resultaten per pagina",
+		"congratulations": "Gefeliciteerd!",
 		"noLocationData": {
 			"noDataTitle": "...Location is turned off",
 			"noDataDescription": "...It looks like location is turned off in your system preferences. Please enable location services to explore the map."
 		}
 	},
 	"tooltip": {
-		"approveMerchant": "...Approve merchants",
-		"rejectMerchant": "...Reject merchant"
+		"approveMerchant": "Goedkeuren van locaties",
+		"rejectMerchant": "Afwijzen van locatie"
 	},
 	"table": {
 		"column": {
-			"companyName": "...Company name",
-			"category": "...Category",
-			"kvkNumber": "...KvK number",
-			"address": "...Address",
-			"website": "...Website",
-			"status": "...Status",
-			"actions": "...Actions",
-			"email": "...E-mail",
+			"companyName": "Bedrijfsnaam",
+			"category": "Categorie",
+			"kvkNumber": "KvK-nummer",
+			"address": "Adres",
+			"website": "Website",
+			"status": "Status",
+			"actions": "Acties",
+			"email": "E-mail",
 			"sendingDate": "...Sending date"
 		}
 	},
 	"welcomePage": {
-		"registerButton": "...Register as a merchant",
-		"titleLeft": "...Find out where",
-		"titleRight": "...you can use *insert coin name*"
+		"registerButton": "Registreer als deelnemende locatie",
+		"titleLeft": "Ontdek waar",
+		"titleRight": "je *insert coin name* kunt gebruiken"
 	},
 	"register": {
-		"title": "...Register your store",
-		"subtitle": "...Grow your business — join our platform today.",
-		"website": "...Website (optional)",
-		"registerButton": "...Register",
-		"contactEmail": "...Contact email",
+		"title": "Registreer je bedrijf",
+		"subtitle": "Laat je bedrijf groeien — sluit je vandaag nog aan bij ons platform.",
+		"website": "Website (optioneel)",
+		"registerButton": "Registreer",
+		"contactEmail": "Contact e-mail",
 		"error": {
-			"companyNameRequired": "...Enter company name.",
-			"kvkNumberRequired": "...Enter Kvk number.",
-			"categoryRequired": "...Choose category.",
-			"addressRequired": "...Enter address.",
-			"kvkFormControlLength": "...KVK must have 8 digits.",
-			"invalidUrl": "...Please enter a valid website URL. (e.g. www.example.com).",
-			"emailRequired": "...Enter your email to receive future updates.",
-			"emailInvalid": "...Please enter a valid email address."
+			"companyNameRequired": "vul bedrijfsnaam in.",
+			"kvkNumberRequired": "vul KvK-nummer in.",
+			"categoryRequired": "Kies categorie.",
+			"addressRequired": "Vul adres in.",
+			"kvkFormControlLength": "KvK moet 8 cijfers bevatten.",
+			"invalidUrl": "Vul een geldige website URL in. (bijv. www.voorbeeld.com).",
+			"emailRequired": "Vul je e-mail in om toekomstige updates te ontvangen.",
+			"emailInvalid": "Vul een geldig e-mailadres in."
 		}
 	},
 	"category": {
-		"all": "...All",
-		"foodAndBeverage": "...Food & Beverage",
-		"retail": "...Retail",
-		"healthAndWellness": "...Health & Wellness",
-		"services": "...Services",
-		"entertainmentAndLeisure": "...Entertainment & Leisure",
-		"specialtyStores": "...Specialty stores",
-		"technologyAndCommunications": "...Technology & Communications",
-		"homeImprovement": "...Home Improvement",
-		"other": "...Other"
+		"all": "Alle",
+		"foodAndBeverage": "Eten & Dranken",
+		"retail": "Retail",
+		"healthAndWellness": "Gezondheid & Welzijn",
+		"services": "Diensten",
+		"entertainmentAndLeisure": "Ontspanning & Vrije Tijd",
+		"specialtyStores": "Specialiteitszaken",
+		"technologyAndCommunications": "Technologie",
+		"homeImprovement": "Huis",
+		"other": "Overig"
 	},
 	"approvalDialog": {
-		"title": "...Wait for approval",
-		"text": "...Manager approval typically takes up to 5 business days.<br>Please note that you won't be able to see your store on the map until your request has been approved."
+		"title": "Wacht op goedkeuring",
+		"text": "Goedkeuring door de beheerder duurt meestal tot 5 werkdagen.<br>Houd er rekening mee dat jouw locatie niet zichtbaar is op de kaart totdat je verzoek is goedgekeurd."
 	},
 	"recoveryDialog": {
 		"title": "Wachtwoord herstel succesvol!",
-		"secondaryText": "...Password recovery email sent!"
+		"secondaryText": "E-mail voor wachtwoordherstel verzonden!"
 	},
 	"changePassDialog": {
-		"title": "...New password set successful!",
-		"secondaryText": "...Your password has been successfully update!"
+		"title": "Nieuw wachtwoord ingesteld!",
+		"secondaryText": "Je wachtwoord is bijgewerkt!"
 	},
 	"alreadyRegisteredDialog": {
-		"title": "...Registration already applied",
-		"text": "...You have already applied with this KVK number, and your application is under review. Manager approval typically takes up to 5 business days.<br> Please note that your store will not appear on the map until your request is approved."
+		"title": "Registratie al aangevraagd",
+		"text": "Je hebt al een aanvraag ingediend met dit KvK-nummer en je aanvraag is in behandeling. Goedkeuring door de beheerder duurt meestal tot 5 werkdagen.<br>Houd er rekening mee dat jouw locatie niet zichtbaar is op de kaart totdat je verzoek is goedgekeurd."
 	},
 	"login": {
-		"title": "...Log in",
-		"subtitle": "...to continue to your Local for Local account.",
-		"hidePassword": "...Hide password"
+		"title": "Log in",
+		"subtitle": "om door te gaan naar je Local for Local account.",
+		"hidePassword": "Verberg wachtwoord"
 	},
 	"recover": {
-		"title": "...Forgot your password?",
-		"subtitle": "...Please enter the following information to set a new password:"
+		"title": "Wachtwoord vergeten?",
+		"subtitle": "Vul de volgende informatie in om een nieuw wachtwoord in te stellen:"
 	},
 	"email": {
-		"label": "...E-mail",
+		"label": "E-mail",
 		"error": {
-			"emailRequired": "...E-mail is required.",
-			"validEmail": "...Please enter a valid email address."
+			"emailRequired": "Email is vereist.",
+			"validEmail": "vul een geldig emailadres in."
 		}
 	},
 	"password": {
 		"resetPassword": {
-			"title": "...Set new password"
+			"title": "Stel nieuw wachtwoord in"
 		},
-		"label": "...Password",
-		"newPassword": "...New password",
-		"confirmPassword": "...Re-enter new password",
+		"label": "Wachtwoord",
+		"newPassword": "Nieuw wachtwoord",
+		"confirmPassword": "Herhaal nieuw wachtwoord",
 		"error": {
-			"passwordRequired": "...Password is required.",
-			"confirmPasswordMatch": "...Confirm password has to match with password",
-			"confirmPasswordRequired": "...Confirm password is required.",
-			"passwordRequirements": "...Password must be at least 8 characters.Include at least one capital letter, one number and one symbol."
+			"passwordRequired": "Wachtwoord is vereist.",
+			"confirmPasswordMatch": "Beide wachtwoorden moeten overeen komen",
+			"confirmPasswordRequired": "Bevestiging is vereist.",
+			"passwordRequirements": "Wachtwoord moet minimaal 8 tekens bevatten, en minimaal één hoofdletter, één cijfer, en één symbool."
 		}
 	},
 	"dashboard": {
-		"greeting": "...Hello! \uD83D\uDC4B",
-		"currency": "...Currency",
-		"changeRateMsg": "...You can change the rate by accessing your Profile page.",
-		"nrOfMerchants": "...Number of merchants",
-		"inviteMerchantsMsg": "...Invite more merchants today!",
-		"merchantsMap": "...Merchants map"
+		"greeting": "Hallo!  \uD83D\uDC4B",
+		"currency": "Munt",
+		"changeRateMsg": "Je kunt de koers wijzigen via je profielpagina.",
+		"nrOfMerchants": "Aantal locaties",
+		"inviteMerchantsMsg": "Nodig vandaag nog meer locaties uit!",
+		"merchantsMap": "Deelnemende Locaties Kaart"
 	},
 	"inviteMerchants": {
-		"title": "...Invite merchants",
-		"subtitle": "...Send an invitation to merchants to join Local for Local.",
-		"button": "...Invite merchants",
-		"emailAddresses": "...E-mail address(es)",
-		"invitationMessage": "...Invitation Message",
-		"emailsHint": "...You can add multiple email addresses by pressing Enter after each one.",
+		"title": "Nodig locaties uit",
+		"subtitle": "Stuur een uitnodiging naar locaties om zich aan te sluiten bij Local for Local.",
+		"button": "Nodig locaties uit",
+		"emailAddresses": "Emailadres(sen)",
+		"invitationMessage": "Uitnodiging",
+		"emailsHint": "Je kunt meerdere emailadressen toevoegen door na elk adres op Enter te drukken.",
 		"error": {
-			"emailAddressesRequired": "...Enter E-mail address(es).",
-			"invitationMessageRequired": "...Enter invitation message",
-			"emailPattern": "...Please enter a valid email address.",
-			"emailAlreadyInList": "...This e-mail is already in the list.",
-			"emailsLimitReached": "...You've reached the limit of 50 emails."
+			"emailAddressesRequired": "Vul emailadres(sen) in.",
+			"invitationMessageRequired": "Vul uitnodiging in",
+			"emailPattern": "Vul een geldig emailadres in.",
+			"emailAlreadyInList": "Dit emailadres staat al in de lijst.",
+			"emailsLimitReached": "Je hebt de limiet van 50 e-mails bereikt."
 		},
-		"successOne": "...The invitation was successfully sent.",
-		"successMultiple": "...The invitations were successfully sent.",
+		"successOne": "De uitnodiging is verzonden.",
+		"successMultiple": "De uitnodigingen zijn verzonden.",
 		"warning": "...The invitation process will be canceled and unsaved changes will be discarded.",
 		"noData": {
 			"title": "...Welcome to Invitations",
@@ -165,25 +164,25 @@
 	},
 	"merchants": {
 		"noData": {
-			"title": "...Welcome to Merchants Management",
-			"description": "...It looks like no merchants joined the platform yet.<br> Let's get started by inviting merchants."
+			"title": "Welkom bij Uitnodigingen",
+			"description": "Het lijkt erop dat je nog geen uitnodigingen hebt verzonden. Laten we beginnen met het uitnodigen van locaties."
 		}
 	},
 	"mfa": {
-		"title": "...Two-factor authentication",
-		"subtitle": "...To continue, enter the secure code we sent to your e-mail.<br>Check junk mail if it’s not in your inbox.",
-		"label": "...6-digit code",
+		"title": "Twee factor authenticatie",
+		"subtitle": "Vul de beveiligingscode in die we naar je emailadres hebben gestuurd.<br>Controleer de spamfolder als deze niet in je inbox staat.",
+		"label": "6-cijferige code",
 		"resendMessage": "...Didn’t receive an e-mail? You can request another code.",
-        "resendMessageWithSeconds": "...Didn’t receive an e-mail? You can request another code in {{seconds}}s.",
+		"resendMessageWithSeconds": "...Didn’t receive an e-mail? You can request another code in {{seconds}}s.",
 		"error": {
-			"required": "...Enter the one time code.",
-			"invalid": "...Invalid code"
+			"required": "Vul de eenmalige code in.",
+			"invalid": "Ongeldige code"
 		}
 	},
 	"approveMerchant": {
-		"title": "...Approve request",
-		"subtitle": "...By approving this merchant, you allow them to appear on the map showing which suppliers accept X currency.",
-		"success": "...The request was successfully approved."
+		"title": "Verzoek voor goedkeuring",
+		"subtitle": "Door deze locatie goed te keuren, sta je toe dat ze op de kaart verschijnen als locaties die *currency name* accepteert.",
+		"success": "Het verzoek is goedgekeurd."
 	},
 	"rejectMerchant": {
 		"title": "...Reject request",
@@ -196,15 +195,14 @@
 		"warning": "...The rejection process will be canceled and unsaved changes will be discarded."
 	},
 	"errors": {
-		"40007": "...Ooops we got an error. Invalid credentials. Please try again or use the forgot password option",
-		"40003": "Bepaalde details in uw verzoek zijn onvolledig. Probeer het nogmaals. ",
-		"40005": "...Your attempt was unsuccessful multiple times. Please complete the ReCAPTCHA to proceed.",
-		"40014": "U kunt slechts drie pogingen tot wachtwoordherstel per dag initiëren.",
+		"40007": "Oeps, we hebben een fout gekregen. Ongeldige inloggegevens. Probeer het opnieuw of gebruik de optie 'wachtwoord vergeten'",
+		"40003": "Bepaalde details in uw verzoek zijn onvolledig. Probeer het nogmaals.",
+		"40005": "Je poging was meerdere keren onsuccesvol. Voltooi de ReCAPTCHA om verder te gaan.",
+		"40014": "Je kunt slechts drie pogingen tot wachtwoordherstel per dag initiëren.",
 		"40016": "De link voor wachtwoordherstel is verlopen.",
+		"40017": "Je nieuwe wachtwoord komt overeen met je oude wachtwoord. Kies alstublieft een ander wachtwoord.",
 		"40021": "...The code provided is not valid.",
-		"40017": "Uw nieuwe wachtwoord komt overeen met uw oude wachtwoord. Kies alstublieft een ander wachtwoord.",
 		"40025": "...The citizen account could not be created because the email is already in use. Please use a different email address to create a new account.",
 		"40027": "...You need to wait 5 minutes before resending a new code."
-
 	}
 }
