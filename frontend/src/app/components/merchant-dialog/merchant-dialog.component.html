@@ -55,6 +55,7 @@
                             @case ('website') {
                                 <input
                                 matInput
+                                (paste)="handlePaste($event)"
                                 [readonly]="field.isReadOnly"
                                 [maxlength]="field.maxLength ?? null"
                                 [placeholder]="field.labelKey | translate"
@@ -118,6 +119,17 @@
                 }
 
             </mat-form-field>
+        <mat-form-field>
+            <input
+            matInput
+            [readonly]="field.isReadOnly"
+            [maxlength]="field.maxLength ?? null"
+            [placeholder]="field.labelKey | translate"
+            [formControlName]="field.formControl"
+            [errorStateMatcher]="matcher"
+            />
+            <span matTextPrefix>https://&nbsp;</span>
+        </mat-form-field>
         }
     </form>
 </mat-dialog-content>

@@ -186,6 +186,24 @@ export class MerchantDialogComponent implements OnInit {
 		input.value = input.value.replace(/\D/g, '');
 	}
 
+	public handlePaste(event: ClipboardEvent): void {
+		event.preventDefault(); 
+	  
+		const clipboardData = event.clipboardData?.getData('text') || '';
+		let sanitizedText = clipboardData;
+	  
+		if (sanitizedText.startsWith('https://')) {
+		  sanitizedText = sanitizedText.replace(/^https:\/\//, '');
+		  console.log(sanitizedText);
+		} else if (sanitizedText.startsWith('http://')) {
+		  sanitizedText = sanitizedText.replace(/^http:\/\//, '');
+		}
+	  
+		const linkControl = this.form.get('website');
+		linkControl?.setValue(sanitizedText);
+	  }
+	  
+
 	private approveMerchant(merchantId: string): void {
 		this.merchantService.approveMerchant(merchantId).subscribe(() => {
 			this.closeDialog(SUCCESS_CODE);
