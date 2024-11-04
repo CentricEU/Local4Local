@@ -19,6 +19,7 @@ import { MerchantDialogType } from '../../enums/merchant-dialog-type.enum';
 import { GenericDialogComponent } from '../generic-dialog/generic-dialog.component';
 import { CustomDialogConfigUtil } from '../../config/custom-dialog-config';
 import { ModalData } from '../../models/dialog-data.model';
+import { MerchantDto } from '../../models/merchant-dto.model';
 
 const matDialogRefStub = {
 	close: jest.fn()
@@ -545,5 +546,31 @@ describe('MerchantDialogComponent', () => {
 	
 		expect(matDialogRefStub.close).toHaveBeenCalledWith(ALREADY_REGISTERED_CODE);
 	});
+
+	it('should call handleApprovalDialogValues when isApprovalOrRejection is true and set form control value correctly', () => {
+		const mockMerchantData = {
+			companyName: 'Test Company',
+			kvk: '12345678',
+			category: 'Category 1',
+			address: 'Test Address',
+			contactEmail: 'test@example.com',
+			website: null
+		} as unknown as MerchantDto;
+	
+		component.merchantDialogType = MerchantDialogType.APPROVAL;
+		Object.defineProperty(component, 'data', { value: { merchant: mockMerchantData } });
+	
+		const handleApprovalDialogValuesSpy = jest.spyOn(component as any, 'handleApprovalDialogValues');
+	
+		component['createForm']();
+	
+		expect(handleApprovalDialogValuesSpy).toHaveBeenCalledWith(
+			expect.any(Object),
+			mockMerchantData['companyName']
+		);
+	
+		expect(component.form.get('companyName')?.value).toBe(mockMerchantData['companyName']);
+	});
+	
 	
 });
