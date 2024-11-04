@@ -70,7 +70,7 @@
 			"categoryRequired": "...Choose category.",
 			"addressRequired": "...Enter address.",
 			"kvkFormControlLength": "...KVK must have 8 digits.",
-			"invalidUrl": "...Please enter a valid website URL. (e.g. www.example.com).",
+			"invalidUrl": "...Please enter a valid and secure website URL. (e.g. https://www.example.com).",
 			"emailRequired": "...Enter your email to receive future updates.",
 			"emailInvalid": "...Please enter a valid email address."
 		}
