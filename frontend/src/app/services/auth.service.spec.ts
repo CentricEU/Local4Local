@@ -311,17 +311,47 @@ describe('AuthService', () => {
             expect(service['loginResponseDto']).toEqual(mockLoginResponse);
         });
 
-        it('should update isAuthenticatedSubject to false if token is invalid', () => {
+		describe('getRole', () => {
+			it('should return the role if loginResponseDto is defined', () => {
+				const mockLoginResponse: LoginResponseDto = {
+					role: Role.MANAGER,
+					expirationDate: new Date(),
+					rememberMe: true
+				};
 
-            const mockLoginResponse: LoginResponseDto = {
-                role: Role.MANAGER,
-                expirationDate: new Date(),
-                rememberMe: true
-            };
+				service['loginResponseDto'] = mockLoginResponse;
+				expect(service.getRole()).toEqual(Role.MANAGER);
+			});
 
-            service.setDto(mockLoginResponse);
-            expect(service['isAuthenticatedSubject'].value).toBeFalsy(); 
-        });
-    });
+			it('should return null if loginResponseDto is not defined', () => {
+				service['loginResponseDto'] = null;
+				expect(service.getRole()).toBeNull();
+			});
 
+			describe('isTokenValid', () => {
+				it('should return true if the token is valid', () => {
+					service['loginResponseDto'] = {
+						role: Role.MANAGER,
+						expirationDate: new Date('2099-12-31T23:59:59'),
+						rememberMe: false
+					};
+					expect(service.isTokenValid()).toBe(true);
+				});
+
+				it('should return false if the token is expired', () => {
+					service['loginResponseDto'] = {
+						role: Role.MANAGER,
+						expirationDate: new Date('2000-01-01T00:00:00'),
+						rememberMe: false
+					};
+					expect(service.isTokenValid()).toBe(false);
+				});
+
+				it('should return false if loginResponseDto is null', () => {
+					service['loginResponseDto'] = null;
+					expect(service.isTokenValid()).toBe(false);
+				});
+			});
+		});
+	});
 });

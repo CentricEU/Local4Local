@@ -126,6 +126,17 @@ describe('MerchantDialogComponent', () => {
 					website: 'https://valid.url'
 				},
 				false
+			],
+			[
+				{
+					companyName: 'Valid Company',
+					kvk: '12345678',
+					category: 'Category 1',
+					address: 'Valid Address',
+					contactEmail: 'domain@example.com',
+					website: 'valid.url'
+				},
+				false
 			]
 		])('should mark form as %s when form data is %s', (formValue, expectedValidity) => {
 			component.form.setValue(formValue);
@@ -525,4 +536,14 @@ describe('MerchantDialogComponent', () => {
 		component.closeDialog(successCode);
 		expect(matDialogRefStub.close).toHaveBeenCalledWith(successCode);
 	});
+
+	it('should close the dialog with ALREADY_REGISTERED_CODE when registration fails with ALREADY_REGISTERED_CODE', () => {
+		const mockError = { error: { message: ALREADY_REGISTERED_CODE } };
+		jest.spyOn(merchantService, 'registerMerchant').mockReturnValue(throwError(() => mockError));
+	
+		component['registerMerchant']();
+	
+		expect(matDialogRefStub.close).toHaveBeenCalledWith(ALREADY_REGISTERED_CODE);
+	});
+	
 });
