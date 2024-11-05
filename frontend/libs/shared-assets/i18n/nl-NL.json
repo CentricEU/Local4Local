@@ -10,8 +10,8 @@
 			"link": "Stuur me een link",
 			"continueToLogin": "Ga verder naar login",
 			"continue": "Doorgaan",
-			"stay": "...Stay on page",
-			"resendCode": "...Resend code"
+			"stay": "Blijf op de pagina",
+			"resendCode": "Code opnieuw verzenden"
 		},
 		"forgotPassword": "Wachtwoord vergeten?",
 		"rememberMe": "Onthoud mijn gegevens",
@@ -22,7 +22,7 @@
 		"logout": "Uitloggen",
 		"invitations": "Uitnodigingen",
 		"noData": "Geen afbeelding",
-		"warning": "...Warning",
+		"warning": "Waarschuwing",
 		"status": {
 			"pending": "In behandeling",
 			"rejected": "Afgewezen",
@@ -31,8 +31,8 @@
 		"paginatorResult": "Resultaten per pagina",
 		"congratulations": "Gefeliciteerd!",
 		"noLocationData": {
-			"noDataTitle": "...Location is turned off",
-			"noDataDescription": "...It looks like location is turned off in your system preferences. Please enable location services to explore the map."
+			"noDataTitle": "Locatie is uitgeschakeld",
+			"noDataDescription": "Het lijkt erop dat locatie is uitgeschakeld in uw systeemvoorkeuren. Schakel locatievoorzieningen in om de kaart te verkennen."
 		}
 	},
 	"tooltip": {
@@ -49,7 +49,7 @@
 			"status": "Status",
 			"actions": "Acties",
 			"email": "E-mail",
-			"sendingDate": "...Sending date"
+			"sendingDate": "Verzenddatum"
 		}
 	},
 	"welcomePage": {
@@ -156,10 +156,10 @@
 		},
 		"successOne": "De uitnodiging is verzonden.",
 		"successMultiple": "De uitnodigingen zijn verzonden.",
-		"warning": "...The invitation process will be canceled and unsaved changes will be discarded.",
+		"warning": "Het uitnodigingsproces wordt geannuleerd en niet-opgeslagen wijzigingen worden verwijderd.",	
 		"noData": {
-			"title": "...Welcome to Invitations",
-			"description": "...It looks like you haven’t sent any invitations yet.<br> Let's start inviting merchants."
+			"title": "Welkom bij Uitnodigingen",
+			"description": "Het lijkt erop dat u nog geen uitnodigingen hebt verzonden.<br> Laten we beginnen met het uitnodigen van winkeliers."
 		}
 	},
 	"merchants": {
@@ -172,8 +172,8 @@
 		"title": "Twee factor authenticatie",
 		"subtitle": "Vul de beveiligingscode in die we naar je emailadres hebben gestuurd.<br>Controleer de spamfolder als deze niet in je inbox staat.",
 		"label": "6-cijferige code",
-		"resendMessage": "...Didn’t receive an e-mail? You can request another code.",
-		"resendMessageWithSeconds": "...Didn’t receive an e-mail? You can request another code in {{seconds}}s.",
+		"resendMessage": "Geen e-mail ontvangen? U kunt een nieuwe code aanvragen.",
+		"resendMessageWithSeconds": "Geen e-mail ontvangen? U kunt een nieuwe code aanvragen over {{seconds}} seconden.",	
 		"error": {
 			"required": "Vul de eenmalige code in.",
 			"invalid": "Ongeldige code"
@@ -185,14 +185,14 @@
 		"success": "Het verzoek is goedgekeurd."
 	},
 	"rejectMerchant": {
-		"title": "...Reject request",
-		"subtitle": "...By rejecting this merchant, you prevent them from appearing on the map showing which suppliers accept X currency.",
-		"success": "...The request was successfully rejected.",
-		"reason": "...Rejection reason",
+		"title": "Verzoek afwijzen",
+		"subtitle": "Door deze winkelier af te wijzen, voorkom je dat ze op de kaart verschijnen die toont welke leveranciers X accepteren.",
+		"success": "Het verzoek is succesvol afgewezen.",
+		"reason": "Reden van afwijzing",
 		"error": {
-			"reasonRequired": "...Rejection reason is required."
+			"reasonRequired": "Reden van afwijzing is verplicht."
 		},
-		"warning": "...The rejection process will be canceled and unsaved changes will be discarded."
+		"warning": "Het afwijzingsproces wordt geannuleerd en niet-opgeslagen wijzigingen worden verwijderd."
 	},
 	"errors": {
 		"40007": "Oeps, we hebben een fout gekregen. Ongeldige inloggegevens. Probeer het opnieuw of gebruik de optie 'wachtwoord vergeten'",
@@ -202,7 +202,7 @@
 		"40016": "De link voor wachtwoordherstel is verlopen.",
 		"40017": "Je nieuwe wachtwoord komt overeen met je oude wachtwoord. Kies alstublieft een ander wachtwoord.",
 		"40021": "...The code provided is not valid.",
-		"40025": "...The citizen account could not be created because the email is already in use. Please use a different email address to create a new account.",
-		"40027": "...You need to wait 5 minutes before resending a new code."
+		"40025": "Het inwonersaccount kon niet worden aangemaakt omdat het e-mailadres al in gebruik is. Gebruik een ander e-mailadres om een nieuw account aan te maken.",
+		"40027": "U moet 5 minuten wachten voordat u een nieuwe code opnieuw kunt verzenden."
 	}
 }
