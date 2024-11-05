@@ -245,8 +245,13 @@ export class MerchantDialogComponent implements OnInit {
 			longitude: location?.x ?? 0.0,
 			address,
 			contactEmail,
-			website
+			website: this.ensureHttpsProtocol(website)
 		};
+	}
+
+	private ensureHttpsProtocol(url?: string): string {
+		if (!url) return '';
+		return url.startsWith('https://') ? url : `https://${url}`;
 	}
 
 	private initializeFormFields(): void {
