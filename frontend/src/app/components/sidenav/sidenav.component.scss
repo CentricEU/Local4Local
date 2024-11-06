@@ -84,4 +84,8 @@ $theme: mat.define-theme();
 			@extend .active;
 		}
 	}
+
+	.merchant {
+		margin-left: 4px;
+	}
 }
