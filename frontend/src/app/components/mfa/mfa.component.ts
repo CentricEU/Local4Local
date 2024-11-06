@@ -27,6 +27,10 @@ export class MfaComponent implements OnInit {
         return this.form.get('code')?.hasError('invalidCode');
     }
 
+    public get translationParams(): { seconds?: string } {
+        return { seconds: this.countDownValue };
+    }
+
     private countDownValueInSeconds: number;
     private returnUrl: string = commonRoutingConstants.dashboard;
     private fb = inject(FormBuilder);
@@ -55,9 +59,6 @@ export class MfaComponent implements OnInit {
             this.startCountdown();
         });
 
-    }
-    public getTranslationParams(): { seconds?: string } {
-        return this.isResendButtonDisabled ? { seconds: this.countDownValue } : {};
     }
 
     private setReturnUrl(): void {

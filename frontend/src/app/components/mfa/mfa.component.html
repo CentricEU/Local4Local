@@ -36,7 +36,7 @@
 
 		<p class="resend-message">
 			@if(countDownValue){
-			{{ 'mfa.resendMessageWithSeconds' | translate : getTranslationParams() }}
+			{{ 'mfa.resendMessageWithSeconds' | translate : translationParams }}
 			} @else {
 			{{ 'mfa.resendMessage' | translate }}
 			}

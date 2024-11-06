@@ -106,18 +106,18 @@ describe('MfaComponent', () => {
 
         jest.advanceTimersByTime(3000);
 
-        expect(component.countDownValue).toBe(297);
+        expect(component.countDownValue).toBe("4:58");
         jest.useRealTimers();
     });
 
     it('should countDownValue to be 0 when times completes', () => {
         jest.useFakeTimers();
         component.resendOtp();
-        component.countDownValue = 2; 
+        component["countDownValueInSeconds"] = 2; 
 
         jest.advanceTimersByTime(2000);
 
-        expect(component.countDownValue).toBe(0);
+        expect(component.countDownValue).toBe("0:00");
         jest.useRealTimers();
     });
 
@@ -125,35 +125,19 @@ describe('MfaComponent', () => {
         jest.useFakeTimers();
     
         component.resendOtp();
-        component.countDownValue = 0; 
+        component["countDownValueInSeconds"] = 0; 
     
         jest.advanceTimersByTime(2000);
     
-        expect(component.countDownValue).toBe(0);
+        expect(component.countDownValue).toBe("0:00");
         expect(component.isResendButtonDisabled).toBe(false);
     
         jest.useRealTimers();
     });
 
-    describe('MfaComponent message and translation parameter methods', () => {
-        it.each([
-            { isResendButtonDisabled: true, expectedKey: 'mfa.resendMessageWithSeconds' },
-            { isResendButtonDisabled: false, expectedKey: 'mfa.resendMessage' }
-        ])('should return the correct message key based on isResendButtonDisabled', ({ isResendButtonDisabled, expectedKey }) => {
-            component.isResendButtonDisabled = isResendButtonDisabled;
-            const result = component.getResendMessageKey();
-            expect(result).toBe(expectedKey);
-        });
-    
-        it.each([
-            { isResendButtonDisabled: true, countDownValue: 120, expectedParams: { seconds: 120 } },
-            { isResendButtonDisabled: false, countDownValue: 120, expectedParams: {} }
-        ])('should return the correct translation params based on isResendButtonDisabled', ({ isResendButtonDisabled, countDownValue, expectedParams }) => {
-            component.isResendButtonDisabled = isResendButtonDisabled;
-            component.countDownValue = countDownValue;
-            const result = component.getTranslationParams();
-            expect(result).toEqual(expectedParams);
-        });
-    });    
+    it('should return translationParams with countDownValue', () => {
+        component["countDownValue"] = "5:00";
+        expect(component.translationParams).toEqual({ seconds: "5:00" });
+    });
     
 });
