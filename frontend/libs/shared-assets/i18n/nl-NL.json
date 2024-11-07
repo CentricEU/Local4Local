@@ -69,7 +69,7 @@
 			"categoryRequired": "Kies categorie.",
 			"addressRequired": "Vul adres in.",
 			"kvkFormControlLength": "KvK moet 8 cijfers bevatten.",
-			"invalidUrl": "...Please enter a valid and secure website URL. (e.g. https://www.example.com).",
+			"invalidUrl": "Voer een geldige en veilige website-URL in. (bijv. https://www.example.com).",
 			"emailRequired": "Vul je e-mail in om toekomstige updates te ontvangen.",
 			"emailInvalid": "Vul een geldig e-mailadres in."
 		}
@@ -201,7 +201,7 @@
 		"40014": "Je kunt slechts drie pogingen tot wachtwoordherstel per dag initiëren.",
 		"40016": "De link voor wachtwoordherstel is verlopen.",
 		"40017": "Je nieuwe wachtwoord komt overeen met je oude wachtwoord. Kies alstublieft een ander wachtwoord.",
-		"40021": "...The code provided is not valid.",
+		"40021": "De opgegeven code is niet geldig.",
 		"40025": "Het inwonersaccount kon niet worden aangemaakt omdat het e-mailadres al in gebruik is. Gebruik een ander e-mailadres om een nieuw account aan te maken.",
 		"40027": "U moet 5 minuten wachten voordat u een nieuwe code opnieuw kunt verzenden."
 	}
