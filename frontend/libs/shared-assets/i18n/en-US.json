@@ -173,7 +173,7 @@
         "subtitle": "To continue, enter the secure code we sent to your e-mail.<br>Check junk mail if it’s not in your inbox.",
         "label": "6-digit code",
         "resendMessage": "Didn’t receive an e-mail? You can request another code.",
-        "resendMessageWithSeconds": "Didn’t receive an e-mail? You can request another code in {{seconds}}s.",
+        "resendMessageWithSeconds": "Didn’t receive an e-mail? You can request another code in {{seconds}}.",
         "error": {
             "required": "Enter the one time code.",
             "invalid": "Invalid code"

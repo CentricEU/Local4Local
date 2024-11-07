@@ -17,7 +17,7 @@
 		"rememberMe": "Onthoud mijn gegevens",
 		"logo": "Logo",
 		"dashboard": "Dashboard",
-		"merchants": "Deelnemende locaties",
+		"merchants": "Deelnemers",
 		"profile": "Profielpagina",
 		"logout": "Uitloggen",
 		"invitations": "Uitnodigingen",
@@ -173,7 +173,7 @@
 		"subtitle": "Vul de beveiligingscode in die we naar je emailadres hebben gestuurd.<br>Controleer de spamfolder als deze niet in je inbox staat.",
 		"label": "6-cijferige code",
 		"resendMessage": "...Didn’t receive an e-mail? You can request another code.",
-		"resendMessageWithSeconds": "...Didn’t receive an e-mail? You can request another code in {{seconds}}s.",
+		"resendMessageWithSeconds": "...Didn’t receive an e-mail? You can request another code in {{seconds}}.",
 		"error": {
 			"required": "Vul de eenmalige code in.",
 			"invalid": "Ongeldige code"
