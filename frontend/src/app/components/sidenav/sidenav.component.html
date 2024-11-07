@@ -14,7 +14,7 @@
 				<mat-expansion-panel [expanded]="isMerchantsTab()">
 					<mat-expansion-panel-header class="panel-header">
 						<mat-icon [class.active]="isMerchantsRoute()">{{ entry.icon }}</mat-icon>
-						<p>{{ entry.title | translate }}</p>
+						<p class="merchant">{{ entry.title | translate }}</p>
 					</mat-expansion-panel-header>
 					<mat-list>
 						@for(child of entry.children; track child.id) {
