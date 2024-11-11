@@ -173,7 +173,7 @@
 		"subtitle": "Vul de beveiligingscode in die we naar je emailadres hebben gestuurd.<br>Controleer de spamfolder als deze niet in je inbox staat.",
 		"label": "6-cijferige code",
 		"resendMessage": "Geen e-mail ontvangen? U kunt een nieuwe code aanvragen.",
-		"resendMessageWithSeconds": "Geen e-mail ontvangen? U kunt een nieuwe code aanvragen over {{seconds}} seconden.",	
+		"resendMessageWithSeconds": "Geen e-mail ontvangen? U kunt een nieuwe code aanvragen over {{seconds}}.",	
 		"error": {
 			"required": "Vul de eenmalige code in.",
 			"invalid": "Ongeldige code"
