@@ -1,0 +1,32 @@
+<div class="main-section-container">
+	<div class="section-info-container">
+		<div class="info-content">
+			<div *ngFor="let section of sections" class="topic">
+				<p class="title bold" [ngClass]="section.class">{{ section.title | translate }}</p>
+				<p *ngIf="section.text" [innerHTML]="section.text | translate"></p>
+			</div>
+		</div>
+		<div class="image"></div>
+	</div>
+
+	<div class="objectives-container">
+		<div class="objectives-content">
+			<div class="main-section">
+				<div class="top-section">
+					<p class="bold main-section-title">{{ 'presentation.info.objectives.title' | translate }}</p>
+					<p>{{ 'presentation.info.objectives.subtitle' | translate }}</p>
+				</div>
+				<p class="bold subsection">
+					<em>{{ 'presentation.info.objectives.subsection' | translate }}</em>
+				</p>
+				<p>{{ 'presentation.info.objectives.goals' | translate }}</p>
+			</div>
+			<ol>
+				<li>{{ 'presentation.info.objectives.firstGoal' | translate }}</li>
+				<li>{{ 'presentation.info.objectives.secondGoal' | translate }}</li>
+			</ol>
+
+			<p class="conclusion">{{ 'presentation.info.objectives.conclusion' | translate }}</p>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,17 @@
+<section class="presentation-description">
+	<div class="content">
+		<p class="title bold flex-column-center">{{ 'presentation.description.title' | translate }}</p>
+
+		<div class="text-content">
+			@for(key of descriptionKeys; track descriptionKeys) {
+			<p>{{ key | translate }}</p>
+			}
+		</div>
+
+		<div class="description-image"></div>
+
+		<p class="additional-info">
+			{{ 'presentation.description.infrastructureSupport' | translate }}
+		</p>
+	</div>
+</section>

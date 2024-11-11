@@ -46,6 +46,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MerchantDialogComponent } from './components/merchant-dialog/merchant-dialog.component';
 import { AppHttpInterceptor } from './_interceptors/app-http.interceptor';
 import { AppLoaderComponent } from './components/app-loader/app-loader.component';
+import { PresentationComponent } from './components/presentation/presentation.component';
+import { DescriptionComponent } from './components/description/description.component';
+import { SectionInfoComponent } from './components/section-info/section-info.component';
+import { MembersInfoComponent } from './components/members-info/members-info.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 export function httpLoaderFactory(http: HttpClient) {
 	return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -69,7 +74,12 @@ export function httpLoaderFactory(http: HttpClient) {
 		NoDataComponent,
 		ProfileComponent,
 		MfaComponent,
-  AppLoaderComponent
+  AppLoaderComponent,
+  PresentationComponent,
+  DescriptionComponent,
+  SectionInfoComponent,
+  MembersInfoComponent,
+  FooterComponent
 	],
 	imports: [
 		HttpClientModule,

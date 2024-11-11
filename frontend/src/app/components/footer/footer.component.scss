@@ -1,0 +1,74 @@
+@use '../.././../../libs/shared-assets/_styles/mixins.scss' as mixins;
+
+:host {
+    width: 100%;
+
+    footer {
+        @include mixins.flex(row, space-between, stretch);
+        background-color: var(--neutral-10);
+        border: 1px solid var(--neutral-8);
+        padding: 64px;
+        width: 100%;
+
+        .logos {
+            @include mixins.flex(column, center, baseline);
+            gap: 32px;
+            padding-top: 16px;
+        }
+
+        a {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary-1);
+        }
+
+        .text-container {
+            @include mixins.flex($align: flex-start);
+            @include mixins.size(fit-content, fit-content);
+            align-self: flex-end;
+            gap: 32px;
+
+        }
+
+        .logo-section {
+            display: flex;
+            gap: 16px;
+        }
+
+        .bottom-section {
+            display: flex;
+            justify-content: flex-end;
+            gap: 32px;
+            size: 16px;
+            line-height: 24px;
+            color: var(--neutral-800);
+        }
+
+        .powered-by {
+            display: flex;
+            flex-direction: column;
+            gap: 128px;
+        }
+
+        a {
+            text-decoration: none;
+            font-weight: 500;
+            size: 16px;
+            line-height: 24px;
+            color: var(--neutral-800);
+        }
+
+        .eu-description {
+            width: 100%;
+            display: flex;
+            gap: 16px;
+
+            .text {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+
+    }
+}

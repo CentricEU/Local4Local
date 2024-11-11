@@ -1,0 +1,44 @@
+@use "../.././../../libs/shared-assets/_styles/mixins.scss" as mixins;
+
+$description-bg-image: '/assets/images/description-en.svg';
+$gap: 32px;
+$full-width: 100%;
+
+:host {
+    width: $full-width;
+    padding: 0 64px;
+
+    .content {
+        @include mixins.flex(column);
+        @include mixins.size(100%, auto);
+        padding: 0 128px;
+        gap: $gap;
+    }
+
+    .description-image {
+        @include mixins.size(100vw, 100vh);
+        max-width: 1168px;
+        max-height: 540px;
+        object-fit: cover;
+        @include mixins.background-image($description-bg-image, cover, no-repeat, center);
+        margin: $gap 0;
+        align-self: center;
+    }
+
+    .text-content,
+    .additional-info {
+        padding: 0 132px;
+    }
+
+    .text-content {
+        @include mixins.flex(column, flex-start);
+        gap: $gap;
+    }
+
+    .title {
+        width: $full-width;
+        color: var(--theme-800);
+        font-size: 32px;
+        line-height: 40px;
+    }
+}

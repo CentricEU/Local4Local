@@ -204,5 +204,47 @@
 		"40021": "...The code provided is not valid.",
 		"40025": "...The citizen account could not be created because the email is already in use. Please use a different email address to create a new account.",
 		"40027": "...You need to wait 5 minutes before resending a new code."
+	},
+	"presentation": {
+		"description": {
+			"title": "...What is Local for Local?",
+			"platformOverview": "...Local for Local is a digital platform to help cities deploy local economic tokens/local currency systems to help strengthen local economies.",
+			"currentChallenges": "...Local for Local recognizes that the current economic flows in regions focus on the flow of capital to faraway locations rather than emphasizing the local benefits. The image below shows the current state and the ideal state after the implementation of a Local for Local in a pilot region.",
+			"communityBenefits": "...By creating access to local currency and local lines of credit for businesses, we hope to create social cohesion through thoughtful and easy local purchases. Local for Local also aims to help cities with their administrative burden by leveraging easy and open technologies with powerful administration tools.",
+			"infrastructureSupport": "...Local for local provides the decentralized digital infrastructure and platform building blocks to empower citizens to build connections and connect with each other."
+		},
+		"info": {
+			"applications": {
+				"title": "...Applications",
+				"text": "...Applications that serve local economy, increase adoption of sustainable initiatives and strengthening of social ties.<br> Within this pilot, we develop 1 application: Locasus-n."
+			},
+			"buildingBlocks": {
+				"title": "...Platform building blocks",
+				"text": "...The Local for Local platform is modular build from NGI components. It contains features, connections and infrastructure for rapidly developing applications."
+			},
+			"infrastructure": {
+				"title": "...Infrastructure",
+				"text": "...Decentralized infrastructure consisting of deployable nodes and protocol. It provides easy and rapid decentralized networks."
+			},
+			"objectives": {
+				"title": "...Project objectives",
+				"subtitle": "...The objective of this project is the following:",
+				"subsection": "...Integrate and pilot a software stack that strengthens local rural economies throughout Europe.",
+				"goals": "...This objective leads to two concrete and measurable goals:",
+				"firstGoal": "...Socio-economic impact in the local region",
+				"secondGoal": "...A high-performing software stack by NGI innovators",
+				"conclusion": "...The economic ecosystems will be self-sustaining and ready to scale in Europe."
+			}
+		},
+		"members": {
+			"title": "...Consortium members"
+		},
+		"footer": {
+			"privacyPolicy": "...Privacy policy",
+			"disclaimer": "...Disclaimer",
+			"poweredBy": "...Powered by:",
+			"description": "...This project has received funding from the European Commission under grant agreement.",
+			"number": "...No. 101135443"
+		}
 	}
 }
