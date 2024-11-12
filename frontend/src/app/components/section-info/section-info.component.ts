@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { PresentationItem } from '../../models/presentation-item-dto.model';
 
 @Component({
 	selector: 'app-section-info',
@@ -6,21 +7,24 @@ import { Component } from '@angular/core';
 	styleUrl: './section-info.component.scss'
 })
 export class SectionInfoComponent {
-	public sections = [
+	public sections: PresentationItem[] = [
 		{
-			class: 'applications',
+			classType: 'applications',
 			title: 'presentation.info.applications.title',
-			text: 'presentation.info.applications.text'
+			text: 'presentation.info.applications.text',
+			id: 0
 		},
 		{
-			class: 'platform',
+			classType: 'platform',
 			title: 'presentation.info.buildingBlocks.title',
-			text: 'presentation.info.buildingBlocks.text'
+			text: 'presentation.info.buildingBlocks.text',
+			id: 1
 		},
 		{
-			class: 'infrastructure',
+			classType: 'infrastructure',
 			title: 'presentation.info.infrastructure.title',
-			text: 'presentation.info.infrastructure.text'
+			text: 'presentation.info.infrastructure.text',
+			id: 2
 		}
 	];
 }

@@ -25,7 +25,6 @@ $common-radius: $common-size * 6;
 
 .member-card {
     @include mixins.flex(column);
-    max-height: $common-size * 127;
     max-width: $common-size * 167;
     background: var(--neutral-0);
     border: 2px solid var(--theme-100);

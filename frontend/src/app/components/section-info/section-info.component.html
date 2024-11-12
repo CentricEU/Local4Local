@@ -1,9 +1,9 @@
 <div class="main-info-container">
 	<div class="section-info-container">
 		<div class="info-content">
-			@for(section of sections; track section){
+			@for(section of sections; track section.id){
 			<div class="text">
-				<p class="title bold" [ngClass]="section.class">{{ section.title | translate }}</p>
+				<p class="title bold" [ngClass]="section.classType">{{ section.title | translate }}</p>
 				@if(section.text) {
 				<p [innerHTML]="section.text | translate"></p>
 				}

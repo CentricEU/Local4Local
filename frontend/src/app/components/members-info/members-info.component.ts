@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
 	styleUrl: './members-info.component.scss'
 })
 export class MembersInfoComponent {
+	//TO REACTOR WHEN WE KNOW THE MEMBERS
 	public members = Array(4).fill({
 		name: 'Company name',
 		description:
