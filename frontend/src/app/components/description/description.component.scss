@@ -1,28 +1,28 @@
 @use "../.././../../libs/shared-assets/_styles/mixins.scss" as mixins;
 
-$common-size: 32px;
+$common-size: 4px;
 
 :host {
 
     .content {
         @include mixins.flex(column);
-        padding: 32px 128px 0;
-        gap: $common-size;
+        padding: $common-size * 8 $common-size * 32 0;
+        gap: $common-size * 8;
     }
 
     img {
         @include mixins.size(100%);
-        max-width: 1168px;
-        max-height: 540px;
+        max-width: $common-size * 292;
+        max-height: $common-size * 135;
         object-fit: cover;
-        margin: 64px 0;
+        margin: $common-size * 16;
         align-self: center;
     }
 
     .text,
     .additional-info {
         @extend .common-text-style;
-        padding: 0 132px;
+        padding: 0 $common-size * 33;
         color: var(--neutral-700);
     }
 
@@ -31,16 +31,15 @@ $common-size: 32px;
         line-height: 28px;
     }
 
-
     .text {
         @extend .common-text-style;
         @include mixins.flex(column, flex-start);
-        gap: $common-size;
+        gap: $common-size * 8;
     }
 
     .title {
         color: var(--theme-800);
-        font-size: $common-size;
-        line-height: 40px;
+        font-size: $common-size * 8;
+        line-height: $common-size * 10;
     }
 }
