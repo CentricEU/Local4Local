@@ -1,6 +1,6 @@
 @use '../.././../../libs/shared-assets/_styles/mixins.scss' as mixins;
 
-$base-gap: 16px;
+$common-size: 16px;
 
 :host {
     width: 100%;
@@ -9,7 +9,7 @@ $base-gap: 16px;
         @include mixins.flex(row, space-between, stretch);
         background-color: var(--neutral-10);
         border: 1px solid var(--neutral-8);
-        padding: $base-gap * 4;
+        padding: $common-size * 4;
 
         .footer-content {
             @include mixins.flex(row, space-between, stretch);
@@ -18,23 +18,23 @@ $base-gap: 16px;
 
         .logos {
             @include mixins.flex(column, center, baseline);
-            gap: $base-gap * 2;
-            padding-top: $base-gap;
+            gap: $common-size * 2;
+            padding-top: $common-size;
         }
 
         .links {
             @include mixins.flex(column);
             align-items: flex-start;
-            gap: $base-gap * 8;
+            gap: $common-size * 8;
 
             .logo-section {
                 @include mixins.flex(row);
-                gap: $base-gap;
+                gap: $common-size;
             }
 
             .bottom-links {
                 @include mixins.flex(row, flex-end);
-                gap: $base-gap * 2;
+                gap: $common-size * 2;
                 font-size: 16px;
                 line-height: 24px;
                 color: var(--neutral-800);
@@ -50,11 +50,12 @@ $base-gap: 16px;
 
         .eu-description {
             display: flex;
-            gap: $base-gap;
+            gap: $common-size;
 
             .text {
                 @include mixins.flex(column);
-                gap: $base-gap / 2;
+                font-size: 22px;
+                gap: 8px;
             }
         }
     }
