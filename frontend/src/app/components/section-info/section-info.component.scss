@@ -1,98 +1,90 @@
 @use "../.././../../libs/shared-assets/_styles/mixins.scss" as mixins;
 
-$padding-main: 128px;
-$max-width-container: 1920px;
-$max-height-section-info: 420px;
-$gap-main: 128px;
-$gap-section: 120px;
-$info-content-padding: 32px;
-$info-content-left-padding: 128px;
-$image-max-width: 520px;
-$image-max-height: 352px;
-$description-bg-image: '/assets/images/section-info.svg';
+$common-size: 260px;
+$common-text-color: var(--neutral-700);
 
 :host {
-    .main-section-container {
-        display: flex;
-        flex-direction: column;
-        gap: $gap-main;
+    .main-info-container {
+        @include mixins.flex(column);
+        gap: 128px;
         padding-top: 80px;
     }
 
     .section-info-container {
         display: flex;
-        gap: $gap-section;
-        max-height: $max-height-section-info;
-        max-width: $max-width-container;
+        gap: 120px;
+        max-height: 420px;
+        max-width: 1920px;
+    }
 
-        .info-content {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-            padding-left: $info-content-left-padding;
-            gap: $info-content-padding;
-        }
+    img {
+        @include mixins.size(100vw, 100vh);
+        max-width: 520px;
+        max-height: 352px;
+        object-fit: cover;
+        margin-right: 132px;
+    }
 
-        .image {
-            @include mixins.size(100vw, 100vh);
-            max-width: $image-max-width;
-            max-height: $image-max-height;
-            object-fit: cover;
-            margin-right: 132px;
-            @include mixins.background-image($description-bg-image, cover, no-repeat, center);
-        }
+    .info-content {
+        @include mixins.flex(column);
+        padding-left: $common-size;
+        gap: 32px;
+    }
 
-        .topic {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            padding: 0 132px;
-
-            .title {
-                size: 28px;
-                line-height: 36px;
-            }
-        }
+    .title,
+    .main-section-title {
+        size: 28px;
+        line-height: 36px;
     }
 
     .objectives-container {
-        padding: 0 $padding-main;
+        padding: 0 $common-size;
+    }
 
-        .objectives-content {
-            padding: 0 $padding-main;
+    .main-section {
+        @include mixins.flex(column);
+        gap: 16px;
 
-            .main-section {
-                display: flex;
-                flex-direction: column;
-                gap: 16px;
-
-                .top-section {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 8px;
-                }
-
-                .main-section-title {
-                    size: 28px;
-                    line-height: 36px;
-                    color: var(--neutral-900);
-                }
-
-            }
-
-            .subsection {
-                color: var(--neutral-700);
-                size: 22px;
-            }
-
-            .conclusion {
-                margin-top: 16px;
-            }
-
-            ol {
-                padding-left: 24px;
-            }
+        &:nth-of-type(1) {
+            color: $common-text-color;
         }
+    }
+
+    .top-section,
+    .text {
+        @include mixins.flex(column);
+        gap: 8px;
+
+        &:nth-of-type(1) {
+            color: $common-text-color;
+        }
+    }
+
+    .text {
+        &:nth-of-type(-n+3) {
+            color: $common-text-color;
+        }
+    }
+
+    .main-section-title {
+        color: var(--neutral-900);
+    }
+
+    .subsection {
+        color: $common-text-color;
+        size: 22px;
+        line-height: 28px;
+        font-style: italic;
+    }
+
+    .conclusion {
+        margin-top: 16px;
+        color: $common-text-color;
+    }
+
+    ol {
+        padding-left: 36px;
+        color: $common-text-color;
     }
 
     .applications {

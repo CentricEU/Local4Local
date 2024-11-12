@@ -1,10 +1,12 @@
 <div class="consortium-container">
 	<p class="title bold">{{ 'presentation.members.title' | translate }}</p>
 	<div class="member-grid">
-		<div class="member-card" *ngFor="let member of members">
+		@for(member of members; track member){
+		<div class="member-card">
 			<div class="logo-placeholder"></div>
 			<p class="card-title bold">{{ member.name }}</p>
 			<p class="card-description">{{ member.description }}</p>
 		</div>
+		}
 	</div>
 </div>
