@@ -51,6 +51,7 @@ import { DescriptionComponent } from './components/description/description.compo
 import { SectionInfoComponent } from './components/section-info/section-info.component';
 import { MembersInfoComponent } from './components/members-info/members-info.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { ObjectivesComponent } from './components/objectives/objectives.component';
 
 export function httpLoaderFactory(http: HttpClient) {
 	return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -79,7 +80,8 @@ export function httpLoaderFactory(http: HttpClient) {
   DescriptionComponent,
   SectionInfoComponent,
   MembersInfoComponent,
-  FooterComponent
+  FooterComponent,
+  ObjectivesComponent
 	],
 	imports: [
 		HttpClientModule,

@@ -11,7 +11,7 @@ $common-size: 32px;
     }
 
     img {
-        @include mixins.size(100vw, 100vh);
+        @include mixins.size(100%);
         max-width: 1168px;
         max-height: 540px;
         object-fit: cover;
@@ -21,14 +21,21 @@ $common-size: 32px;
 
     .text,
     .additional-info {
+        @extend .common-text-style;
         padding: 0 132px;
         color: var(--neutral-700);
     }
 
+    .common-text-style {
+        font-size: 22px;
+        line-height: 28px;
+    }
+
+
     .text {
+        @extend .common-text-style;
         @include mixins.flex(column, flex-start);
         gap: $common-size;
-        line-height: 28px;
     }
 
     .title {

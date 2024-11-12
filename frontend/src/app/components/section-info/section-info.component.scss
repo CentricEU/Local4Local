@@ -1,6 +1,5 @@
 @use "../.././../../libs/shared-assets/_styles/mixins.scss" as mixins;
 
-$common-size: 260px;
 $common-text-color: var(--neutral-700);
 
 :host {
@@ -27,64 +26,20 @@ $common-text-color: var(--neutral-700);
 
     .info-content {
         @include mixins.flex(column);
-        padding-left: $common-size;
+        padding-left: 260px;
         gap: 32px;
     }
 
-    .title,
-    .main-section-title {
-        size: 28px;
+    .title {
+        font-size: 28px;
         line-height: 36px;
-    }
-
-    .objectives-container {
-        padding: 0 $common-size;
-    }
-
-    .main-section {
-        @include mixins.flex(column);
-        gap: 16px;
-
-        &:nth-of-type(1) {
-            color: $common-text-color;
-        }
-    }
-
-    .top-section,
-    .text {
-        @include mixins.flex(column);
-        gap: 8px;
-
-        &:nth-of-type(1) {
-            color: $common-text-color;
-        }
     }
 
     .text {
         &:nth-of-type(-n+3) {
-            color: $common-text-color;
+            color: var(--neutral-700);
+            font-size: 22px;
         }
-    }
-
-    .main-section-title {
-        color: var(--neutral-900);
-    }
-
-    .subsection {
-        color: $common-text-color;
-        size: 22px;
-        line-height: 28px;
-        font-style: italic;
-    }
-
-    .conclusion {
-        margin-top: 16px;
-        color: $common-text-color;
-    }
-
-    ol {
-        padding-left: 36px;
-        color: $common-text-color;
     }
 
     .applications {
