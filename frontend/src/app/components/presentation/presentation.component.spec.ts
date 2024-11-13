@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FooterComponent } from './footer.component';
+import { PresentationComponent } from './presentation.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
-describe('FooterComponent', () => {
-	let component: FooterComponent;
-	let fixture: ComponentFixture<FooterComponent>;
+describe('SectionInfoComponent', () => {
+	let component: PresentationComponent;
+	let fixture: ComponentFixture<PresentationComponent>;
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			declarations: [FooterComponent],
+			declarations: [PresentationComponent],
 			imports: [TranslateModule.forRoot()],
 			providers: [TranslateService]
 		}).compileComponents();
 
-		fixture = TestBed.createComponent(FooterComponent);
+		fixture = TestBed.createComponent(PresentationComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});

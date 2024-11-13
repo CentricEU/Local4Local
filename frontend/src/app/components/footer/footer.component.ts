@@ -5,8 +5,4 @@ import { Component } from '@angular/core';
 	templateUrl: './footer.component.html',
 	styleUrl: './footer.component.scss'
 })
-export class FooterComponent {
-	public openDialog(): void {
-		console.log('to be implemented');
-	}
-}
+export class FooterComponent {}
