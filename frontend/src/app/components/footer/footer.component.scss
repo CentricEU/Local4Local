@@ -1,0 +1,63 @@
+@use '../.././../../libs/shared-assets/_styles/mixins.scss' as mixins;
+
+$common-size: 16px;
+
+:host {
+    width: 100%;
+
+    footer {
+        @include mixins.flex(row, space-between, stretch);
+        background-color: var(--neutral-10);
+        border: 1px solid var(--neutral-8);
+        padding: $common-size * 4;
+
+        .footer-content {
+            @include mixins.flex(row, space-between, stretch);
+            width: 100%;
+        }
+
+        .logos {
+            @include mixins.flex(column, center, baseline);
+            gap: $common-size * 2;
+            padding-top: $common-size;
+        }
+
+        .links {
+            @include mixins.flex(column);
+            align-items: flex-start;
+            gap: $common-size * 8;
+
+            .logo-section {
+                @include mixins.flex(row);
+                gap: $common-size;
+            }
+
+            .bottom-links {
+                @include mixins.flex(row, flex-end);
+                width: 100%;
+                gap: $common-size * 2;
+                font-size: 16px;
+                line-height: 24px;
+                color: var(--neutral-800);
+            }
+        }
+
+        a {
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--neutral-800);
+        }
+
+        .eu-description {
+            display: flex;
+            gap: $common-size;
+
+            .text {
+                @include mixins.flex(column);
+                font-size: 22px;
+                gap: 8px;
+            }
+        }
+    }
+}

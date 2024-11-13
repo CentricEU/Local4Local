@@ -1,0 +1,61 @@
+@use "../.././../../libs/shared-assets/_styles/mixins.scss" as mixins;
+
+$common-size: 4px;
+$common-text-color: var(--neutral-700);
+
+:host {
+
+    p {
+        font-size: 22px;
+    }
+
+    .objectives-container {
+        padding: 0 $common-size * 65;
+    }
+
+    .main-section {
+        @include mixins.flex(column);
+        gap: $common-size * 8;
+
+        &:nth-of-type(1) {
+            color: $common-text-color;
+        }
+    }
+
+    .top-section,
+    .text {
+        @include mixins.flex(column);
+        gap: $common-size * 2;
+
+        &:nth-of-type(1) {
+            color: $common-text-color;
+        }
+    }
+
+    .main-section-title {
+        font-size: $common-size * 7;
+        line-height: $common-size * 9;
+        color: var(--neutral-900);
+    }
+
+    .subsection {
+        color: $common-text-color;
+        font-size: 22px;
+        line-height: $common-size * 7;
+        font-style: italic;
+    }
+
+    .conclusion {
+        margin-top: $common-size * 8;
+        color: $common-text-color;
+    }
+
+    ol {
+        padding-left: $common-size * 9;
+        color: $common-text-color;
+
+        li {
+            font-size: 22px;
+        }
+    }
+}

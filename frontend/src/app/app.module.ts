@@ -47,6 +47,12 @@ import { MerchantDialogComponent } from './components/merchant-dialog/merchant-d
 import { AppHttpInterceptor } from './_interceptors/app-http.interceptor';
 import { AppLoaderComponent } from './components/app-loader/app-loader.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import { PresentationComponent } from './components/presentation/presentation.component';
+import { DescriptionComponent } from './components/description/description.component';
+import { SectionInfoComponent } from './components/section-info/section-info.component';
+import { MembersInfoComponent } from './components/members-info/members-info.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { ObjectivesComponent } from './components/objectives/objectives.component';
 
 export function httpLoaderFactory(http: HttpClient) {
 	return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -70,7 +76,13 @@ export function httpLoaderFactory(http: HttpClient) {
 		NoDataComponent,
 		ProfileComponent,
 		MfaComponent,
-  AppLoaderComponent
+  AppLoaderComponent,
+  PresentationComponent,
+  DescriptionComponent,
+  SectionInfoComponent,
+  MembersInfoComponent,
+  FooterComponent,
+  ObjectivesComponent
 	],
 	imports: [
 		HttpClientModule,

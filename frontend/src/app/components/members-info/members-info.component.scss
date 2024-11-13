@@ -1,0 +1,56 @@
+@use '../.././../../libs/shared-assets/_styles/mixins.scss' as mixins;
+
+$common-size: 4px;
+$common-radius: $common-size * 6;
+
+.consortium-container {
+    @include mixins.flex(column);
+    padding: $common-size * 32 $common-size * 32 0;
+    gap: $common-size * 16;
+    text-align: center;
+
+    .title {
+        font-size: $common-size * 8;
+        line-height: $common-size * 10;
+        color: var(--theme-800);
+    }
+}
+
+.member-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $common-size * 16;
+    padding: 0 $common-size * 33;
+}
+
+.member-card {
+    @include mixins.flex(column);
+    max-width: $common-size * 167;
+    background: var(--neutral-0);
+    border: 2px solid var(--theme-100);
+    border-radius: $common-radius;
+    padding: $common-size * 8 $common-size * 8 0 $common-size * 8;
+    text-align: left;
+
+    .logo-placeholder {
+        @include mixins.size($common-size * 50, $common-size * 25);
+        background-color: var(--theme-500);
+        border-radius: $common-radius;
+        align-self: center;
+    }
+
+    .card-title,
+    .card-description {
+        font-size: 22px;
+        line-height: $common-size * 7;
+        color: var(--neutral-900);
+    }
+
+    .card-title {
+        margin: $common-size * 12 $common-size * 4 $common-size * 4;
+    }
+
+    .card-description {
+        margin-bottom: $common-size * 8;
+    }
+}

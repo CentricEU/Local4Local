@@ -1,22 +1,25 @@
 <div class="top-section">
-    <button mat-stroked-button (click)="openDialog()">
-        {{ 'welcomePage.registerButton' | translate }}
-    </button>
+	<button mat-stroked-button (click)="openDialog()">
+		{{ 'welcomePage.registerButton' | translate }}
+	</button>
 </div>
 <div class="welcome">
-	<h1>{{'welcomePage.titleLeft' | translate}} <strong>{{'welcomePage.titleRight' | translate}}</strong></h1>
+	<h1>
+		{{ 'welcomePage.titleLeft' | translate }} <strong>{{ 'welcomePage.titleRight' | translate }}</strong>
+	</h1>
 </div>
 <mat-chip-set class="categories-section">
 	@for (category of categoriesData; track category.id) {
-		<mat-chip
-		    tabindex="0"
-			[highlighted]="selectedCategoryId === category.id"
-			(click)="selectCategory(category)"
-			(keydown.enter)="selectCategory(category)">
-			{{ category.label | translate }}
-		</mat-chip>
+	<mat-chip
+		tabindex="0"
+		[highlighted]="selectedCategoryId === category.id"
+		(click)="selectCategory(category)"
+		(keydown.enter)="selectCategory(category)">
+		{{ category.label | translate }}
+	</mat-chip>
 	}
 </mat-chip-set>
 <div class="map-container">
 	<app-merchants-map [showCategories]="true"></app-merchants-map>
 </div>
+<app-presentation></app-presentation>

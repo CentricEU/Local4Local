@@ -1,0 +1,57 @@
+@use "../.././../../libs/shared-assets/_styles/mixins.scss" as mixins;
+
+$common-size: 4px;
+$common-text-color: var(--neutral-700);
+
+:host {
+    .main-info-container {
+        @include mixins.flex(column);
+        gap: $common-size * 32;
+        padding: $common-size * 20 $common-size * 65 $common-size * 32;
+    }
+
+    .section-info-container {
+        @include mixins.flex(row, center, center);
+        width: 100%;
+        gap: $common-size * 30;
+    }
+
+    img {
+        @include mixins.size(100%);
+        max-width: $common-size * 130;
+        max-height: $common-size * 88;
+        object-fit: cover;
+    }
+
+    .info-content {
+        @include mixins.flex(column);
+        gap: $common-size * 8;
+    }
+
+    .title {
+        font-size: $common-size * 7;
+        line-height: $common-size * 9;
+    }
+
+    .text {
+        @include mixins.flex(column);
+        gap: $common-size * 2;
+
+        &:nth-of-type(-n+3) {
+            color: $common-text-color;
+            font-size: 22px;
+        }
+    }
+
+    .applications {
+        color: var(--warning-100);
+    }
+
+    .platform {
+        color: var(--success-200);
+    }
+
+    .infrastructure {
+        color: var(--theme-600);
+    }
+}
