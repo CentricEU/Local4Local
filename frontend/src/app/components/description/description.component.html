@@ -2,7 +2,7 @@
 	<p class="title bold flex-column-center">{{ 'presentation.description.title' | translate }}</p>
 
 	<div class="text">
-		@for(key of descriptionKeys; track descriptionKeys) {
+		@for(key of descriptionKeys; track key) {
 		<p>{{ key | translate }}</p>
 		}
 	</div>

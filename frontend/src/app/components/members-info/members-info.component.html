@@ -1,7 +1,7 @@
 <div class="consortium-container">
 	<p class="title bold">{{ 'presentation.members.title' | translate }}</p>
 	<div class="member-grid">
-		@for(member of members; track member){
+		@for(member of members; track member.index ){
 		<div class="member-card">
 			<div class="logo-placeholder"></div>
 			<p class="card-title bold">{{ member.name }}</p>

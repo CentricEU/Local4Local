@@ -47,6 +47,12 @@ $theme-500: var(--theme-500);
             }
         }
 
+        &.info{
+            p {
+                text-align: start;
+            }
+        }
+
         p {
             text-align: center;
         }
@@ -64,4 +70,5 @@ $theme-500: var(--theme-500);
     .dialog-header {
         @extend .dialog-header;
     }
+
 }
