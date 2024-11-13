@@ -13,7 +13,6 @@ $common-size: 4px;
     img {
         @include mixins.size(100%);
         max-width: $common-size * 292;
-        max-height: $common-size * 135;
         object-fit: cover;
         margin: $common-size * 16;
         align-self: center;
