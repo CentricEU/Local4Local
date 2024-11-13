@@ -1,32 +1,34 @@
 <footer>
-    <div class="footer-content">
-        <div class="logos">
-            <a href="" target="_blank">
-                <img src="../../../../assets/images/ngi.svg" alt="Local for Local logo" />
-            </a>
+	<div class="footer-content">
+		<div class="logos">
+			<a href="" target="_blank">
+				<img src="../../../../assets/images/ngi.svg" alt="Local for Local logo" />
+			</a>
 
-            <div class="eu-description">
-                <img src="../../../../assets/images/EU.svg" alt="EU logo" />
-                <div class="text">
-                    <p>{{ 'presentation.footer.description' | translate }}</p>
-                    <p>{{ 'presentation.footer.number' | translate }}</p>
-                </div>
-            </div>
-        </div>
+			<div class="eu-description">
+				<img src="../../../../assets/images/EU.svg" alt="EU logo" />
+				<div class="text">
+					<p>{{ 'presentation.footer.description' | translate }}</p>
+					<p>{{ 'presentation.footer.number' | translate }}</p>
+				</div>
+			</div>
+		</div>
 
-        <div class="links">
-            <div class="logo-section">
-                <p>{{ 'presentation.footer.poweredBy' | translate }}</p>
-                <a href="https://www.centric.eu" target="_blank">
-                    <img src="../../../../assets/images/centric.svg" alt="Centric logo" />
-                </a>
-            </div>
-            <div class="bottom-links">
-                <a (click)="openDialog()">{{ 'presentation.footer.privacyPolicy.title' | translate }}</a>
-                <a href="https://www.centric.eu/en/disclaimer" target="_blank">
-                    {{ 'presentation.footer.disclaimer' | translate }}
-                </a>
-            </div>
-        </div>
-    </div>
+		<div class="links">
+			<div class="logo-section">
+				<p>{{ 'presentation.footer.poweredBy' | translate }}</p>
+				<a href="https://www.centric.eu" target="_blank">
+					<img src="../../../../assets/images/centric.svg" alt="Centric logo" />
+				</a>
+			</div>
+			<div class="bottom-links">
+				<a (click)="openDialog()" (keyup.enter)="openDialog()" tabindex="0">
+					{{ 'presentation.footer.privacyPolicy.title' | translate }}</a
+				>
+				<a href="https://www.centric.eu/en/disclaimer" target="_blank">
+					{{ 'presentation.footer.disclaimer' | translate }}
+				</a>
+			</div>
+		</div>
+	</div>
 </footer>
