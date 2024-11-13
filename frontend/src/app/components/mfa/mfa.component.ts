@@ -20,13 +20,18 @@ export class MfaComponent implements OnInit {
     public form: FormGroup;
     public matcher = new L4LErrorStateMatcher();
     public userIsBlocked = false;
-    public countDownValue: number;
-    public isResendButtonDisabled  = false;
+    public countDownValue: string;
+    public isResendButtonDisabled = false;
 
     public get invalidCode(): boolean | undefined {
         return this.form.get('code')?.hasError('invalidCode');
     }
 
+    public get translationParams(): { seconds?: string } {
+        return { seconds: this.countDownValue };
+    }
+
+    private countDownValueInSeconds: number;
     private returnUrl: string = commonRoutingConstants.dashboard;
     private fb = inject(FormBuilder);
     private authService = inject(AuthService);
@@ -49,19 +54,11 @@ export class MfaComponent implements OnInit {
 
     public resendOtp(): void {
         this.authService.resendOtp().subscribe(() => {
-            this.countDownValue = 300;
-            this.isResendButtonDisabled  = true;
+            this.countDownValueInSeconds = 301;
+            this.isResendButtonDisabled = true;
             this.startCountdown();
         });
 
-    }
-
-    public getResendMessageKey(): string {
-        return this.isResendButtonDisabled ? 'mfa.resendMessageWithSeconds' : 'mfa.resendMessage';
-    }
-    
-    public getTranslationParams(): { seconds?: number } {
-        return this.isResendButtonDisabled ? { seconds: this.countDownValue } : {};
     }
 
     private setReturnUrl(): void {
@@ -89,12 +86,22 @@ export class MfaComponent implements OnInit {
 
     private startCountdown(): void {
         const intervalId = setInterval(() => {
-            this.countDownValue = Math.max(0, this.countDownValue - 1);
-            this.isResendButtonDisabled = this.countDownValue !== 0;
+            this.countDownValueInSeconds = Math.max(0, this.countDownValueInSeconds - 1);
 
-            if (this.countDownValue === 0) {
+            this.updateCountDownValue();
+
+            this.isResendButtonDisabled = this.countDownValueInSeconds !== 0;
+
+            if (this.countDownValueInSeconds === 0) {
                 clearInterval(intervalId);
             }
         }, 1000);
     }
+
+    private updateCountDownValue(): void {
+        const minutes = Math.floor(this.countDownValueInSeconds / 60);
+        const seconds = this.countDownValueInSeconds % 60;
+        this.countDownValue = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    }
 }
+

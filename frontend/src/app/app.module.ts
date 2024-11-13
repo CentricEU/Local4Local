@@ -46,6 +46,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MerchantDialogComponent } from './components/merchant-dialog/merchant-dialog.component';
 import { AppHttpInterceptor } from './_interceptors/app-http.interceptor';
 import { AppLoaderComponent } from './components/app-loader/app-loader.component';
+import { MatNativeDateModule } from '@angular/material/core';
 import { PresentationComponent } from './components/presentation/presentation.component';
 import { DescriptionComponent } from './components/description/description.component';
 import { SectionInfoComponent } from './components/section-info/section-info.component';
@@ -85,6 +86,7 @@ export function httpLoaderFactory(http: HttpClient) {
 	],
 	imports: [
 		HttpClientModule,
+		MatNativeDateModule,
 		MatTooltipModule,
 		MatExpansionModule,
 		MatDividerModule,
