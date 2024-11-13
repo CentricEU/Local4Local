@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
 	styleUrl: './footer.component.scss'
 })
 export class FooterComponent {
-	public openDialog(): void {}
+	public openDialog(): void {
+		console.log('to be implemented');
+	}
 }
