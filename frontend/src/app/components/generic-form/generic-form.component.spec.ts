@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GenericFormComponent } from './generic-form.component';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
 import { commonRoutingConstants } from '../../_constants/common-routing.constants';
@@ -44,6 +44,7 @@ describe('GenericFormComponent', () => {
 			imports: [HttpClientTestingModule, ReactiveFormsModule, TranslateModule.forRoot(), RecaptchaFormsModule, RecaptchaModule],
 			providers: [
 				FormBuilder,
+				TranslateService,
 				{ provide: ActivatedRoute, useValue: mockActivatedRoute },
 				{ provide: UserService, useValue: userServiceMock },
 				{ provide: Router, useValue: routerMock }

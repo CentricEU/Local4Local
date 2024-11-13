@@ -156,7 +156,7 @@
 		},
 		"successOne": "De uitnodiging is verzonden.",
 		"successMultiple": "De uitnodigingen zijn verzonden.",
-		"warning": "Het uitnodigingsproces wordt geannuleerd en niet-opgeslagen wijzigingen worden verwijderd.",	
+		"warning": "Het uitnodigingsproces wordt geannuleerd en niet-opgeslagen wijzigingen worden verwijderd.",
 		"noData": {
 			"title": "Welkom bij Uitnodigingen",
 			"description": "Het lijkt erop dat u nog geen uitnodigingen hebt verzonden.<br> Laten we beginnen met het uitnodigen van winkeliers."
@@ -173,7 +173,7 @@
 		"subtitle": "Vul de beveiligingscode in die we naar je emailadres hebben gestuurd.<br>Controleer de spamfolder als deze niet in je inbox staat.",
 		"label": "6-cijferige code",
 		"resendMessage": "Geen e-mail ontvangen? U kunt een nieuwe code aanvragen.",
-		"resendMessageWithSeconds": "Geen e-mail ontvangen? U kunt een nieuwe code aanvragen over {{seconds}}.",	
+		"resendMessageWithSeconds": "Geen e-mail ontvangen? U kunt een nieuwe code aanvragen over {{seconds}}.",
 		"error": {
 			"required": "Vul de eenmalige code in.",
 			"invalid": "Ongeldige code"
@@ -240,7 +240,10 @@
 			"title": "...Consortium members"
 		},
 		"footer": {
-			"privacyPolicy": "...Privacy policy",
+			"privacyPolicy": {
+				"title": "...Privacy policy",
+				"text": "...When sharing files via the form on the homepage, we store them on our own virtual machine hosted via Microsoft Azure using just the information you provided in the form.<br><br>If you'd like the files you've shared to be deleted, send a mail to <a href='mailto:info@localforlocal.io' class='email-link'>info@localforlocal.io</a>."
+			},
 			"disclaimer": "...Disclaimer",
 			"poweredBy": "...Powered by:",
 			"description": "...This project has received funding from the European Commission under grant agreement.",
