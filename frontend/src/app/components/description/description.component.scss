@@ -41,4 +41,28 @@ $common-size: 4px;
         font-size: $common-size * 8;
         line-height: $common-size * 10;
     }
+
+    @media (max-width: 768px) {
+        .content {
+            padding: $common-size * 8 $common-size * 16 0;
+            gap: $common-size * 4;
+        }
+
+        img {
+            max-width: 100%;
+            margin: $common-size * 8;
+        }
+
+        .text,
+        .additional-info {
+            padding: 0;
+            font-size: 18px;
+            line-height: 24px;
+        }
+
+        .title {
+            font-size: $common-size * 7;
+            line-height: $common-size * 9;
+        }
+    }
 }

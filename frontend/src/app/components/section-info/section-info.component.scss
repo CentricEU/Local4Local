@@ -54,4 +54,29 @@ $common-text-color: var(--neutral-700);
     .infrastructure {
         color: var(--theme-600);
     }
+
+    @media (max-width: 768px) {
+
+        .main-info-container {
+            padding: $common-size * 8 $common-size * 16 0;
+        }
+
+        .section-info-container {
+            @include mixins.flex(column, center, center);
+            gap: $common-size * 10;
+        }
+
+        .title {
+            font-size: $common-size * 6;
+            line-height: $common-size * 8;
+        }
+
+        .text {
+            &:nth-of-type(-n+3) {
+                font-size: 18px;
+            }
+        }
+
+    }
+
 }
