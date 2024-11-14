@@ -79,4 +79,11 @@ $common-text-color: var(--neutral-700);
 
     }
 
+    @media (max-width: 1440px) {
+        .section-info-container {
+            @include mixins.flex(column, center, center);
+            gap: $common-size * 16;
+        }
+    }
+
 }

@@ -80,4 +80,13 @@ $common-radius: $common-size * 6;
             font-size: 28px !important;
         }
     }
+
+    @media (max-width: 1464px) {
+        .member-grid {
+            grid-template-columns: 1fr;
+            justify-items: center;
+            align-items: start;
+            padding: 0;
+        }
+    }
 }

@@ -63,47 +63,42 @@ $common-size: 16px;
 
     @media (max-width: 768px) {
         footer {
-            padding: $common-size * 3;  // Adjust padding for mobile
+            padding: $common-size * 3;
         }
 
         .footer-content {
-            @include mixins.flex(column !important, center, flex-start);  // Stack items vertically on mobile
-            gap: $common-size * 2 !important;  // Adjust the gap for smaller screens
+            @include mixins.flex(column !important, center !important, flex-start !important);
+            gap: $common-size * 2 !important;
         }
 
         .logos {
-            @include mixins.flex(column, center, center);  // Change to column and center on mobile
-            gap: $common-size;  // Reduce the gap between logos for mobile
-            padding-top: 0;  // Remove extra padding on mobile
+            @include mixins.flex(column !important, center !important, center !important);
+            gap: $common-size !important;
+            padding-top: 0 !important;
         }
 
         .links {
             @include mixins.flex(column, flex-start);
-            gap: $common-size * 4 !important;  
+            gap: $common-size * 4 !important;
         }
 
         .eu-description {
-            @include mixins.flex(column, center, flex-start);  // Stack text and image vertically
+            @include mixins.flex(column, center, flex-start);
             gap: $common-size * 2;
         }
 
         .text {
-            font-size: 18px !important;  
-        }
-
-        .bottom-links {
-            @include mixins.flex(column, flex-start);  // Stack the links vertically
-            gap: $common-size;  // Adjust gap between bottom links
+            font-size: 18px !important;
         }
 
         a {
-            font-size: 14px;  // Reduce font size of the links on mobile
+            font-size: 14px;
         }
 
         .logo-section {
-            flex-direction: column;  // Stack the logo section vertically for mobile
+            flex-direction: column !important;
             gap: $common-size * 2;
         }
     }
-    
+
 }
