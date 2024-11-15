@@ -72,7 +72,7 @@ $common-size: 16px;
         }
 
         .logos {
-            @include mixins.flex(column !important, center !important, center !important);
+            @include mixins.flex(column !important, flex-start !important, flex-start !important);
             gap: $common-size !important;
             padding-top: 0 !important;
         }
