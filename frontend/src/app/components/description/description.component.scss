@@ -42,7 +42,7 @@ $common-size: 4px;
         line-height: $common-size * 10;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 992px) {
         .content {
             padding: $common-size * 8 $common-size * 16 0;
             gap: $common-size * 4;

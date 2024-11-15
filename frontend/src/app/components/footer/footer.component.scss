@@ -64,41 +64,42 @@ $common-size: 16px;
     @media (max-width: 768px) {
         footer {
             padding: $common-size * 3;
+
+            .footer-content,
+            .eu-description {
+                @include mixins.flex(column, center, flex-start);
+                gap: $common-size * 2;
+            }
+
+            .logos {
+                @include mixins.flex(column, flex-start, flex-start);
+                gap: $common-size;
+                padding-top: 0;
+            }
+
+            .links {
+                @include mixins.flex(column, flex-start);
+                gap: $common-size * 4;
+            }
+
+            .eu-description {
+                .text {
+                    font-size: 18px;
+                }
+            }
+
+            a {
+                font-size: 14px;
+            }
+
+            .links {
+                .logo-section {
+                    flex-direction: column;
+                    gap: $common-size * 2;
+                }
+            }
         }
 
-        .footer-content {
-            @include mixins.flex(column !important, center !important, flex-start !important);
-            gap: $common-size * 2 !important;
-        }
-
-        .logos {
-            @include mixins.flex(column !important, flex-start !important, flex-start !important);
-            gap: $common-size !important;
-            padding-top: 0 !important;
-        }
-
-        .links {
-            @include mixins.flex(column, flex-start);
-            gap: $common-size * 4 !important;
-        }
-
-        .eu-description {
-            @include mixins.flex(column, center, flex-start);
-            gap: $common-size * 2;
-        }
-
-        .text {
-            font-size: 18px !important;
-        }
-
-        a {
-            font-size: 14px;
-        }
-
-        .logo-section {
-            flex-direction: column !important;
-            gap: $common-size * 2;
-        }
     }
 
 }

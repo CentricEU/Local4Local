@@ -55,7 +55,7 @@ $common-text-color: var(--neutral-700);
         color: var(--theme-600);
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 992px) {
 
         .main-info-container {
             padding: $common-size * 8 $common-size * 16 0;
