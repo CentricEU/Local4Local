@@ -63,6 +63,10 @@ $common-radius: $common-size * 6;
         .consortium-container {
             padding: 0 $common-size * 6;
             gap: $common-size * 6;
+
+            .title {
+                font-size: 28px;
+            }
         }
 
         .member-grid {
@@ -72,13 +76,12 @@ $common-radius: $common-size * 6;
             padding: 0;
         }
 
-        .card-description {
-            font-size: 18px !important;
+        .member-card {
+            .card-description {
+                font-size: 18px;
+            }
         }
 
-        .title {
-            font-size: 28px !important;
-        }
     }
 
     @media (max-width: 1464px) {
