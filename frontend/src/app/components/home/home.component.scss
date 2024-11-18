@@ -24,6 +24,8 @@
             }
 
             .mdc-evolution-chip-set__chips {
+                overflow-x: auto;
+                flex-flow: row;
                 gap: 16px;
             }
         }
@@ -41,7 +43,7 @@
         }
 
         .categories-section {
-            padding: 12px 64px 0;
+            padding: 12px 32px 0;
         }
 
         .map-container {
