@@ -20,6 +20,10 @@ $common-size: 16px;
             @include mixins.flex(column, center, baseline);
             gap: $common-size * 2;
             padding-top: $common-size;
+
+            .ngi-logo{
+                width: 252px;
+            }
         }
 
         .links {
