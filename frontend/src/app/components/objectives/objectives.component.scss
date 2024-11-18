@@ -58,4 +58,45 @@ $common-text-color: var(--neutral-700);
             font-size: 22px;
         }
     }
+
+    @media (max-width: 992px) {
+        p {
+            font-size: 18px;
+        }
+
+        .objectives-container {
+            padding: $common-size * 16;
+        }
+
+        .main-section {
+            gap: $common-size * 4;
+        }
+
+        .top-section,
+        .text {
+            gap: $common-size;
+        }
+
+        .main-section-title {
+            font-size: 22px;
+            line-height: $common-size * 7;
+        }
+
+        .subsection {
+            font-size: 18px;
+            line-height: $common-size * 6;
+        }
+
+        .conclusion {
+            margin-top: $common-size * 6;
+        }
+
+        ol {
+            padding-left: $common-size * 6;
+
+            li {
+                font-size: 18px;
+            }
+        }
+    }
 }

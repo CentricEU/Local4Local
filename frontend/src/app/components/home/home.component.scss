@@ -1,59 +1,80 @@
 @use '../.././../../libs/shared-assets/_styles/mixins.scss' as mixins;
 
 :host {
-  button {
-    margin-right: 32px;
-    color: var(--theme-500);
-    border: 1px solid var(--neutral-300);
-  }
-
-  ::ng-deep {
-    .mdc-evolution-chip__action--presentational:hover {
-      cursor: pointer;
+    button {
+        margin-right: 32px;
+        color: var(--theme-500);
+        border: 1px solid var(--neutral-300);
     }
 
-    .categories-section {
-      --mdc-chip-flat-selected-outline-width: 1px;
-
-      .mat-mdc-chip-highlighted {
-        background-color: var(--theme-500);
-
-        .mat-mdc-chip-action-label {
-          color: var(--neutral-0);
+    ::ng-deep {
+        .mdc-evolution-chip__action--presentational:hover {
+            cursor: pointer;
         }
-      }
 
-      .mdc-evolution-chip-set__chips {
-        gap: 16px;
-      }
+        .categories-section {
+            --mdc-chip-flat-selected-outline-width: 1px;
+
+            .mat-mdc-chip-highlighted {
+                background-color: var(--theme-500);
+
+                .mat-mdc-chip-action-label {
+                    color: var(--neutral-0);
+                }
+            }
+
+            .mdc-evolution-chip-set__chips {
+                gap: 16px;
+            }
+        }
     }
-  }
+
+    @media (max-width: 768px) {
+
+        .welcome {
+            padding: 0 20px;
+
+            h1 {
+                font-size: 22px;
+            }
+
+        }
+
+        .categories-section {
+            padding: 12px 64px 0;
+        }
+
+        .map-container {
+            padding: 24px 32px 32px 32px;
+            height: 600px;
+        }
+    }
 
 }
 
 .top-section {
-  @include mixins.size(100%, 10%);
-  @include mixins.flex(row, end, center);
+    @include mixins.size(100%, 10%);
+    @include mixins.flex(row, end, center);
 }
 
 .welcome {
-  @include mixins.flex(column, center, center);
-  padding: 24px 0 64px;
+    @include mixins.flex(column, center, center);
+    padding: 24px 0 64px;
 
-  h1 {
-    font-size: 36px;
-    line-height: 44px;
-    color: var(--theme-900);
-    margin: 0;
-  }
+    h1 {
+        font-size: 36px;
+        line-height: 44px;
+        color: var(--theme-900);
+        margin: 0;
+    }
 }
 
 .categories-section {
-  padding: 0 128px;
+    padding: 0 128px;
 }
 
 .map-container {
-  @include mixins.size(100%, 772px);
-  padding: 24px 128px 32px 128px;
-  box-sizing: border-box;
+    @include mixins.size(100%, 772px);
+    padding: 24px 128px 32px 128px;
+    box-sizing: border-box;
 }
