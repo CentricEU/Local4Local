@@ -242,7 +242,7 @@
 		"footer": {
 			"privacyPolicy": {
 				"title": "...Privacy policy",
-				"text": "...When sharing files via the form on the homepage, we store them on our own virtual machine hosted via Microsoft Azure using just the information you provided in the form.<br><br>If you'd like the files you've shared to be deleted, send a mail to <a href='mailto:info@localforlocal.io' class='email-link'>info@localforlocal.io</a>."
+				"text": "...When sharing files via the form on the homepage, we store them on our own virtual machine hosted via Microsoft Azure using just the information you provided in the form.<br><br>...If you'd like the files you've shared to be deleted, send a mail to <a href='mailto:info@localforlocal.io' class='email-link'>info@localforlocal.io</a>."
 			},
 			"disclaimer": "...Disclaimer",
 			"poweredBy": "...Powered by:",
