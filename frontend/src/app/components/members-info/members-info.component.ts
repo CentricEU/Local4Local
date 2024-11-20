@@ -6,12 +6,26 @@ import { Component } from '@angular/core';
 	styleUrl: './members-info.component.scss'
 })
 export class MembersInfoComponent {
-	//TO REACTOR WHEN WE KNOW THE MEMBERS
-	public members = Array(4).fill(null).map((_, index) => ({
-		name: 'Company name',
-		description:
-			'Lorem ipsum dolor sit amet consectetur. Pellentesque senectus habitant diam pellentesque egestas. Et nisl senectus neque enim feugiat mauris augue. Ultrices aliquam pretium morbi morbi id semper. Varius malesuada gravida egestas pulvinar. Gravida in est leo cursus volutpat at nibh lacus in. Tristique sit nunc neque morbi gravida etiam. Iaculis euismod tellus gravida ante non varius mauris. Sed donec tellus commodo a turpis nullam parturient. Ut aenean diam posuere ultricies congue.',
-		index: index 
-	}));
-	
+	public memberData = [
+		{
+			name: 'presentation.members.centricMember.title',
+			description: 'presentation.members.centricMember.description',
+			logo: 'centric_member_logo.png'
+		},
+		{
+			name: 'presentation.members.delftMember.title',
+			description: 'presentation.members.delftMember.description',
+			logo: 'delft_member_logo.png'
+		},
+		{
+			name: 'presentation.members.aixMarseilleMember.title',
+			description: 'presentation.members.aixMarseilleMember.description',
+			logo: 'aix-marseille_member_logo.png'
+		},
+		{
+			name: 'presentation.members.KTUMember.title',
+			description: 'presentation.members.KTUMember.description',
+			logo: 'ktu_member_logo.png'
+		}
+	];
 }

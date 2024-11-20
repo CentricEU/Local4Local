@@ -5,6 +5,26 @@ $common-radius: $common-size * 6;
 
 :host {
 
+    .member-grid .member-card .logo-container img {
+        height: var(--img-height, auto);
+    }
+
+    .member-grid .member-card:nth-child(1) .logo-container img {
+        --img-height: 4rem;
+    }
+
+    .member-grid .member-card:nth-child(2) .logo-container img {
+        --img-height: 8rem;
+    }
+
+    .member-grid .member-card:nth-child(3) .logo-container img {
+        --img-height: 5rem;
+    }
+
+    .member-grid .member-card:nth-child(4) .logo-container img {
+        --img-height: 8rem;
+    }
+
     .consortium-container {
         @include mixins.flex(column);
         padding: $common-size * 32 $common-size * 32 0;
@@ -36,10 +56,12 @@ $common-radius: $common-size * 6;
         text-align: left;
 
         .logo-placeholder {
-            @include mixins.size($common-size * 50, $common-size * 25);
-            background-color: var(--theme-500);
-            border-radius: $common-radius;
             align-self: center;
+        }
+
+        .logo-container {
+            @include mixins.flex(row, center);
+            @include mixins.size(100%, 100%);
         }
 
         .card-title,
@@ -56,6 +78,8 @@ $common-radius: $common-size * 6;
         .card-description {
             margin-bottom: $common-size * 8;
         }
+
+
     }
 
     @media (max-width: 992px) {
