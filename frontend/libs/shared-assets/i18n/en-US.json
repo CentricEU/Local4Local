@@ -237,7 +237,23 @@
             }
         },
         "members": {
-            "title": "Consortium members"
+            "title": "Consortium members",
+            "centricMember": {
+                "title": "Centric",
+                "description": "Centric is an IT services company with 3,700 experts in ten European countries. Serving over 3,500 clients, it develops tailored solutions for government, supply chain, and finance sectors, with 200+ software products used daily by millions."
+            },
+            "delftMember": {
+                "title": "Delft",
+                "description": "TU Delft, founded in 1842, is a top Dutch university excelling in engineering, technology, and applied sciences. Known for innovation, sustainability, and cutting-edge research, it leads in fields like aerospace and industrial design."
+            },
+            "aixMarseilleMember": {
+                "title": "Aix-Marseille",
+                "description": "Aix-Marseille University, formed in 2012, is one of France's largest universities with 78,000 students. Renowned for research in health sciences, it fosters global partnerships and academic excellence across diverse campuses."
+            },
+            "KTUMember": {
+                "title": "KTU",
+                "description": "Kaunas University of Technology, established in 1922 in Lithuania, is a leader in technical and scientific education. It emphasizes innovation, entrepreneurship, and global collaboration in research and learning."
+            }
         },
         "footer": {
             "privacyPolicy": {

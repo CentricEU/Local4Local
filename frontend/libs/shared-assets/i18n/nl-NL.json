@@ -207,47 +207,63 @@
 	},
 	"presentation": {
 		"description": {
-			"title": "...What is Local for Local?",
-			"platformOverview": "...Local for Local is a digital platform to help cities deploy local economic tokens/local currency systems to help strengthen local economies.",
-			"currentChallenges": "...Local for Local recognizes that the current economic flows in regions focus on the flow of capital to faraway locations rather than emphasizing the local benefits. The image below shows the current state and the ideal state after the implementation of a Local for Local in a pilot region.",
-			"communityBenefits": "...By creating access to local currency and local lines of credit for businesses, we hope to create social cohesion through thoughtful and easy local purchases. Local for Local also aims to help cities with their administrative burden by leveraging easy and open technologies with powerful administration tools.",
-			"infrastructureSupport": "...Local for local provides the decentralized digital infrastructure and platform building blocks to empower citizens to build connections and connect with each other."
+			"title": "What is Local for Local?",
+			"platformOverview": "Local for Local is a digital platform to help cities deploy local economic tokens/local currency systems to help strengthen local economies.",
+			"currentChallenges": "Local for Local recognizes that the current economic flows in regions focus on the flow of capital to faraway locations rather than emphasizing the local benefits. The image below shows the current state and the ideal state after the implementation of a Local for Local in a pilot region.",
+			"communityBenefits": "By creating access to local currency and local lines of credit for businesses, we hope to create social cohesion through thoughtful and easy local purchases. Local for Local also aims to help cities with their administrative burden by leveraging easy and open technologies with powerful administration tools.",
+			"infrastructureSupport": "Local for local provides the decentralized digital infrastructure and platform building blocks to empower citizens to build connections and connect with each other."
 		},
 		"info": {
 			"applications": {
-				"title": "...Applications",
-				"text": "...Applications that serve local economy, increase adoption of sustainable initiatives and strengthening of social ties.<br> Within this pilot, we develop 1 application: Locasus-n."
+				"title": "Applications",
+				"text": "Applications that serve local economy, increase adoption of sustainable initiatives and strengthening of social ties.<br> Within this pilot, we develop 1 application: Locasus-n."
 			},
 			"buildingBlocks": {
-				"title": "...Platform building blocks",
-				"text": "...The Local for Local platform is modular build from NGI components. It contains features, connections and infrastructure for rapidly developing applications."
+				"title": "Platform building blocks",
+				"text": "The Local for Local platform is modular build from NGI components. It contains features, connections and infrastructure for rapidly developing applications."
 			},
 			"infrastructure": {
-				"title": "...Infrastructure",
-				"text": "...Decentralized infrastructure consisting of deployable nodes and protocol. It provides easy and rapid decentralized networks."
+				"title": "Infrastructure",
+				"text": "Decentralized infrastructure consisting of deployable nodes and protocol. It provides easy and rapid decentralized networks."
 			},
 			"objectives": {
-				"title": "...Project objectives",
-				"subtitle": "...The objective of this project is the following:",
-				"subsection": "...Integrate and pilot a software stack that strengthens local rural economies throughout Europe.",
-				"goals": "...This objective leads to two concrete and measurable goals:",
-				"firstGoal": "...Socio-economic impact in the local region",
-				"secondGoal": "...A high-performing software stack by NGI innovators",
-				"conclusion": "...The economic ecosystems will be self-sustaining and ready to scale in Europe."
+				"title": "Project objectives",
+				"subtitle": "The objective of this project is the following:",
+				"subsection": "Integrate and pilot a software stack that strengthens local rural economies throughout Europe.",
+				"goals": "This objective leads to two concrete and measurable goals:",
+				"firstGoal": "Socio-economic impact in the local region",
+				"secondGoal": "A high-performing software stack by NGI innovators",
+				"conclusion": "The economic ecosystems will be self-sustaining and ready to scale in Europe."
 			}
 		},
 		"members": {
-			"title": "...Consortium members"
+			"title": "Consortium members",
+			"centricMember": {
+				"title": "Centric",
+				"description": "Centric is an IT services company with 3,700 experts in ten European countries. Serving over 3,500 clients, it develops tailored solutions for government, supply chain, and finance sectors, with 200+ software products used daily by millions."
+			},
+			"delftMember": {
+				"title": "Delft",
+				"description": "TU Delft, founded in 1842, is a top Dutch university excelling in engineering, technology, and applied sciences. Known for innovation, sustainability, and cutting-edge research, it leads in fields like aerospace and industrial design."
+			},
+			"aixMarseilleMember": {
+				"title": "Aix-Marseille",
+				"description": "Aix-Marseille University, formed in 2012, is one of France's largest universities with 78,000 students. Renowned for research in health sciences, it fosters global partnerships and academic excellence across diverse campuses."
+			},
+			"KTUMember": {
+				"title": "KTU",
+				"description": "Kaunas University of Technology, established in 1922 in Lithuania, is a leader in technical and scientific education. It emphasizes innovation, entrepreneurship, and global collaboration in research and learning."
+			}
 		},
 		"footer": {
 			"privacyPolicy": {
-				"title": "...Privacy policy",
-				"text": "...When sharing files via the form on the homepage, we store them on our own virtual machine hosted via Microsoft Azure using just the information you provided in the form.<br><br>...If you'd like the files you've shared to be deleted, send a mail to <a href='mailto:info@localforlocal.io' class='email-link'>info@localforlocal.io</a>."
+				"title": "Privacy policy",
+				"text": "When sharing files via the form on the homepage, we store them on our own virtual machine hosted via Microsoft Azure using just the information you provided in the form.<br><br>If you'd like the files you've shared to be deleted, send a mail to <a href='mailto:info@localforlocal.io' class='email-link'>info@localforlocal.io</a>."
 			},
-			"disclaimer": "...Disclaimer",
-			"poweredBy": "...Powered by:",
-			"description": "...This project has received funding from the European Commission under grant agreement.",
-			"number": "...No. 101135443"
+			"disclaimer": "Disclaimer",
+			"poweredBy": "Powered by:",
+			"description": "This project has received funding from the European Commission under grant agreement.",
+			"number": "No. 101135443"
 		}
 	}
 }
