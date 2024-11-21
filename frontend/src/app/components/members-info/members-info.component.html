@@ -1,11 +1,16 @@
 <div class="consortium-container">
 	<p class="title bold">{{ 'presentation.members.title' | translate }}</p>
 	<div class="member-grid">
-		@for(member of members; track member.index ){
+		@for(member of memberData; track member.name ){
 		<div class="member-card">
-			<div class="logo-placeholder"></div>
-			<p class="card-title bold">{{ member.name }}</p>
-			<p class="card-description">{{ member.description }}</p>
+			<figure class="logo-container">
+				<img
+					[src]="'../../../../assets/images/' + member.logo"
+					class="logo-placeholder"
+					alt="{{ member.name | translate }} logo" />
+			</figure>
+			<p class="card-title bold">{{ member.name | translate }}</p>
+			<p class="card-description">{{ member.description | translate }}</p>
 		</div>
 		}
 	</div>
