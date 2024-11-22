@@ -12,6 +12,7 @@ import { CustomDialogConfigUtil } from '../../config/custom-dialog-config';
 import { ALREADY_REGISTERED_CODE, SUCCESS_CODE } from '../../_constants/error-constants';
 import { MerchantsMapComponent } from '../merchants-map/merchants-map.component';
 import { MerchantDialogComponent } from '../merchant-dialog/merchant-dialog.component';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 const matDialogMock = {
 	open: jest.fn().mockReturnValue({
@@ -166,5 +167,18 @@ describe('HomeComponent', () => {
 		component.selectCategory(selectedCategory);
 
 		expect(merchantsMapComponentMock.filterMerchantsByCategory).toHaveBeenCalledWith(selectedCategory.id);
+	});
+
+	it('should call selectCategory with the correct category on tab change', () => {
+		const mockEvent: MatTabChangeEvent = { index: 1, tab: {} as any };
+		const expectedCategory = {
+			id: 0,
+			label: 'category1'
+		};
+		jest.spyOn(component, 'selectCategory');
+
+		component.onTabChange(mockEvent);
+
+		expect(component.selectCategory).toHaveBeenCalledWith(expectedCategory);
 	});
 });
