@@ -7,28 +7,39 @@
         border: 1px solid var(--neutral-300);
     }
 
+    .selected {
+        background-color: var(--theme-500);
+    }
+
     ::ng-deep {
         .mdc-evolution-chip__action--presentational:hover {
             cursor: pointer;
         }
 
-        .categories-section {
-            --mdc-chip-flat-selected-outline-width: 1px;
-
-            .mat-mdc-chip-highlighted {
-                background-color: var(--theme-500);
-
-                .mat-mdc-chip-action-label {
-                    color: var(--neutral-0);
-                }
-            }
-
-            .mdc-evolution-chip-set__chips {
-                overflow-x: auto;
-                flex-flow: row;
-                gap: 16px;
-            }
+        .mat-mdc-tab-labels {
+            gap: 16px;
         }
+
+        .mat-mdc-tab-label-container {
+            border-bottom: none;
+        }
+
+        .mat-mdc-tab {
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--neutral-300);
+            background-color: var(--neutral-0);
+            color: var(--theme-900);
+        }
+
+        .mat-mdc-tab .mdc-tab__text-label {
+            color: var(--neutral-900);
+        }
+
+        .mat-mdc-tab-label-container {
+            border-bottom-color: transparent;
+        }
+
     }
 
     @media (max-width: 768px) {
