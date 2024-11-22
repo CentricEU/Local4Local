@@ -19,14 +19,25 @@
         }
     }
 
-}
+    @media only screen and (max-height: 576px) {
+        :host {
+            gap: 24px;
 
-@media only screen and (max-height: 576px) {
-    :host {
-        gap: 24px;
-
-        img {
-            height: 40vh;
+            img {
+                height: 40vh;
+            }
         }
     }
+
+    @media (max-width: 768px) {
+
+        .no-data-description {
+
+            p {
+                padding: 0 64px;
+                width: 100%;
+            }
+        }
+    }
+
 }
