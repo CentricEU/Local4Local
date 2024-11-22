@@ -8,15 +8,9 @@
 		{{ 'welcomePage.titleLeft' | translate }} <strong>{{ 'welcomePage.titleRight' | translate }}</strong>
 	</h1>
 </div>
-<mat-tab-group class="categories-section">
+<mat-tab-group class="categories-section" (selectedTabChange)="onTabChange($event)">
 	@for (category of categoriesData; track category.id) {
-	<mat-tab
-		tabindex="0"
-		[class.selected]="selectedCategoryId === category.id"
-		[label]="category.label | translate"
-		(click)="selectCategory(category)"
-		(keydown.enter)="selectCategory(category)">
-	</mat-tab>
+	<mat-tab tabindex="0" [label]="category.label | translate" (keydown.enter)="selectCategory(category)"> </mat-tab>
 	}
 </mat-tab-group>
 <div class="map-container">

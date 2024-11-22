@@ -8,6 +8,7 @@ import { ModalData } from '../../models/dialog-data.model';
 import { ALREADY_REGISTERED_CODE, SUCCESS_CODE } from '../../_constants/error-constants';
 import { MerchantsMapComponent } from '../merchants-map/merchants-map.component';
 import { MerchantDialogComponent } from '../merchant-dialog/merchant-dialog.component';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
 	selector: 'app-home',
@@ -39,6 +40,11 @@ export class HomeComponent implements OnInit {
 						return this.displayApprovalWaitingPopup();
 				}
 			});
+	}
+
+	public onTabChange(event: MatTabChangeEvent): void {
+		const selectedCategory = this.categoriesData[event.index];
+		this.selectCategory(selectedCategory);
 	}
 
 	public selectCategory(selected: CategoryDto): void {

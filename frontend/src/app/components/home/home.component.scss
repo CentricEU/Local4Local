@@ -7,10 +7,6 @@
         border: 1px solid var(--neutral-300);
     }
 
-    .selected {
-        background-color: var(--theme-500);
-    }
-
     ::ng-deep {
         .mdc-evolution-chip__action--presentational:hover {
             cursor: pointer;
@@ -20,20 +16,42 @@
             gap: 16px;
         }
 
-        .mat-mdc-tab-label-container {
-            border-bottom: none;
+        .mat-mdc-tab .mdc-tab-indicator__content--underline {
+            border-color: transparent;
+        }
+
+        .mat-mdc-tab.mdc-tab--active:focus .mdc-tab-indicator__content--underline,
+        .mat-mdc-tab.mdc-tab--active:hover .mdc-tab-indicator__content--underline {
+            border-color: transparent !important;
+        }
+
+        .mat-mdc-tab.mdc-tab--active,
+        .mat-mdc-tab:focus {
+            background-color: var(--theme-500);
+
+            .mdc-tab__text-label {
+                color: var(--neutral-0);
+            }
         }
 
         .mat-mdc-tab {
-            height: 32px;
+            display: inline-flex;
+            padding: 8px 16px;
+            height: auto;
+            align-items: center;
+            text-align: center;
             border-radius: 8px;
             border: 1px solid var(--neutral-300);
             background-color: var(--neutral-0);
             color: var(--theme-900);
         }
 
-        .mat-mdc-tab .mdc-tab__text-label {
-            color: var(--neutral-900);
+        .mat-mdc-tab.mdc-tab--active:focus {
+            background-color: var(--theme-500);
+
+            .mdc-tab__text-label {
+                color: var(--neutral-0);
+            }
         }
 
         .mat-mdc-tab-label-container {
