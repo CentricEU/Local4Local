@@ -8,17 +8,11 @@
 		{{ 'welcomePage.titleLeft' | translate }} <strong>{{ 'welcomePage.titleRight' | translate }}</strong>
 	</h1>
 </div>
-<mat-chip-set class="categories-section">
+<mat-tab-group class="categories-section" (selectedTabChange)="onTabChange($event)">
 	@for (category of categoriesData; track category.id) {
-	<mat-chip
-		tabindex="0"
-		[highlighted]="selectedCategoryId === category.id"
-		(click)="selectCategory(category)"
-		(keydown.enter)="selectCategory(category)">
-		{{ category.label | translate }}
-	</mat-chip>
+	<mat-tab tabindex="0" [label]="category.label | translate" (keydown.enter)="selectCategory(category)"> </mat-tab>
 	}
-</mat-chip-set>
+</mat-tab-group>
 <div class="map-container">
 	<app-merchants-map [showCategories]="true"></app-merchants-map>
 </div>

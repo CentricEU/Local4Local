@@ -53,6 +53,7 @@ import { SectionInfoComponent } from './components/section-info/section-info.com
 import { MembersInfoComponent } from './components/members-info/members-info.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ObjectivesComponent } from './components/objectives/objectives.component';
+import {MatTabsModule} from '@angular/material/tabs';
 
 export function httpLoaderFactory(http: HttpClient) {
 	return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -76,17 +77,18 @@ export function httpLoaderFactory(http: HttpClient) {
 		NoDataComponent,
 		ProfileComponent,
 		MfaComponent,
-  AppLoaderComponent,
-  PresentationComponent,
-  DescriptionComponent,
-  SectionInfoComponent,
-  MembersInfoComponent,
-  FooterComponent,
-  ObjectivesComponent
+		AppLoaderComponent,
+		PresentationComponent,
+		DescriptionComponent,
+		SectionInfoComponent,
+		MembersInfoComponent,
+		FooterComponent,
+		ObjectivesComponent
 	],
 	imports: [
 		HttpClientModule,
 		MatNativeDateModule,
+		MatTabsModule,
 		MatTooltipModule,
 		MatExpansionModule,
 		MatDividerModule,

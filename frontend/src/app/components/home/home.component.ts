@@ -1,13 +1,14 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { CategoryService } from "../../services/category.service";
-import { CategoryDto } from "../../_models/category-dto.model";
+import { CategoryService } from '../../services/category.service';
+import { CategoryDto } from '../../_models/category-dto.model';
 import { GenericDialogComponent } from '../generic-dialog/generic-dialog.component';
 import { CustomDialogConfigUtil } from '../../config/custom-dialog-config';
 import { ModalData } from '../../models/dialog-data.model';
 import { ALREADY_REGISTERED_CODE, SUCCESS_CODE } from '../../_constants/error-constants';
 import { MerchantsMapComponent } from '../merchants-map/merchants-map.component';
 import { MerchantDialogComponent } from '../merchant-dialog/merchant-dialog.component';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
 	selector: 'app-home',
@@ -28,7 +29,8 @@ export class HomeComponent implements OnInit {
 	}
 
 	public openDialog(): void {
-		this.dialog.open(MerchantDialogComponent, CustomDialogConfigUtil.GENERIC_MODAL_CONFIG)
+		this.dialog
+			.open(MerchantDialogComponent, CustomDialogConfigUtil.GENERIC_MODAL_CONFIG)
 			.afterClosed()
 			.subscribe((result) => {
 				switch (result) {
@@ -38,6 +40,11 @@ export class HomeComponent implements OnInit {
 						return this.displayApprovalWaitingPopup();
 				}
 			});
+	}
+
+	public onTabChange(event: MatTabChangeEvent): void {
+		const selectedCategory = this.categoriesData[event.index];
+		this.selectCategory(selectedCategory);
 	}
 
 	public selectCategory(selected: CategoryDto): void {
@@ -93,4 +100,3 @@ export class HomeComponent implements OnInit {
 		this.dialog.open(GenericDialogComponent, CustomDialogConfigUtil.createMessageModal(alreadyRegisteredModalData));
 	}
 }
-
