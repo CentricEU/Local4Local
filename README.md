@@ -94,7 +94,7 @@ npm start
 ### Backend Issues
 
 - **Database Connection Error:** Ensure PostgreSQL is running and the credentials in `application.properties` are correct.
-- **Port Conflicts:** Verify that port `8080` is free or update the port in `application.properties`.
+- **Port Conflicts:**  Verify that port `8080` is free or update the port in `application.properties`.
 
 ### Frontend Issues
 
