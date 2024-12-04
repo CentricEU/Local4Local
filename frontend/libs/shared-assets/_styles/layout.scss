@@ -51,6 +51,7 @@
 .dialog-header {
     @include flex(row, space-between, center);
     padding-top: 24px;
+    padding-bottom: 0;
 
     span {
         margin-right: auto;
