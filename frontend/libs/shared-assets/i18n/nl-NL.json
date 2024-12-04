@@ -68,7 +68,6 @@
 			"kvkNumberRequired": "vul KvK-nummer in.",
 			"categoryRequired": "Kies categorie.",
 			"addressRequired": "Vul adres in.",
-			"kvkFormControlLength": "KvK moet 8 cijfers bevatten.",
 			"invalidUrl": "Voer een geldige en veilige website-URL in. (bijv. https://www.example.com).",
 			"emailRequired": "Vul je e-mail in om toekomstige updates te ontvangen.",
 			"emailInvalid": "Vul een geldig e-mailadres in."

@@ -211,18 +211,6 @@ describe('MerchantDialogComponent', () => {
 		expect(component.selectedLocation).toBeNull();
 	});
 
-	it('should remove non-digit characters from KVK number input', () => {
-		const inputEvent = new Event('input');
-		const inputElement = document.createElement('input');
-		inputElement.value = 'abc123def';
-
-		Object.defineProperty(inputEvent, 'target', { value: inputElement });
-
-		component.onKvkInput(inputEvent);
-
-		expect(inputElement.value).toBe('123');
-	});
-
 	describe('registerMerchant', () => {
 		it('should close dialog with ALREADY_REGISTERED_CODE when registration fails with ALREADY_REGISTERED_CODE', () => {
 			const mockError = { error: { message: ALREADY_REGISTERED_CODE } };

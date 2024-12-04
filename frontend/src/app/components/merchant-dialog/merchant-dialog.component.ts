@@ -181,11 +181,6 @@ export class MerchantDialogComponent implements OnInit {
 		}
 	}
 
-	public onKvkInput(event: Event): void {
-		const input = event.target as HTMLInputElement;
-		input.value = input.value.replace(/\D/g, '');
-	}
-
 	private approveMerchant(merchantId: string): void {
 		this.merchantService.approveMerchant(merchantId).subscribe(() => {
 			this.closeDialog(SUCCESS_CODE);
@@ -284,11 +279,8 @@ export class MerchantDialogComponent implements OnInit {
 				labelKey: 'table.column.kvkNumber',
 				fieldType: 'input',
 				required: true,
-				maxLength: 8,
 				isReadOnly: this.isApprovalOrRejection(),
-				requiredMessage: 'register.error.kvkNumberRequired',
-				pattern: RegexUtil.kvkRegexPattern,
-				patternMessage: 'register.error.kvkFormControlLength'
+				requiredMessage: 'register.error.kvkNumberRequired'
 			},
 			{
 				formControl: 'category',

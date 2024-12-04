@@ -68,7 +68,6 @@
             "kvkNumberRequired": "Enter Kvk number.",
             "categoryRequired": "Choose category.",
             "addressRequired": "Enter address.",
-            "kvkFormControlLength": "KVK must have 8 digits.",
             "invalidUrl": "Please enter a valid website URL. (e.g. www.example.com).",
             "emailRequired": "Enter your email to receive future updates.",
             "emailInvalid": "Please enter a valid email address."
