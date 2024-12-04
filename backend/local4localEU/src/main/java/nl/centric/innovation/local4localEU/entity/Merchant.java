@@ -33,8 +33,8 @@ public class Merchant extends BaseEntity {
     @Column(name = "company_name", nullable = false)
     private String companyName;
 
-    @Column(name = "kvk", nullable = false)
-    private String kvk;
+    @Column(name = "identifier_number", nullable = false)
+    private String identifierNumber;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
