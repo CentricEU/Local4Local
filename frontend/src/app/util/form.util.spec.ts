@@ -11,7 +11,7 @@ describe('FormUtil', () => {
         formBuilder = new FormBuilder();
         form = formBuilder.group({
             companyName: new FormControl('', Validators.required),
-            kvkNumber: new FormControl('', [Validators.required, Validators.pattern(RegexUtil.kvkRegexPattern)]),
+            identifierNumber: new FormControl('', [Validators.required]),
             website: new FormControl('', Validators.pattern(RegexUtil.urlRegexPattern))
         });
     });
@@ -20,8 +20,8 @@ describe('FormUtil', () => {
         test.each([
             ['companyName', '', true],
             ['companyName', 'Some Company', false],
-            ['kvkNumber', '', true],
-            ['kvkNumber', '12345678', false],
+            ['identifierNumber', '', true],
+            ['identifierNumber', '12345678', false],
             ['nonExistentField', '', false],
         ])('should return %p for field %s with value %p', (fieldName, value, expectedError) => {
             if (form.get(fieldName)) {
@@ -34,9 +34,9 @@ describe('FormUtil', () => {
 
     describe('hasPatternError', () => {
         test.each([
-            ['kvkNumber', '1234', true],
-            ['kvkNumber', '12345678', false],
-            ['kvkNumber', 'abcd1234', true],
+            ['identifierNumber', '1234', false],
+            ['identifierNumber', '12345678', false],
+            ['identifierNumber', 'abcd1234', false],
             ['nonExistentField', '', false],
         ])('should return %p for field %s with value %p', (fieldName, value, expectedError) => {
             if (form.get(fieldName)) {

@@ -38,7 +38,7 @@ describe('MerchantService', () => {
 				latitude: 10,
 				longitude: 10,
 				companyName: 'Merchant A',
-				kvk: '12345678',
+				identifierNumber: '12345678',
 				category: 'Food',
 				address: 'Zandvoort',
 				contactEmail: 'domain@example.com'
@@ -47,7 +47,7 @@ describe('MerchantService', () => {
 				latitude: 10,
 				longitude: 20,
 				companyName: 'Merchant B',
-				kvk: '12345679',
+				identifierNumber: '12345679',
 				category: 'Food',
 				address: 'Zandvoort',
 				contactEmail: 'domain@example.com'
@@ -69,7 +69,7 @@ describe('MerchantService', () => {
 			latitude: 30,
 			longitude: 30,
 			companyName: 'Merchant C',
-			kvk: '12345680',
+			identifierNumber: '12345680',
 			category: 'Retail',
 			address: 'Amsterdam',
 			contactEmail: 'domain@example.com'
@@ -94,7 +94,7 @@ describe('MerchantService', () => {
 				latitude: 10,
 				longitude: 10,
 				companyName: 'Merchant A',
-				kvk: '12345678',
+				identifierNumber: '12345678',
 				category: 'Food',
 				address: 'Zandvoort',
 				contactEmail: 'domain@example.com'
@@ -103,7 +103,7 @@ describe('MerchantService', () => {
 				latitude: 10,
 				longitude: 20,
 				companyName: 'Merchant B',
-				kvk: '12345679',
+				identifierNumber: '12345679',
 				category: 'Food',
 				address: 'Zandvoort',
 				contactEmail: 'domain@example.com'
@@ -154,7 +154,7 @@ describe('MerchantService', () => {
 				latitude: 10,
 				longitude: 10,
 				companyName: 'Merchant A',
-				kvk: '12345678',
+				identifierNumber: '12345678',
 				category: 'Food',
 				address: 'Zandvoort',
 				contactEmail: 'domain@example.com'
@@ -163,7 +163,7 @@ describe('MerchantService', () => {
 				latitude: 10,
 				longitude: 20,
 				companyName: 'Merchant B',
-				kvk: '12345679',
+				identifierNumber: '12345679',
 				category: 'Food',
 				address: 'Zandvoort',
 				contactEmail: 'domain@example.com'
