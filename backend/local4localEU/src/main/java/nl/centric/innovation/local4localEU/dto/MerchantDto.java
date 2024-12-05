@@ -9,7 +9,7 @@ import nl.centric.innovation.local4localEU.enums.MerchantStatusEnum;
 @Builder
 public record MerchantDto(
         @NonNull String companyName,
-        @NonNull String kvk,
+        @NonNull String identifierNumber,
         @NonNull Integer category,
         @NonNull Double latitude,
         @NonNull Double longitude,
@@ -21,7 +21,7 @@ public record MerchantDto(
     public static Merchant toEntity(MerchantDto createMerchantDto) {
         return Merchant.builder()
                 .companyName(createMerchantDto.companyName())
-                .kvk(createMerchantDto.kvk())
+                .identifierNumber(createMerchantDto.identifierNumber())
                 .category(Category.builder().id(createMerchantDto.category).build())
                 .lat(createMerchantDto.latitude)
                 .lon(createMerchantDto.longitude)
