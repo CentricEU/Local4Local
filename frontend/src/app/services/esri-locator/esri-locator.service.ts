@@ -24,7 +24,6 @@ export class EsriLocatorService {
         maxLocations: 10
     };
 
-
     public get locatorURL(): string {
         return environment.esriConfig.locatorURL;
     }
