@@ -20,8 +20,9 @@ export class EsriLocatorService {
     });
 
     private readonly locatorParams = {
-		countryCode: environment.esriConfig.countryCode,
-		maxLocations: 10
+        countryCode: environment.esriConfig.countryCode,
+        maxLocations: 10
+    };
 	};
 
     public get locatorURL(): string {
