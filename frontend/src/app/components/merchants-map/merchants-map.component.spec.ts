@@ -254,7 +254,7 @@ describe('MerhcantsMapComponent', () => {
 			{
 				id: '1',
 				companyName: 'Merchant A',
-				kvk: '12345678',
+				identifierNumber: '12345678',
 				category: 'Food',
 				latitude: 10,
 				longitude: 20,
@@ -318,7 +318,7 @@ describe('MerhcantsMapComponent', () => {
 			{
 				id: '1',
 				companyName: 'Merchant A',
-				kvk: '12345678',
+				identifierNumber: '12345678',
 				category: 'Food',
 				latitude: 10,
 				longitude: 20,
@@ -373,7 +373,7 @@ describe('MerhcantsMapComponent', () => {
 				latitude: 10,
 				longitude: 20,
 				companyName: 'Merchant B',
-				kvk: '87654321',
+				identifierNumber: '87654321',
 				category: 'Electronics',
 				address: 'Amsterdam',
 				contactEmail: 'contact@example.com'
@@ -438,7 +438,7 @@ describe('MerhcantsMapComponent', () => {
 				latitude: 10,
 				longitude: 10,
 				companyName: 'Merchant B',
-				kvk: '12345678',
+				identifierNumber: '12345678',
 				category: 'Food',
 				address: 'Zandvoort',
 				contactEmail: 'domain@example.com'
@@ -457,7 +457,7 @@ describe('MerhcantsMapComponent', () => {
 				latitude: 10,
 				longitude: 10,
 				companyName: 'Merchant B',
-				kvk: '12345678',
+				identifierNumber: '12345678',
 				category: 'Food',
 				address: 'Zandvoort',
 				contactEmail: 'domain@example.com'
@@ -725,7 +725,7 @@ describe('MerhcantsMapComponent', () => {
 				latitude: 10,
 				longitude: 20,
 				companyName: 'Merchant B',
-				kvk: '87654321',
+				identifierNumber: '87654321',
 				category: 'Electronics',
 				address: 'Amsterdam',
 				contactEmail: 'contact@example.com'

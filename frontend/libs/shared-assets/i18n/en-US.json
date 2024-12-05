@@ -39,7 +39,7 @@
         "column": {
             "companyName": "Company name",
             "category": "Category",
-            "kvkNumber": "KvK number",
+            "identifierNumber": "Identifier number",
             "address": "Address",
             "website": "Website",
             "status": "Status",
@@ -65,10 +65,9 @@
         "contactEmail": "Contact email",
         "error": {
             "companyNameRequired": "Enter company name.",
-            "kvkNumberRequired": "Enter Kvk number.",
+            "identifierNumberRequired": "Enter Identifier number.",
             "categoryRequired": "Choose category.",
             "addressRequired": "Enter address.",
-            "kvkFormControlLength": "KVK must have 8 digits.",
             "invalidUrl": "Please enter a valid website URL. (e.g. www.example.com).",
             "emailRequired": "Enter your email to receive future updates.",
             "emailInvalid": "Please enter a valid email address."
@@ -100,7 +99,7 @@
     },
     "alreadyRegisteredDialog": {
         "title": "Registration already applied",
-        "text": "You have already applied with this KVK number, and your application is under review. Manager approval typically takes up to 5 business days. <br>Please note that your store will not appear on the map until your request is approved."
+        "text": "You have already applied with this Identifier number, and your application is under review. Manager approval typically takes up to 5 business days. <br>Please note that your store will not appear on the map until your request is approved."
     },
     "login": {
         "title": "Log in",

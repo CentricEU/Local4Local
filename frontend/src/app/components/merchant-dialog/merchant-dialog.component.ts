@@ -181,11 +181,6 @@ export class MerchantDialogComponent implements OnInit {
 		}
 	}
 
-	public onKvkInput(event: Event): void {
-		const input = event.target as HTMLInputElement;
-		input.value = input.value.replace(/\D/g, '');
-	}
-
 	private approveMerchant(merchantId: string): void {
 		this.merchantService.approveMerchant(merchantId).subscribe(() => {
 			this.closeDialog(SUCCESS_CODE);
@@ -234,12 +229,12 @@ export class MerchantDialogComponent implements OnInit {
 	}
 
 	private createMerchantDto(): MerchantDto {
-		const { companyName, kvk, category, address, contactEmail, website } = this.form.value;
+		const { companyName, identifierNumber, category, address, contactEmail, website } = this.form.value;
 		const { location } = this.selectedLocation ?? {};
 
 		return {
 			companyName,
-			kvk: kvk,
+			identifierNumber: identifierNumber,
 			category,
 			latitude: location?.y ?? 0.0,
 			longitude: location?.x ?? 0.0,
@@ -280,15 +275,12 @@ export class MerchantDialogComponent implements OnInit {
 				requiredMessage: 'register.error.companyNameRequired'
 			},
 			{
-				formControl: 'kvk',
-				labelKey: 'table.column.kvkNumber',
+				formControl: 'identifierNumber',
+				labelKey: 'table.column.identifierNumber',
 				fieldType: 'input',
 				required: true,
-				maxLength: 8,
 				isReadOnly: this.isApprovalOrRejection(),
-				requiredMessage: 'register.error.kvkNumberRequired',
-				pattern: RegexUtil.kvkRegexPattern,
-				patternMessage: 'register.error.kvkFormControlLength'
+				requiredMessage: 'register.error.identifierNumberRequired'
 			},
 			{
 				formControl: 'category',

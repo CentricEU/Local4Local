@@ -25,7 +25,7 @@ export class MerchantsComponent implements OnInit {
 		ColumnType.STATUS,
 		ColumnType.COMPANY_NAME,
 		ColumnType.CATEGORY,
-		ColumnType.KVK,
+		ColumnType.IDENTIFIER_NUMBER,
 		ColumnType.ADDRESS,
 		ColumnType.WEBSITE,
 		ColumnType.ACTIONS
@@ -45,7 +45,7 @@ export class MerchantsComponent implements OnInit {
 			cell: (element) => element.companyName
 		},
 		{ columnDef: ColumnType.CATEGORY, header: 'table.column.category', cell: (element) => element.category },
-		{ columnDef: ColumnType.KVK, header: 'table.column.kvkNumber', cell: (element) => element.kvk },
+		{ columnDef: ColumnType.IDENTIFIER_NUMBER, header: 'table.column.identifierNumber', cell: (element) => element.identifierNumber },
 		{ columnDef: ColumnType.ADDRESS, header: 'table.column.address', cell: (element) => element.address },
 		{ columnDef: ColumnType.WEBSITE, header: 'table.column.website', cell: (element) => element.website || '-' },
 		{ columnDef: ColumnType.ACTIONS, header: 'table.column.actions', cell: (element) => element.status || '' }

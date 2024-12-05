@@ -42,15 +42,13 @@
                                 </mat-autocomplete>
                             }
 
-                            @case('kvk') {
+                            @case('identifierNumber') {
                                 <input
                                     matInput
                                     [readonly]="field.isReadOnly"
-                                    [maxlength]="field.maxLength ?? null"
                                     [placeholder]="field.labelKey | translate"
                                     [formControlName]="field.formControl"
-                                    [errorStateMatcher]="matcher"
-                                    (input)="onKvkInput($event)"/>
+                                    [errorStateMatcher]="matcher"/>
                             }
                             @default {
                                 <input

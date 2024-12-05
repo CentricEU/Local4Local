@@ -26,7 +26,7 @@ describe('MerchantsComponent', () => {
 
 	const mockMerchant: MerchantDto = {
 		companyName: 'Test Company',
-		kvk: '12345678',
+		identifierNumber: '12345678',
 		category: 'Retail',
 		latitude: 52.3702,
 		longitude: 4.8952,
@@ -73,7 +73,7 @@ describe('MerchantsComponent', () => {
 			{ columnDef: ColumnType.STATUS, header: 'table.column.status', cell: expect.any(Function) },
 			{ columnDef: ColumnType.COMPANY_NAME, header: 'table.column.companyName', cell: expect.any(Function) },
 			{ columnDef: ColumnType.CATEGORY, header: 'table.column.category', cell: expect.any(Function) },
-			{ columnDef: ColumnType.KVK, header: 'table.column.kvkNumber', cell: expect.any(Function) },
+			{ columnDef: ColumnType.IDENTIFIER_NUMBER, header: 'table.column.identifierNumber', cell: expect.any(Function) },
 			{ columnDef: ColumnType.ADDRESS, header: 'table.column.address', cell: expect.any(Function) },
 			{ columnDef: ColumnType.WEBSITE, header: 'table.column.website', cell: expect.any(Function) },
 			{ columnDef: ColumnType.ACTIONS, header: 'table.column.actions', cell: expect.any(Function) }
@@ -92,8 +92,8 @@ describe('MerchantsComponent', () => {
 		const categoryCell = columns.find((col) => col.columnDef === ColumnType.CATEGORY)?.cell(mockMerchant);
 		expect(categoryCell).toBe('Retail');
 
-		const kvkCell = columns.find((col) => col.columnDef === ColumnType.KVK)?.cell(mockMerchant);
-		expect(kvkCell).toBe('12345678');
+		const identifierNumberCell = columns.find((col) => col.columnDef === ColumnType.IDENTIFIER_NUMBER)?.cell(mockMerchant);
+		expect(identifierNumberCell).toBe('12345678');
 
 		const addressCell = columns.find((col) => col.columnDef === ColumnType.ADDRESS)?.cell(mockMerchant);
 		expect(addressCell).toBe('123 Test Street, Test City');
@@ -108,7 +108,7 @@ describe('MerchantsComponent', () => {
 	it('should fallback to empty strings or dashes for missing values', () => {
 		const incompleteMerchant: MerchantDto = {
 			companyName: '',
-			kvk: '',
+			identifierNumber: '',
 			category: '',
 			latitude: 0,
 			longitude: 0,
@@ -131,8 +131,8 @@ describe('MerchantsComponent', () => {
 		const categoryCell = columns.find((col) => col.columnDef === ColumnType.CATEGORY)?.cell(incompleteMerchant);
 		expect(categoryCell).toBe('');
 
-		const kvkCell = columns.find((col) => col.columnDef === ColumnType.KVK)?.cell(incompleteMerchant);
-		expect(kvkCell).toBe('');
+		const identifierNumberCell = columns.find((col) => col.columnDef === ColumnType.IDENTIFIER_NUMBER)?.cell(incompleteMerchant);
+		expect(identifierNumberCell).toBe('');
 
 		const addressCell = columns.find((col) => col.columnDef === ColumnType.ADDRESS)?.cell(incompleteMerchant);
 		expect(addressCell).toBe('');
@@ -192,7 +192,7 @@ describe('MerchantsComponent', () => {
 	it('should open MerchantDialogComponent with correct data when approveMerchant is called', () => {
 		const mockMerchant: MerchantDto = {
 			companyName: 'Test Company',
-			kvk: '12345678',
+			identifierNumber: '12345678',
 			category: 'Retail',
 			latitude: 52.3702,
 			longitude: 4.8952,
@@ -218,7 +218,7 @@ describe('MerchantsComponent', () => {
 		const initDataSpy = jest.spyOn(component as any, 'initData');
 		const mockMerchant: MerchantDto = {
 			companyName: 'Test Company',
-			kvk: '12345678',
+			identifierNumber: '12345678',
 			category: 'Retail',
 			latitude: 52.3702,
 			longitude: 4.8952,
@@ -240,7 +240,7 @@ describe('MerchantsComponent', () => {
 	it('should open MerchantDialogComponent with correct data when rejectMerchant is called', () => {
 		const mockMerchant: MerchantDto = {
 			companyName: 'Test Company',
-			kvk: '12345678',
+			identifierNumber: '12345678',
 			category: 'Retail',
 			latitude: 52.3702,
 			longitude: 4.8952,
@@ -266,7 +266,7 @@ describe('MerchantsComponent', () => {
 		const initDataSpy = jest.spyOn(component as any, 'initData');
 		const mockMerchant: MerchantDto = {
 			companyName: 'Test Company',
-			kvk: '12345678',
+			identifierNumber: '12345678',
 			category: 'Retail',
 			latitude: 52.3702,
 			longitude: 4.8952,
