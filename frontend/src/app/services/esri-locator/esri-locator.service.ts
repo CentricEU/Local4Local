@@ -23,7 +23,7 @@ export class EsriLocatorService {
         countryCode: environment.esriConfig.countryCode,
         maxLocations: 10
     };
-	};
+
 
     public get locatorURL(): string {
         return environment.esriConfig.locatorURL;
