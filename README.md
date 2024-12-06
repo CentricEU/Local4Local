@@ -40,11 +40,11 @@ Before starting, ensure you have the following installed on your machine:
 #### Step 1: Configure the Database
 
 1. Ensure PostgreSQL is running.
-2. Create a new database in PostgreSQL, e.g., `local4local_eu`.
+2. Create a new database in PostgreSQL, e.g., `local4localEU`.
 3. Update your PostgreSQL credentials in the `application.properties` or `application.yml` file located in **`backend/src/main/resources/`**:
 
    ```properties
-   spring.datasource.url=jdbc:postgresql://localhost:5432/local4local_eu
+   spring.datasource.url=jdbc:postgresql://localhost:5432/local4localEU
    spring.datasource.username=your_username
    spring.datasource.password=your_password
    ```
