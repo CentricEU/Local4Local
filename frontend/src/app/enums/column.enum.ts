@@ -3,7 +3,7 @@ export enum ColumnType {
 	STATUS = 'status',
 	CATEGORY = 'category',
 	COMPANY_NAME = 'companyName',
-	KVK = 'kvk',
+	IDENTIFIER_NUMBER = 'identifierNumber',
 	ADDRESS = 'address',
 	WEBSITE = 'website',
 	CONTACT_EMAIL = 'contactEmail',

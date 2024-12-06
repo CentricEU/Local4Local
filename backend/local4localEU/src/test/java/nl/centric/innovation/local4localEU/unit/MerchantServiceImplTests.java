@@ -35,7 +35,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -64,8 +63,8 @@ public class MerchantServiceImplTests {
     @Mock
     private TalerService talerService;
 
-    private static final String VALID_KVK = "12345678";
-    private static final String INVALID_KVK = "1234";
+    private static final String VALID_IDENTIFIER_NUMBER = "12345678";
+    private static final String INVALID_IDENTIFIER_NUMBER = "";
     private static final String VALID_WEBSITE = "https://www.example.com";
     private static final String INVALID_WEBSITE = "invalid-url";
     private static final Integer VALID_CATEGORY = 0;
@@ -75,7 +74,7 @@ public class MerchantServiceImplTests {
     private static final String CURRENCY_MANAGER_EMAIL = "currency.manager@example.com";
 
     private MerchantDto validMerchantDto;
-    private MerchantDto invalidKvkMerchantDto;
+    private MerchantDto invalidIdentifierNumberMerchantDto;
     private MerchantDto invalidWebsiteMerchantDto;
     private MerchantDto invalidCategoryMerchantDto;
 
@@ -85,7 +84,7 @@ public class MerchantServiceImplTests {
 
         validMerchantDto = MerchantDto.builder()
                 .companyName("Company")
-                .kvk(VALID_KVK)
+                .identifierNumber(VALID_IDENTIFIER_NUMBER)
                 .website(VALID_WEBSITE)
                 .category(VALID_CATEGORY)
                 .longitude(51.926517)
@@ -94,9 +93,9 @@ public class MerchantServiceImplTests {
                 .contactEmail("domain@example.com")
                 .build();
 
-        invalidKvkMerchantDto = MerchantDto.builder()
+        invalidIdentifierNumberMerchantDto = MerchantDto.builder()
                 .companyName("Company")
-                .kvk(INVALID_KVK)
+                .identifierNumber(INVALID_IDENTIFIER_NUMBER)
                 .website(VALID_WEBSITE)
                 .category(VALID_CATEGORY)
                 .longitude(51.926517)
@@ -107,7 +106,7 @@ public class MerchantServiceImplTests {
 
         invalidWebsiteMerchantDto = MerchantDto.builder()
                 .companyName("Company")
-                .kvk(VALID_KVK)
+                .identifierNumber(VALID_IDENTIFIER_NUMBER)
                 .website(INVALID_WEBSITE)
                 .category(VALID_CATEGORY)
                 .longitude(51.926517)
@@ -118,7 +117,7 @@ public class MerchantServiceImplTests {
 
         invalidCategoryMerchantDto = MerchantDto.builder()
                 .companyName("Company")
-                .kvk(VALID_KVK)
+                .identifierNumber(VALID_IDENTIFIER_NUMBER)
                 .website(VALID_WEBSITE)
                 .category(INVALID_CATEGORY)
                 .longitude(51.926517)
@@ -132,7 +131,7 @@ public class MerchantServiceImplTests {
     @SneakyThrows
     public void GivenValidMerchantDto_WhenSaveMerchant_ThenMerchantIsSaved() {
         // Given
-        when(merchantRepository.findByKvk(VALID_KVK)).thenReturn(Optional.empty());
+        when(merchantRepository.findByIdentifierNumber(VALID_IDENTIFIER_NUMBER)).thenReturn(Optional.empty());
 
         // When
         merchantService.saveMerchant(validMerchantDto);
@@ -145,7 +144,7 @@ public class MerchantServiceImplTests {
     public void GivenExistingMerchant_WhenSaveMerchant_ThenExpectDtoValidateAlreadyExistsException() {
         // Given
         Merchant existingMerchant = new Merchant();
-        when(merchantRepository.findByKvk(VALID_KVK)).thenReturn(Optional.of(existingMerchant));
+        when(merchantRepository.findByIdentifierNumber(VALID_IDENTIFIER_NUMBER)).thenReturn(Optional.of(existingMerchant));
 
         // When Then
         assertThrows(DtoValidateAlreadyExistsException.class, () -> merchantService.saveMerchant(validMerchantDto));
@@ -154,12 +153,12 @@ public class MerchantServiceImplTests {
     }
 
     @Test
-    public void GivenInvalidKvk_WhenSaveMerchant_ThenExpectDtoValidateException() {
+    public void GivenInvalidIdentifierNumber_WhenSaveMerchant_ThenExpectDtoValidateException() {
         // Given
-        when(merchantRepository.findByKvk(INVALID_KVK)).thenReturn(Optional.empty());
+        when(merchantRepository.findByIdentifierNumber(INVALID_IDENTIFIER_NUMBER)).thenReturn(Optional.empty());
 
         // When Then
-        assertThrows(DtoValidateException.class, () -> merchantService.saveMerchant(invalidKvkMerchantDto));
+        assertThrows(DtoValidateException.class, () -> merchantService.saveMerchant(invalidIdentifierNumberMerchantDto));
 
         verify(merchantRepository, never()).save(any(Merchant.class));
     }
@@ -167,7 +166,7 @@ public class MerchantServiceImplTests {
     @Test
     public void GivenInvalidCategoryId_WhenSaveMerchant_ThenExpectDtoValidateException() {
         // Given
-        when(merchantRepository.findByKvk(VALID_KVK)).thenReturn(Optional.empty());
+        when(merchantRepository.findByIdentifierNumber(VALID_IDENTIFIER_NUMBER)).thenReturn(Optional.empty());
 
         // When Then
         assertThrows(DtoValidateException.class, () -> merchantService.saveMerchant(invalidCategoryMerchantDto));
@@ -178,7 +177,7 @@ public class MerchantServiceImplTests {
     @Test
     public void GivenInvalidWebsite_WhenSaveMerchant_ThenExpectDtoValidateException() {
         // Given
-        when(merchantRepository.findByKvk(VALID_KVK)).thenReturn(Optional.empty());
+        when(merchantRepository.findByIdentifierNumber(VALID_IDENTIFIER_NUMBER)).thenReturn(Optional.empty());
 
         // When Then
         assertThrows(DtoValidateException.class, () -> merchantService.saveMerchant(invalidWebsiteMerchantDto));
@@ -189,7 +188,7 @@ public class MerchantServiceImplTests {
     @Test
     public void GivenMerchantsInRepository_WhenGetAll_ThenReturnMerchantViewDtoList() {
         // Given
-        Merchant merchant1 = merchantBuilder("Company 1", VALID_KVK);
+        Merchant merchant1 = merchantBuilder("Company 1", VALID_IDENTIFIER_NUMBER);
         Merchant merchant2 = merchantBuilder("Company 2", "12345679");
 
         merchant1.setId(UUID.randomUUID());
@@ -224,7 +223,7 @@ public class MerchantServiceImplTests {
     @Test
     public void GivenMerchantsInCategory_WhenGetByCategory_ThenReturnMerchantViewDtoList() {
         // Given
-        Merchant merchant1 = merchantBuilder("Company 1", VALID_KVK);
+        Merchant merchant1 = merchantBuilder("Company 1", VALID_IDENTIFIER_NUMBER);
         Merchant merchant2 = merchantBuilder("Company 2", "12345679");
         merchant1.getCategory().setId(1);
         merchant2.getCategory().setId(1);
@@ -261,7 +260,7 @@ public class MerchantServiceImplTests {
     @Test
     public void GivenInvalidCategoryId_WhenGetByCategory_ThenReturnAllMerchants() {
         // Given
-        Merchant merchant1 = merchantBuilder("Company 1", VALID_KVK);
+        Merchant merchant1 = merchantBuilder("Company 1", VALID_IDENTIFIER_NUMBER);
         Merchant merchant2 = merchantBuilder("Company 2", "12345679");
 
         merchant1.setId(UUID.randomUUID());
@@ -299,7 +298,7 @@ public class MerchantServiceImplTests {
     @Test
     public void GivenMerchantsInRepository_WhenGetPaginatedMerchants_ThenReturnMerchantViewDtoList() {
         // Given
-        Merchant merchant1 = merchantBuilder("Company 1", VALID_KVK);
+        Merchant merchant1 = merchantBuilder("Company 1", VALID_IDENTIFIER_NUMBER);
         Merchant merchant2 = merchantBuilder("Company 2", "12345679");
 
         merchant1.setId(UUID.randomUUID());
@@ -366,7 +365,7 @@ public class MerchantServiceImplTests {
     @Test
     public void GivenAlreadyApprovedMerchant_WhenApproveMerchant_ThenThrowDtoValidateAlreadyExistsException() {
         // Given
-        Merchant approvedMerchant = merchantBuilder("Company 1", VALID_KVK);
+        Merchant approvedMerchant = merchantBuilder("Company 1", VALID_IDENTIFIER_NUMBER);
         approvedMerchant.setStatus(MerchantStatusEnum.APPROVED);
         when(merchantRepository.findById(VALID_MERCHANT_ID)).thenReturn(Optional.of(approvedMerchant));
 
@@ -382,7 +381,7 @@ public class MerchantServiceImplTests {
     @SneakyThrows
     public void GivenPendingMerchant_WhenApproveMerchant_ThenMerchantIsApprovedAndEmailIsSent() {
         // Given
-        Merchant pendingMerchant = merchantBuilder("Company 1", VALID_KVK);
+        Merchant pendingMerchant = merchantBuilder("Company 1", VALID_IDENTIFIER_NUMBER);
         UUID token = UUID.randomUUID();
         pendingMerchant.setStatus(MerchantStatusEnum.PENDING);
         when(merchantRepository.findById(VALID_MERCHANT_ID)).thenReturn(Optional.of(pendingMerchant));
@@ -417,7 +416,7 @@ public class MerchantServiceImplTests {
     @Test
     public void GivenAlreadyRejectedMerchant_WhenRejectMerchant_ThenThrowDtoValidateAlreadyExistsException() {
         // Given
-        Merchant rejectedMerchant = merchantBuilder("Company 1", VALID_KVK);
+        Merchant rejectedMerchant = merchantBuilder("Company 1", VALID_IDENTIFIER_NUMBER);
         rejectedMerchant.setStatus(MerchantStatusEnum.REJECTED);
         when(merchantRepository.findById(VALID_MERCHANT_ID)).thenReturn(Optional.of(rejectedMerchant));
 
@@ -436,7 +435,7 @@ public class MerchantServiceImplTests {
     public void GivenNonExistingCurrencyManager_WhenRejectMerchant_ThenThrowDtoValidateNotFoundException() {
         // Given
         RejectMerchantDto rejectMerchantDto = new RejectMerchantDto("Reason for rejection", VALID_MERCHANT_ID);
-        Merchant merchant = merchantBuilder("Company 1", VALID_KVK);
+        Merchant merchant = merchantBuilder("Company 1", VALID_IDENTIFIER_NUMBER);
         merchant.setStatus(MerchantStatusEnum.PENDING);
 
         when(merchantRepository.findById(VALID_MERCHANT_ID)).thenReturn(Optional.of(merchant));
@@ -456,7 +455,7 @@ public class MerchantServiceImplTests {
     @Test
     public void GivenValidMerchantAndCurrencyManager_WhenRejectMerchant_ThenMerchantIsRejectedAndEmailIsSent() throws DtoValidateException {
         // Given
-        Merchant rejectedMerchant = merchantBuilder("Company 1", VALID_KVK);
+        Merchant rejectedMerchant = merchantBuilder("Company 1", VALID_IDENTIFIER_NUMBER);
         rejectedMerchant.setStatus(MerchantStatusEnum.PENDING);
         when(merchantRepository.findById(VALID_MERCHANT_ID)).thenReturn(Optional.of(rejectedMerchant));
 
@@ -476,10 +475,10 @@ public class MerchantServiceImplTests {
         verify(emailService, times(1)).sendRejectMerchantEmail(new String[]{rejectedMerchant.getContactEmail()}, VALID_LANGUAGE, rejectedMerchant.getCompanyName(), "reason");
     }
 
-    private Merchant merchantBuilder(String companyName, String kvk) {
+    private Merchant merchantBuilder(String companyName, String identifierNumber) {
         return Merchant.builder()
                 .companyName(companyName)
-                .kvk(kvk)
+                .identifierNumber(identifierNumber)
                 .website(VALID_WEBSITE)
                 .category(Category.builder().id(2).label("category").build())
                 .lat(51.926517)

@@ -1,6 +1,6 @@
 export class MerchantDto {
     public companyName: string;
-    public kvk: string;
+    public identifierNumber: string;
     public category: number | string;
     public latitude: number;
     public longitude: number;

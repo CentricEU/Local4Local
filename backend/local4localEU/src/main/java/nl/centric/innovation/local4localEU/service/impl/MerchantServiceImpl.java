@@ -1,7 +1,6 @@
 package nl.centric.innovation.local4localEU.service.impl;
 
 import static nl.centric.innovation.local4localEU.dto.MerchantDto.toEntity;
-import static util.Validators.isKvkValid;
 import static util.Validators.isValidUrl;
 
 import java.io.IOException;
@@ -178,7 +177,7 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     private void validateMerchantDto(MerchantDto merchantDto) throws DtoValidateException {
-        Optional<Merchant> existingMerchant = merchantRepository.findByKvk(merchantDto.kvk());
+        Optional<Merchant> existingMerchant = merchantRepository.findByIdentifierNumber(merchantDto.identifierNumber());
 
         if (existingMerchant.isPresent()) {
             throw new DtoValidateAlreadyExistsException(errorUniqueViolation);
@@ -188,10 +187,6 @@ public class MerchantServiceImpl implements MerchantService {
 
         if (existingMerchantByEmail.isPresent()) {
             throw new DtoValidateAlreadyExistsException(errorUniqueEmail);
-        }
-
-        if (!isKvkValid(merchantDto.kvk())) {
-            throw new DtoValidateException(errorEntityValidate);
         }
 
         if (merchantDto.category() < 0 || merchantDto.category() > 8) {

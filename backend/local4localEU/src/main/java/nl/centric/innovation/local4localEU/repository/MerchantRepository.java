@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface MerchantRepository extends JpaRepository<Merchant, UUID> {
-    Optional<Merchant> findByKvk(String kvk);
+    Optional<Merchant> findByIdentifierNumber(String identifierNumber);
 
     Optional<Merchant> findByContactEmailIgnoreCase(String email);
 

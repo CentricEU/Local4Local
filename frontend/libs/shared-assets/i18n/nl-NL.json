@@ -43,7 +43,7 @@
 		"column": {
 			"companyName": "Bedrijfsnaam",
 			"category": "Categorie",
-			"kvkNumber": "KvK-nummer",
+			"identifierNumber": "...Identifier number",
 			"address": "Adres",
 			"website": "Website",
 			"status": "Status",
@@ -65,10 +65,9 @@
 		"contactEmail": "Contact e-mail",
 		"error": {
 			"companyNameRequired": "vul bedrijfsnaam in.",
-			"kvkNumberRequired": "vul KvK-nummer in.",
+			"identifierNumberRequired": "...vul KvK-nummer in.",
 			"categoryRequired": "Kies categorie.",
 			"addressRequired": "Vul adres in.",
-			"kvkFormControlLength": "KvK moet 8 cijfers bevatten.",
 			"invalidUrl": "Voer een geldige en veilige website-URL in. (bijv. https://www.example.com).",
 			"emailRequired": "Vul je e-mail in om toekomstige updates te ontvangen.",
 			"emailInvalid": "Vul een geldig e-mailadres in."
@@ -100,7 +99,7 @@
 	},
 	"alreadyRegisteredDialog": {
 		"title": "Registratie al aangevraagd",
-		"text": "Je hebt al een aanvraag ingediend met dit KvK-nummer en je aanvraag is in behandeling. Goedkeuring door de beheerder duurt meestal tot 5 werkdagen.<br>Houd er rekening mee dat jouw locatie niet zichtbaar is op de kaart totdat je verzoek is goedgekeurd."
+		"text": "...Je hebt al een aanvraag ingediend met dit KvK-nummer en je aanvraag is in behandeling. Goedkeuring door de beheerder duurt meestal tot 5 werkdagen.<br>Houd er rekening mee dat jouw locatie niet zichtbaar is op de kaart totdat je verzoek is goedgekeurd."
 	},
 	"login": {
 		"title": "Log in",

@@ -91,7 +91,7 @@ describe('MerchantDialogComponent', () => {
 
 		test.each([
 			['companyName', 'required'],
-			['kvk', 'required'],
+			['identifierNumber', 'required'],
 			['category', 'required'],
 			['address', 'required'],
 			['contactEmail', 'required'],
@@ -116,11 +116,11 @@ describe('MerchantDialogComponent', () => {
 
 	describe('Form Submission', () => {
 		test.each([
-			[{ companyName: '', kvk: '', category: '', address: '', contactEmail: '', website: '' }, true],
+			[{ companyName: '', identifierNumber: '', category: '', address: '', contactEmail: '', website: '' }, true],
 			[
 				{
 					companyName: 'Valid Company',
-					kvk: '12345678',
+					identifierNumber: '12345678',
 					category: 'Category 1',
 					address: 'Valid Address',
 					contactEmail: 'domain@example.com',
@@ -131,7 +131,7 @@ describe('MerchantDialogComponent', () => {
 			[
 				{
 					companyName: 'Valid Company',
-					kvk: '12345678',
+					identifierNumber: '12345678',
 					category: 'Category 1',
 					address: 'Valid Address',
 					contactEmail: 'domain@example.com',
@@ -209,18 +209,6 @@ describe('MerchantDialogComponent', () => {
 		expect(component.form.get('address')?.value).toBe('Selected Address');
 		expect(component.suggestions).toEqual([]);
 		expect(component.selectedLocation).toBeNull();
-	});
-
-	it('should remove non-digit characters from KVK number input', () => {
-		const inputEvent = new Event('input');
-		const inputElement = document.createElement('input');
-		inputElement.value = 'abc123def';
-
-		Object.defineProperty(inputEvent, 'target', { value: inputElement });
-
-		component.onKvkInput(inputEvent);
-
-		expect(inputElement.value).toBe('123');
 	});
 
 	describe('registerMerchant', () => {
@@ -301,8 +289,8 @@ describe('MerchantDialogComponent', () => {
 		component.merchantDialogType = MerchantDialogType.REGISTRATION;
 
 		const formField: FormField = {
-			formControl: 'kvk',
-			labelKey: 'label.kvk',
+			formControl: 'identifierNumber',
+			labelKey: 'label.identifierNumber',
 			fieldType: 'input',
 			required: true,
 			isReadOnly: false,
@@ -550,7 +538,7 @@ describe('MerchantDialogComponent', () => {
 	it('should call handleApprovalDialogValues when isApprovalOrRejection is true and set form control value correctly', () => {
 		const mockMerchantData = {
 			companyName: 'Test Company',
-			kvk: '12345678',
+			identifierNumber: '12345678',
 			category: 'Category 1',
 			address: 'Test Address',
 			contactEmail: 'test@example.com',

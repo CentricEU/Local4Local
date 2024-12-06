@@ -11,7 +11,7 @@ import java.util.UUID;
 public record MerchantViewDto(
         @NonNull UUID id,
         @NonNull String companyName,
-        @NonNull String kvk,
+        @NonNull String identifierNumber,
         @NonNull String category,
         @NonNull Double latitude,
         @NonNull Double longitude,
@@ -24,7 +24,7 @@ public record MerchantViewDto(
         return MerchantViewDto.builder()
                 .id(merchant.getId())
                 .companyName(merchant.getCompanyName())
-                .kvk(merchant.getKvk())
+                .identifierNumber(merchant.getIdentifierNumber())
                 .category(merchant.getCategory().getLabel())
                 .website(merchant.getWebsite())
                 .address(merchant.getAddress())
