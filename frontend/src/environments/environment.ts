@@ -4,6 +4,6 @@ export const environment = {
 	envName: 'development',
 	esriConfig: {
 		locatorURL: 'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer',
-		countryCode: 'NLD'
+		countryCode: 'NL,DE,FR,LT'
 	}
 };

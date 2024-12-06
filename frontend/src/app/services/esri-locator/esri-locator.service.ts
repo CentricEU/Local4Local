@@ -20,7 +20,7 @@ export class EsriLocatorService {
 	});
 
 	private readonly locatorParams = {
-		countryCode: 'NL,DE,FR,LT',
+		countryCode: environment.esriConfig.countryCode,
 		maxLocations: 10
 	};
 
