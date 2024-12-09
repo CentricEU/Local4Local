@@ -18,6 +18,7 @@ Before starting, ensure you have the following installed on your machine:
 - **Angular CLI:** Version 18.1.0 or higher ([Install Angular CLI](https://angular.io/cli))
 - **Java Development Kit (JDK):** Version 21 ([Download JDK](https://www.oracle.com/java/technologies/javase-downloads.html))
 - **PostgreSQL:** Version 12 or higher ([Download PostgreSQL](https://www.postgresql.org/download/))
+- **AWS Account:** A valid AWS account to configure the AWS CLI ([Create an AWS Account](https://aws.amazon.com/))
 
 ---
 
@@ -40,14 +41,38 @@ Before starting, ensure you have the following installed on your machine:
 #### Step 1: Configure the Database
 
 1. Ensure PostgreSQL is running.
-2. Create a new database in PostgreSQL, e.g., `local4local_eu`.
+2. Create a new database in PostgreSQL, e.g., `local4localEU`.
 3. Update your PostgreSQL credentials in the `application.properties` or `application.yml` file located in **`backend/src/main/resources/`**:
 
    ```properties
-   spring.datasource.url=jdbc:postgresql://localhost:5432/local4local_eu
+   spring.datasource.url=jdbc:postgresql://localhost:5432/local4localEU
    spring.datasource.username=your_username
    spring.datasource.password=your_password
    ```
+4. Set Up the `.aws` Folder
+
+    a.  **Install AWS CLI** if you haven't already:
+   - Download and install the AWS CLI from the [AWS CLI installation page](https://docs.aws.amazon.com/cli/latest/userguide/).
+
+    b. **Configure the AWS CLI:**
+       - Run the following command in your terminal to configure the AWS CLI with your credentials:
+
+    ```bash
+     aws configure
+     ```
+
+     - During configuration, you will be prompted to enter your:
+     - **AWS Access Key ID**
+     - **AWS Secret Access Key**
+     - **Default region name** (e.g., `us-east-1`)
+     - **Default output format** (e.g., `json`)
+
+    c. The `.aws` folder will be created in your user directory, typically at `C:/Users/your_username/.aws` on Windows, or `~/.aws` on macOS/Linux.
+
+    d. Ensure that your AWS credentials are properly configured by checking the folder and files at:
+      - `C:/Users/your_username/.aws/credentials`
+      - `C:/Users/your_username/.aws/config`
+
 
 #### Step 2: Build and Run the Backend
 
@@ -70,6 +95,11 @@ cd frontend
 ```bash
 npm install
 ```
+ 📋 Note: If you encounter issues with dependency conflicts, try running:
+ 
+  ```bash
+ npm install --legacy-peer-deps
+ ```
 
 #### Step 3: Run the Frontend Application
 
