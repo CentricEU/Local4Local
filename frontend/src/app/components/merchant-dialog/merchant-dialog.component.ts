@@ -278,6 +278,7 @@ export class MerchantDialogComponent implements OnInit {
 				formControl: 'identifierNumber',
 				labelKey: 'table.column.identifierNumber',
 				fieldType: 'input',
+				maxLength: 20,
 				required: true,
 				isReadOnly: this.isApprovalOrRejection(),
 				requiredMessage: 'register.error.identifierNumberRequired'

@@ -46,6 +46,7 @@
                                 <input
                                     matInput
                                     [readonly]="field.isReadOnly"
+                                    [maxlength]="field.maxLength ?? null"
                                     [placeholder]="field.labelKey | translate"
                                     [formControlName]="field.formControl"
                                     [errorStateMatcher]="matcher"/>
