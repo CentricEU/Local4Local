@@ -17,11 +17,11 @@ $common-size: 16px;
         }
 
         .logos {
-            @include mixins.flex(column, space-between, baseline);
+            @include mixins.flex(column);
             gap: $common-size * 2;
             padding-top: 0;
 
-            .ngi-logo{
+            .ngi-logo {
                 width: 252px;
             }
         }
