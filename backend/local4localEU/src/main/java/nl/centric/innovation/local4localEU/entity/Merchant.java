@@ -1,10 +1,12 @@
 package nl.centric.innovation.local4localEU.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
@@ -59,4 +61,7 @@ public class Merchant extends BaseEntity {
 
     @Column(name = "website")
     private String website;
+
+    @OneToOne(mappedBy = "merchant", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private RejectMerchant rejectMerchant;
 }

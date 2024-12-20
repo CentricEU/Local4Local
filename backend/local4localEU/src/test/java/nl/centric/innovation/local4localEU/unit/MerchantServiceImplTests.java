@@ -475,6 +475,35 @@ public class MerchantServiceImplTests {
         verify(emailService, times(1)).sendRejectMerchantEmail(new String[]{rejectedMerchant.getContactEmail()}, VALID_LANGUAGE, rejectedMerchant.getCompanyName(), "reason");
     }
 
+    @Test
+    public void GivenRejectedMerchantByEmail_WhenSaveMerchant_ThenMerchantIsDeletedAndSaved() throws DtoValidateException {
+        // Given
+        Merchant rejectedMerchant = merchantBuilder("Company 1", VALID_IDENTIFIER_NUMBER);
+        rejectedMerchant.setStatus(MerchantStatusEnum.REJECTED);
+        when(merchantRepository.findByIdentifierNumber(VALID_IDENTIFIER_NUMBER)).thenReturn(Optional.empty());
+        when(merchantRepository.findByContactEmailIgnoreCase(validMerchantDto.contactEmail())).thenReturn(Optional.of(rejectedMerchant));
+
+        // When
+        merchantService.saveMerchant(validMerchantDto);
+
+        // Then
+        verify(merchantRepository, times(1)).deleteById(rejectedMerchant.getId());
+        verify(merchantRepository, times(1)).save(any(Merchant.class));
+    }
+
+    @Test
+    public void GivenExistingMerchantEmail_WhenSaveMerchant_ThenExpectDtoValidateAlreadyExistsException() {
+        // Given
+        Merchant existingMerchant = new Merchant();
+        existingMerchant.setStatus(MerchantStatusEnum.APPROVED);
+        when(merchantRepository.findByContactEmailIgnoreCase(validMerchantDto.contactEmail())).thenReturn(Optional.of(existingMerchant));
+
+        // When Then
+        assertThrows(DtoValidateAlreadyExistsException.class, () -> merchantService.saveMerchant(validMerchantDto));
+
+        verify(merchantRepository, never()).save(any(Merchant.class));
+    }
+
     private Merchant merchantBuilder(String companyName, String identifierNumber) {
         return Merchant.builder()
                 .companyName(companyName)

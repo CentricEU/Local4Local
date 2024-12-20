@@ -38,6 +38,7 @@ import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidate
 import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidateException;
 import nl.centric.innovation.local4localEU.repository.MerchantRepository;
 import nl.centric.innovation.local4localEU.service.interfaces.MerchantService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -130,6 +131,7 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
+    @Transactional
     public MerchantDto saveMerchant(MerchantDto merchantDto) throws DtoValidateException {
         validateMerchantDto(merchantDto);
         merchantRepository.save(toEntity(merchantDto));
@@ -183,11 +185,15 @@ public class MerchantServiceImpl implements MerchantService {
             throw new DtoValidateAlreadyExistsException(errorUniqueViolation);
         }
 
-        Optional<Merchant> existingMerchantByEmail = merchantRepository.findByContactEmailIgnoreCase(merchantDto.contactEmail());
+        Optional<Merchant> existingMerchantByEmail =
+                merchantRepository.findByContactEmailIgnoreCase(merchantDto.contactEmail());
 
-        if (existingMerchantByEmail.isPresent()) {
+
+        if (existingMerchantByEmail.isPresent() && existingMerchantByEmail.get().getStatus() != MerchantStatusEnum.REJECTED) {
             throw new DtoValidateAlreadyExistsException(errorUniqueEmail);
         }
+
+        existingMerchantByEmail.ifPresent(merchant -> merchantRepository.deleteById(merchant.getId()));
 
         if (merchantDto.category() < 0 || merchantDto.category() > 8) {
             throw new DtoValidateException(errorEntityValidate);
