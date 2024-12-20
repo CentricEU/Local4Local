@@ -65,7 +65,7 @@
 		"contactEmail": "Contact e-mail",
 		"error": {
 			"companyNameRequired": "vul bedrijfsnaam in.",
-			"identifierNumberRequired": "...vul KvK-nummer in.",
+			"identifierNumberRequired": "...Enter Identifier number.",
 			"categoryRequired": "Kies categorie.",
 			"addressRequired": "Vul adres in.",
 			"invalidUrl": "Voer een geldige en veilige website-URL in. (bijv. https://www.example.com).",
