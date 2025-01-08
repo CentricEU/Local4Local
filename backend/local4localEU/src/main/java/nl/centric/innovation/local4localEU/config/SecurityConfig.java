@@ -84,7 +84,11 @@ public class SecurityConfig {
                 .requestMatchers("/merchant/all")
                 .requestMatchers("/merchant/filter/**")
                 .requestMatchers("/category/**")
-                .requestMatchers("/user/**");
+                .requestMatchers("/user/**")
+                .requestMatchers(
+                        "/v3/api-docs/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html");
     }
 
     @Bean
