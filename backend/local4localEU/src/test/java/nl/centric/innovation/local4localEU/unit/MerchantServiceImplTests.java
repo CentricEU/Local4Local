@@ -153,6 +153,7 @@ public class MerchantServiceImplTests {
     }
 
     @Test
+    @SneakyThrows
     public void GivenInvalidIdentifierNumber_WhenSaveMerchant_ThenExpectDtoValidateException() {
         // Given
         when(merchantRepository.findByIdentifierNumber(INVALID_IDENTIFIER_NUMBER)).thenReturn(Optional.empty());
