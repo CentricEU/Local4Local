@@ -18,4 +18,5 @@ public class Local4localEuApplication {
         source.setUseCodeAsDefaultMessage(true);
         return source;
     }
+
 }
