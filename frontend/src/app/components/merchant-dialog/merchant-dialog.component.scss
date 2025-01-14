@@ -1,1 +1,15 @@
 @use "../.././../../libs/shared-assets/_styles/common-form.scss" as common-form;
+
+
+::ng-deep{
+    .mat-mdc-tooltip-surface {
+        max-width: 320px !important;
+    }
+}
+
+.truncate {
+    overflow: hidden;        
+    text-overflow: ellipsis;  
+    white-space: nowrap;      
+  }
+  

@@ -181,6 +181,14 @@ export class MerchantDialogComponent implements OnInit {
 		}
 	}
 
+	public shouldShowTooltip(inputElement: HTMLElement, isReadOnly: boolean): boolean {
+		if (!inputElement) {
+		  return false;
+		}
+
+		return inputElement.scrollWidth > inputElement.clientWidth && isReadOnly;
+	}
+	  
 	private approveMerchant(merchantId: string): void {
 		this.merchantService.approveMerchant(merchantId).subscribe(() => {
 			this.closeDialog(SUCCESS_CODE);

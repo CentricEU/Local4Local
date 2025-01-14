@@ -21,14 +21,17 @@
                             @case('address') {
                                 <input
                                     matInput
+                                    #address
                                     [readonly]="field.isReadOnly"
                                     [maxlength]="field.maxLength ?? null"
                                     [placeholder]="field.labelKey | translate"
                                     [formControlName]="field.formControl"
                                     [errorStateMatcher]="matcher"
                                     [matAutocomplete]="auto"
-                                    (input)="onSearchAddress($event)"/>
-
+                                    [matTooltip]="shouldShowTooltip(address, field.isReadOnly) ? address.value: ''"
+                                    [ngClass]="{ 'truncate': field.isReadOnly }"
+                                    (input)="onSearchAddress($event)">
+                                
                                 <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectAddress($event.option.value)">
                                     @for (suggestion of suggestions; track suggestion.text) {
                                         <mat-option [value]="suggestion">{{ suggestion.text }}</mat-option>

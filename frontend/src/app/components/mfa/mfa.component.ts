@@ -22,6 +22,7 @@ export class MfaComponent implements OnInit {
     public userIsBlocked = false;
     public countDownValue: string;
     public isResendButtonDisabled = false;
+    public currentLanguage: string | null;
 
     public get invalidCode(): boolean | undefined {
         return this.form.get('code')?.hasError('invalidCode');
@@ -40,6 +41,7 @@ export class MfaComponent implements OnInit {
     private timerService = inject(TimerService);
 
     public ngOnInit(): void {
+        this.currentLanguage = localStorage.getItem('Br_Lang');
         this.createForm();
         this.setReturnUrl();
     }

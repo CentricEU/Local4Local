@@ -529,9 +529,9 @@ describe('MerchantDialogComponent', () => {
 	it('should close the dialog with ALREADY_REGISTERED_CODE when registration fails with ALREADY_REGISTERED_CODE', () => {
 		const mockError = { error: { message: ALREADY_REGISTERED_CODE } };
 		jest.spyOn(merchantService, 'registerMerchant').mockReturnValue(throwError(() => mockError));
-	
+
 		component['registerMerchant']();
-	
+
 		expect(matDialogRefStub.close).toHaveBeenCalledWith(ALREADY_REGISTERED_CODE);
 	});
 
@@ -544,21 +544,47 @@ describe('MerchantDialogComponent', () => {
 			contactEmail: 'test@example.com',
 			website: null
 		} as unknown as MerchantDto;
-	
+
 		component.merchantDialogType = MerchantDialogType.APPROVAL;
 		Object.defineProperty(component, 'data', { value: { merchant: mockMerchantData } });
-	
+
 		const handleApprovalDialogValuesSpy = jest.spyOn(component as any, 'handleApprovalDialogValues');
-	
+
 		component['createForm']();
-	
+
 		expect(handleApprovalDialogValuesSpy).toHaveBeenCalledWith(
 			expect.any(Object),
 			mockMerchantData['companyName']
 		);
-	
+
 		expect(component.form.get('companyName')?.value).toBe(mockMerchantData['companyName']);
 	});
-	
-	
+
+	it('should return false if inputElement is null', () => {
+		const result = component.shouldShowTooltip(null as unknown as HTMLElement, true);
+		expect(result).toBe(false);
+	});
+
+	it('should return false if inputElement is defined but isReadOnly is false', () => {
+		const mockElement = document.createElement('div');
+		mockElement.style.width = '100px';
+		mockElement.style.overflow = 'hidden';
+		mockElement.style.whiteSpace = 'nowrap';
+		mockElement.textContent = 'Short text';
+
+		const result = component.shouldShowTooltip(mockElement, false);
+		expect(result).toBe(false);
+	});
+
+	it('should return false if inputElement scrollWidth is less than or equal to clientWidth', () => {
+		const mockElement = document.createElement('div');
+		mockElement.style.width = '100px';
+		mockElement.style.overflow = 'hidden';
+		mockElement.style.whiteSpace = 'nowrap';
+		mockElement.textContent = 'Short text';
+
+		const result = component.shouldShowTooltip(mockElement, true);
+		expect(result).toBe(false);
+	});
+
 });

@@ -41,7 +41,12 @@
 			{{ 'mfa.resendMessage' | translate }}
 			}
 		</p>
-		<button mat-stroked-button class="resend-button" [disabled]="isResendButtonDisabled" (click)="resendOtp()">
+		<button
+			mat-stroked-button
+			class="resend-button"
+			[ngClass]="{ 'resend-button-dutch': currentLanguage === 'nl-NL' }"
+			[disabled]="isResendButtonDisabled"
+			(click)="resendOtp()">
 			{{ 'general.button.resendCode' | translate }}
 		</button>
 	</div>
