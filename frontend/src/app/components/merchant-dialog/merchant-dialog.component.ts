@@ -187,9 +187,8 @@ export class MerchantDialogComponent implements OnInit {
 		}
 
 		return inputElement.scrollWidth > inputElement.clientWidth && isReadOnly;
-	  }
+	}
 	  
-
 	private approveMerchant(merchantId: string): void {
 		this.merchantService.approveMerchant(merchantId).subscribe(() => {
 			this.closeDialog(SUCCESS_CODE);

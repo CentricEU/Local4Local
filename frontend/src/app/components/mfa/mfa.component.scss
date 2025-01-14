@@ -23,6 +23,6 @@
 	}
 
 	.resend-button-dutch {
-		@include mixins.size(212px, 40px);
+		width: 212px;
 	}
 }
