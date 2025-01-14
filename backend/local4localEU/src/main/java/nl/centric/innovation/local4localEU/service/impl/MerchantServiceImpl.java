@@ -181,7 +181,7 @@ public class MerchantServiceImpl implements MerchantService {
     private void validateMerchantDto(MerchantDto merchantDto) throws DtoValidateException {
         Optional<Merchant> existingMerchant = merchantRepository.findByIdentifierNumber(merchantDto.identifierNumber());
 
-        if (existingMerchant.isPresent()) {
+        if (existingMerchant.isPresent() && existingMerchant.get().getStatus() != MerchantStatusEnum.REJECTED) {
             throw new DtoValidateAlreadyExistsException(errorUniqueViolation);
         }
 
