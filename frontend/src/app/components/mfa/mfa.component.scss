@@ -20,6 +20,9 @@
 		@include mixins.size(148px, 40px);
 		margin-top: 8px;
 		align-items: center;
-		
+	}
+
+	.resend-button-dutch {
+		@include mixins.size(212px, 40px);
 	}
 }
