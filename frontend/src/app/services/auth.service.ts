@@ -17,7 +17,7 @@ export class AuthService {
 	constructor(private http: HttpClient) { }
 
 	public login(loginRequest: LoginRequestDto): Observable<HttpResponse<LoginResponseDto>> {
-		return this.http.post<LoginResponseDto>(`${environment.apiPath}/authenticate`, loginRequest, {
+		return this.http.post<LoginResponseDto>(`${environment.apiPath}/public/authenticate`, loginRequest, {
 			headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 			observe: 'response'
 		}).pipe(
