@@ -37,7 +37,7 @@ describe('CategoryService', () => {
 			expect(categories).toEqual(mockCategories);
 		});
 
-		const req = httpMock.expectOne(`${environment.apiPath}/category/all`);
+		const req = httpMock.expectOne(`${environment.apiPath}/public/category/all`);
 		expect(req.request.method).toBe('GET');
 		req.flush(mockCategories);
 	});
@@ -47,7 +47,7 @@ describe('CategoryService', () => {
 			expect(categories).toEqual(mockCategories);
 		});
 
-		const req = httpMock.expectOne(`${environment.apiPath}/category/all`);
+		const req = httpMock.expectOne(`${environment.apiPath}/public/category/all`);
 		expect(req.request.method).toBe('GET');
 		req.flush(mockCategories);
 
@@ -55,6 +55,6 @@ describe('CategoryService', () => {
 			expect(categories).toEqual(mockCategories);
 		});
 
-		httpMock.expectNone(`${environment.apiPath}/category/all`);
+		httpMock.expectNone(`${environment.apiPath}/public/category/all`);
 	});
 });

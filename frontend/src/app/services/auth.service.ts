@@ -28,7 +28,7 @@ export class AuthService {
 	}
 
 	public refreshToken(): Observable<HttpResponse<LoginResponseDto>> {
-		const url = `${environment.apiPath}/authenticate/refreshToken`;
+		const url = `${environment.apiPath}/public/authenticate/refreshToken`;
 		return this.http.post<LoginResponseDto>(url, {},
 			{
 				withCredentials: true,
@@ -37,7 +37,7 @@ export class AuthService {
 	}
 
 	public getTokenInfo(): Observable<HttpResponse<LoginResponseDto>> {
-		const url = `${environment.apiPath}/authenticate/token/details`;
+		const url = `${environment.apiPath}/public/authenticate/token/details`;
 		return this.http.get<LoginResponseDto>(url, {
 			withCredentials: true,
 			observe: 'response'
@@ -51,7 +51,7 @@ export class AuthService {
 
 	public verifyOtpCode(otpCode: number): Observable<HttpResponse<LoginResponseDto>> {
 		const params = new HttpParams().set('otpCode', otpCode)
-		return this.http.post<LoginResponseDto>(`${environment.apiPath}/authenticate/validateOtp`, {}, {
+		return this.http.post<LoginResponseDto>(`${environment.apiPath}/public/authenticate/validateOtp`, {}, {
 			headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 			params: params,
 			observe: 'response'
@@ -64,7 +64,7 @@ export class AuthService {
 	}
 
 	public resendOtp(): Observable<void> {
-		return this.http.post<void>(`${environment.apiPath}/authenticate/resendOtp`, {}, {
+		return this.http.post<void>(`${environment.apiPath}/public/authenticate/resendOtp`, {}, {
 			withCredentials: true,
 		});
 	}

@@ -37,7 +37,7 @@ describe('AuthService', () => {
 			done();
 		});
 
-		const req = httpMock.expectOne(`${environment.apiPath}/authenticate`);
+		const req = httpMock.expectOne(`${environment.apiPath}/public/authenticate`);
 		expect(req.request.method).toBe('POST');
 		expect(req.request.body).toEqual(loginRequest);
 		req.flush(null, { status: 200, statusText: 'OK' });
@@ -55,7 +55,7 @@ describe('AuthService', () => {
 			done();
 		});
 		
-		const req = httpMock.expectOne(`${environment.apiPath}/authenticate/refreshToken`);
+		const req = httpMock.expectOne(`${environment.apiPath}/public/authenticate/refreshToken`);
 		expect(req.request.method).toBe('POST');
 		expect(req.request.withCredentials).toBe(true);
 		req.flush(mockRefreshToken);
@@ -75,7 +75,7 @@ describe('AuthService', () => {
 			done();
 		});
 
-		const req = httpMock.expectOne(`${environment.apiPath}/authenticate/token/details`);
+		const req = httpMock.expectOne(`${environment.apiPath}/public/authenticate/token/details`);
 		expect(req.request.method).toBe('GET');
 		req.flush(mockLoginResponseDto);
 	});
@@ -264,7 +264,7 @@ describe('AuthService', () => {
 			done();
 		});
 	
-		const req = httpMock.expectOne(`${environment.apiPath}/authenticate/validateOtp?otpCode=${otpCode}`);
+		const req = httpMock.expectOne(`${environment.apiPath}/public/authenticate/validateOtp?otpCode=${otpCode}`);
 		expect(req.request.method).toBe('POST');
 		expect(req.request.params.get('otpCode')).toBe(otpCode.toString());
 		expect(req.request.headers.get('Content-Type')).toBe('application/json');
@@ -276,7 +276,7 @@ describe('AuthService', () => {
 			done();
 		});
 	
-		const req = httpMock.expectOne(`${environment.apiPath}/authenticate/resendOtp`);
+		const req = httpMock.expectOne(`${environment.apiPath}/public/authenticate/resendOtp`);
 		expect(req.request.method).toBe('POST');
 		expect(req.request.withCredentials).toBe(true);
 		req.flush(null);

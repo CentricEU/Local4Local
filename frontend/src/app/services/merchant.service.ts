@@ -14,7 +14,7 @@ export class MerchantService {
 	constructor(private httpClient: HttpClient) {}
 
 	public getAllMerchants(): Observable<MerchantDto[]> {
-		return this.httpClient.get<MerchantDto[]>(`${environment.apiPath}/merchant/all`);
+		return this.httpClient.get<MerchantDto[]>(`${environment.apiPath}/merchant/public/all`);
 	}
 
 	public getPaginatedMerchants(page: number, size: number): Observable<MerchantDto[]> {
@@ -34,7 +34,7 @@ export class MerchantService {
 	}
 
 	public getMerchantsByCategory(categoryId: number): Observable<MerchantDto[]> {
-		return this.httpClient.get<MerchantDto[]>(`${environment.apiPath}/merchant/filter/${categoryId}`);
+		return this.httpClient.get<MerchantDto[]>(`${environment.apiPath}/merchant/public/filter/${categoryId}`);
 	}
 
 	public countAllMerchants(): Observable<number> {
@@ -54,7 +54,7 @@ export class MerchantService {
 	}
 
 	public registerMerchant(merchantDto: MerchantDto): Observable<MerchantDto> {
-		return this.httpClient.post<MerchantDto>(`${environment.apiPath}/merchant/register`, merchantDto);
+		return this.httpClient.post<MerchantDto>(`${environment.apiPath}/merchant/public/register`, merchantDto);
 	}
 
 	public approveMerchant(merchantId: string): Observable<void> {

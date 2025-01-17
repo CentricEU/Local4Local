@@ -35,7 +35,7 @@ describe('UserService', () => {
             expect(response).toEqual(mockRecoverPasswordDto);
         });
 
-        const req = httpMock.expectOne(`${environment.apiPath}/user/recover?token=test-token`);
+        const req = httpMock.expectOne(`${environment.apiPath}/public/user/recover?token=test-token`);
         expect(req.request.method).toBe('GET');
         req.flush(mockRecoverPasswordDto);
     });
@@ -48,7 +48,7 @@ describe('UserService', () => {
             expect(response).toBe(mockResponse);
         });
 
-        const req = httpMock.expectOne(`${environment.apiPath}/user/recover`);
+        const req = httpMock.expectOne(`${environment.apiPath}/public/user/recover`);
         expect(req.request.method).toBe('POST');
         expect(req.request.body).toEqual(mockRecoverPasswordDto);
         req.flush(mockResponse);
@@ -61,7 +61,7 @@ describe('UserService', () => {
             expect(response).toEqual(mockChangePasswordDto);
         });
 
-        const req = httpMock.expectOne(`${environment.apiPath}/user/recover/reset-password`);
+        const req = httpMock.expectOne(`${environment.apiPath}/public/user/recover/reset-password`);
         expect(req.request.method).toBe('PUT');
         expect(req.request.body).toEqual(mockChangePasswordDto);
         req.flush(mockChangePasswordDto);

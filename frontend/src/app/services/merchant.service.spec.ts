@@ -59,7 +59,7 @@ describe('MerchantService', () => {
 			expect(merchants).toEqual(mockMerchants);
 		});
 
-		const req = httpMock.expectOne(`${environmentMock.apiPath}/merchant/all`);
+		const req = httpMock.expectOne(`${environmentMock.apiPath}/merchant/public/all`);
 		expect(req.request.method).toBe('GET');
 		req.flush(mockMerchants);
 	});
@@ -81,7 +81,7 @@ describe('MerchantService', () => {
 			expect(response).toEqual(mockResponse);
 		});
 
-		const req = httpMock.expectOne(`${environmentMock.apiPath}/merchant/register`);
+		const req = httpMock.expectOne(`${environmentMock.apiPath}/merchant/public/register`);
 		expect(req.request.method).toBe('POST');
 		expect(req.request.body).toEqual(mockMerchantDto);
 		req.flush(mockResponse);
@@ -115,7 +115,7 @@ describe('MerchantService', () => {
 			expect(merchants).toEqual(mockMerchants);
 		});
 
-		const req = httpMock.expectOne(`${environmentMock.apiPath}/merchant/filter/${categoryId}`);
+		const req = httpMock.expectOne(`${environmentMock.apiPath}/merchant/public/filter/${categoryId}`);
 		expect(req.request.method).toBe('GET');
 		req.flush(mockMerchants);
 	});
@@ -190,7 +190,7 @@ describe('MerchantService', () => {
 			}
 		});
 
-		const req = httpMock.expectOne(`${environmentMock.apiPath}/merchant/all`);
+		const req = httpMock.expectOne(`${environmentMock.apiPath}/merchant/public/all`);
 		req.flush(errorMessage, { status: 500, statusText: 'Server Error' });
 	});
 
