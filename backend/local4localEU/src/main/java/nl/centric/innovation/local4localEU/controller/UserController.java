@@ -24,7 +24,7 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/public/user")
 public class UserController {
 
     private final UserService userService;

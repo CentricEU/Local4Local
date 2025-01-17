@@ -79,12 +79,7 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
-                .requestMatchers("/authenticate/**")
-                .requestMatchers("/merchant/register")
-                .requestMatchers("/merchant/all")
-                .requestMatchers("/merchant/filter/**")
-                .requestMatchers("/category/**")
-                .requestMatchers("/user/**")
+                .requestMatchers("/public/**")
                 .requestMatchers(
                         "/v3/api-docs/**",
                         "/swagger-ui/**",

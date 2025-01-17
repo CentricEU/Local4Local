@@ -27,7 +27,7 @@ export class MerchantService {
 
 	public getPaginatedInvitations(page: number, size: number): Observable<InvitationDto[]> {
 		const httpParams = new HttpParams().set('page', page.toString()).set('size', size.toString());
-		return this.httpClient.get<InvitationDto[]>(`${environment.apiPath}/merchant/invitations`, {
+		return this.httpClient.get<InvitationDto[]>(`${environment.apiPath}/invitations`, {
 			params: httpParams,
 			withCredentials: true
 		});
@@ -42,13 +42,13 @@ export class MerchantService {
 	}
 
 	public countAllInvitations(): Observable<number> {
-		return this.httpClient.get<number>(`${environment.apiPath}/merchant/invitations/count`, {
+		return this.httpClient.get<number>(`${environment.apiPath}/invitations/count`, {
 			withCredentials: true
 		});
 	}
 
 	public inviteMerchants(inviteMerchantsDto: InviteMerchantsDto): Observable<void> {
-		return this.httpClient.post<void>(`${environment.apiPath}/merchant/invite`, inviteMerchantsDto, {
+		return this.httpClient.post<void>(`${environment.apiPath}/invitations/send`, inviteMerchantsDto, {
 			withCredentials: true
 		});
 	}

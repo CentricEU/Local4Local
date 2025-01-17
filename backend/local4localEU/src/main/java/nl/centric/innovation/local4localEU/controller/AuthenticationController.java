@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/authenticate")
+@RequestMapping("/public/authenticate")
 public class AuthenticationController {
 
     private final AuthenticationService authService;

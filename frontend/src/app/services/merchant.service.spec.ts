@@ -142,7 +142,7 @@ describe('MerchantService', () => {
 			expect(true).toBeTruthy();
 		});
 
-		const req = httpMock.expectOne(`${environmentMock.apiPath}/merchant/invite`);
+		const req = httpMock.expectOne(`${environmentMock.apiPath}/invitations/send`);
 		expect(req.request.method).toBe('POST');
 		expect(req.request.body).toEqual(mockInviteMerchantsDto);
 		req.flush(null);
@@ -236,7 +236,7 @@ describe('MerchantService', () => {
 			expect(invitations).toEqual(mockInvitations);
 		});
 
-		const req = httpMock.expectOne(`${environmentMock.apiPath}/merchant/invitations?page=0&size=10`);
+		const req = httpMock.expectOne(`${environmentMock.apiPath}/invitations?page=0&size=10`);
 		expect(req.request.method).toBe('GET');
 		req.flush(mockInvitations);
 	});
@@ -250,7 +250,7 @@ describe('MerchantService', () => {
 			}
 		});
 
-		const req = httpMock.expectOne(`${environmentMock.apiPath}/merchant/invitations?page=0&size=10`);
+		const req = httpMock.expectOne(`${environmentMock.apiPath}/invitations?page=0&size=10`);
 		req.flush(errorMessage, { status: 500, statusText: 'Server Error' });
 	});
 
@@ -261,7 +261,7 @@ describe('MerchantService', () => {
 			expect(count).toEqual(mockInvitationsCount);
 		});
 
-		const req = httpMock.expectOne(`${environmentMock.apiPath}/merchant/invitations/count`);
+		const req = httpMock.expectOne(`${environmentMock.apiPath}/invitations/count`);
 		expect(req.request.method).toBe('GET');
 		req.flush(mockInvitationsCount);
 	});
@@ -275,7 +275,7 @@ describe('MerchantService', () => {
 			}
 		});
 
-		const req = httpMock.expectOne(`${environmentMock.apiPath}/merchant/invitations/count`);
+		const req = httpMock.expectOne(`${environmentMock.apiPath}/invitations/count`);
 		req.flush(errorMessage, { status: 500, statusText: 'Server Error' });
 	});
 });
