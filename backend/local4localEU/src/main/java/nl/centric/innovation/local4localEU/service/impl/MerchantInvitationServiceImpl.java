@@ -2,9 +2,7 @@ package nl.centric.innovation.local4localEU.service.impl;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import nl.centric.innovation.local4localEU.dto.InvitationDto;
@@ -63,9 +61,8 @@ public class MerchantInvitationServiceImpl implements MerchantInvitationService 
                 throw new DtoValidateException(duplicateValue);
             }
 
-            MerchantInvitation InviteMerchant = MerchantInvitation.builder().email(email)
-                    .message(inviteMerchantDto.message()).build();
-            merchantInvitationRepository.save(InviteMerchant);
+            MerchantInvitation merchantInvitation = MerchantInvitation.of(email, inviteMerchantDto.message());
+            merchantInvitationRepository.save(merchantInvitation);
 
             processedEmails.add(email);
         }
@@ -75,14 +72,14 @@ public class MerchantInvitationServiceImpl implements MerchantInvitationService 
 
     }
 
-	@Override
-	public List<InvitationDto> getAllLatestSentToEmail(Integer page, Integer size) throws DtoValidateException {
-		Pageable pageable = PageRequest.of(page, size);
+    @Override
+    public List<InvitationDto> getAllLatestSentToEmail(Integer page, Integer size) throws DtoValidateException {
+        Pageable pageable = PageRequest.of(page, size);
 
-		Page<MerchantInvitation> invitations = merchantInvitationRepository.findAllByIsActiveTrueOrderByCreatedDateDesc(pageable);
+        Page<MerchantInvitation> invitations = merchantInvitationRepository.findAllByIsActiveTrueOrderByCreatedDateDesc(pageable);
 
-		return invitations.stream().map(InvitationDto::toDto).collect(Collectors.toList());
-	}
+        return invitations.stream().map(InvitationDto::toDto).collect(Collectors.toList());
+    }
 
     @Override
     public Integer countInvitations() {
