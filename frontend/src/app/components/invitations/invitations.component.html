@@ -27,13 +27,13 @@
 					<p>{{ 'table.column.registered' | translate }}</p>
 				</th>
 				<td mat-cell *matCellDef="let element">
-					<div class="registered" >
+					<div class="registered">
 						@if(element.registered) {
-							<mat-icon class="check">check_circle</mat-icon>
+						<mat-icon class="check">check_circle</mat-icon>
 						} @else {
 						<mat-icon class="cancel">cancel</mat-icon>
 						}
-						<p>{{ element.registered ? 'general.yes' : 'general.no' | translate }}</p>
+						<p>{{ element.registered ? 'general.yes' : ('general.no' | translate) }}</p>
 					</div>
 				</td>
 			</ng-container>
