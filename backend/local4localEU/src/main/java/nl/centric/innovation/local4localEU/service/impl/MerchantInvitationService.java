@@ -114,6 +114,7 @@ public class MerchantInvitationService {
         merchantInvitationRepository.saveAll(invitations);
 
         return emails.stream().collect(Collectors.toSet());
+        
     }
 
     private void sendInvitationEmails(Set<String> processedEmails, String message, String language) {
