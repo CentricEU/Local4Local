@@ -183,7 +183,6 @@ public class EmailServiceImpl implements EmailService {
 
         mailTemplate.setClosing(closing);
         mailTemplate.setAction(null);
-        //mailTemplate.setContent(content);
         mailTemplate.setBtnText(btnText);
         mailTemplate.setContent(content);
 
