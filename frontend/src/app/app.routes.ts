@@ -22,6 +22,6 @@ export const appRoutes: Route[] = [
     { path: commonRoutingConstants.merchants, component: MerchantsComponent, canActivate: [AuthGuard] },
     { path: commonRoutingConstants.invitations, component: InvitationsComponent, canActivate: [AuthGuard] },
     { path: commonRoutingConstants.profile, component: ProfileComponent, canActivate: [AuthGuard] },
-    { path: commonRoutingConstants.mfa, component: MfaComponent, canActivate: [MfaGuard] },
+    { path: commonRoutingConstants.mfa, component: MfaComponent },
     { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
