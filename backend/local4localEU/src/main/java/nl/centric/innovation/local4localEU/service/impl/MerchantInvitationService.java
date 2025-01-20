@@ -58,7 +58,7 @@ public class MerchantInvitationService {
     public void inviteMerchant(InviteMerchantDto inviteMerchantDto, String language) throws DtoValidateException {
         validateInviteMerchantDto(inviteMerchantDto);
         Map<String, UUID> processedEmails = processEmails(inviteMerchantDto);
-        sendInvitationEmails(processedEmails, inviteMerchantDto.message(), language);
+        emailService.sendInviteMerchantEmail(language, processedEmails, inviteMerchantDto.message());
     }
 
     public List<InvitationDto> getAllLatestSentToEmail(Integer page, Integer size) {
@@ -105,6 +105,7 @@ public class MerchantInvitationService {
     private Map<String, UUID> processEmails(InviteMerchantDto inviteMerchantDto) throws DtoValidateException {
         // Check for duplicates in the input list first
         List<String> emails = inviteMerchantDto.emails();
+
         if (emails.size() != new HashSet<>(emails).size()) {
             throw new DtoValidateException(duplicateValue);
         }
@@ -121,9 +122,5 @@ public class MerchantInvitationService {
         merchantInvitationRepository.saveAll(invitations);
 
         return emailTokenMap;
-    }
-
-    private void sendInvitationEmails(Map<String, UUID> emailsArray, String message, String language) {
-        emailService.sendInviteMerchantEmail(language, emailsArray, message);
     }
 }
