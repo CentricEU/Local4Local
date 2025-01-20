@@ -5,7 +5,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.UUID;
 
-import nl.centric.innovation.local4localEU.dto.InvitationDto;
 import nl.centric.innovation.local4localEU.dto.RejectMerchantDto;
 import nl.centric.innovation.local4localEU.exception.CustomException.TalerException;
 import org.springframework.http.HttpStatus;
@@ -22,12 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import nl.centric.innovation.local4localEU.dto.InviteMerchantDto;
 import nl.centric.innovation.local4localEU.dto.MerchantDto;
 import nl.centric.innovation.local4localEU.dto.MerchantViewDto;
 import nl.centric.innovation.local4localEU.entity.Role;
 import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidateException;
-import nl.centric.innovation.local4localEU.service.interfaces.MerchantInvitationService;
 import nl.centric.innovation.local4localEU.service.interfaces.MerchantService;
 import nl.centric.innovation.local4localEU.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,7 +34,7 @@ import org.springframework.beans.factory.annotation.Value;
 @RequestMapping("/merchant")
 public class MerchantController {
     private final MerchantService merchantService;
-    private final MerchantInvitationService merchantInvitationService;
+
     private final UserService userService;
 
     @Value("${local4localEU.server.name}")
@@ -45,7 +42,7 @@ public class MerchantController {
 
     private static final String RESET_URL = "/recover/reset-password/";
 
-    @RequestMapping(path = "/register", method = RequestMethod.POST)
+    @RequestMapping(path = "/public/register", method = RequestMethod.POST)
     public ResponseEntity<MerchantDto> saveMerchant(@RequestBody MerchantDto merchantDto,
                                                     @CookieValue(value = "language", defaultValue = "nl-NL") String language) throws DtoValidateException {
         MerchantDto savedMerchant = merchantService.saveMerchant(merchantDto);
@@ -54,7 +51,7 @@ public class MerchantController {
         return ResponseEntity.ok(savedMerchant);
     }
 
-    @RequestMapping(path = "/all", method = RequestMethod.GET)
+    @RequestMapping(path = "/public/all", method = RequestMethod.GET)
     public ResponseEntity<List<MerchantViewDto>> getAllMerchants() {
         return ResponseEntity.ok(merchantService.getAllApproved());
     }
@@ -67,16 +64,7 @@ public class MerchantController {
         return ResponseEntity.ok(merchantService.getPaginatedMerchants(page, size));
     }
 
-    @RequestMapping(path = "/invitations", method = RequestMethod.GET)
-    @Secured({Role.ROLE_MANAGER})
-    public ResponseEntity<List<InvitationDto>> getInvitations(
-            @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "25") Integer size) throws DtoValidateException {
-
-        return ResponseEntity.ok(merchantInvitationService.getAllLatestSentToEmail(page, size));
-    }
-
-    @RequestMapping(path = "/filter/{categoryId}", method = RequestMethod.GET)
+    @RequestMapping(path = "/public/filter/{categoryId}", method = RequestMethod.GET)
     public ResponseEntity<List<MerchantViewDto>> getMerchantsByCategory(@PathVariable Integer categoryId) {
         return ResponseEntity.ok(merchantService.getByCategory(categoryId));
     }
@@ -87,25 +75,11 @@ public class MerchantController {
         return ResponseEntity.ok(merchantService.countAll());
     }
 
-    @RequestMapping(path = "/invitations/count", method = RequestMethod.GET)
-    @Secured({Role.ROLE_MANAGER})
-    public ResponseEntity<Integer> countInvitations() throws DtoValidateException {
-        return ResponseEntity.ok(merchantInvitationService.countInvitations());
-    }
-
-    @RequestMapping(path = "/invite", method = RequestMethod.POST)
-    @Secured({Role.ROLE_MANAGER})
-    public ResponseEntity<Void> inviteSupplier(@RequestBody InviteMerchantDto inviteMerchantDto,
-                                               @CookieValue(value = "language", defaultValue = "nl-NL") String language) throws DtoValidateException {
-
-        merchantInvitationService.save(inviteMerchantDto, language);
-        return ResponseEntity.ok().build();
-    }
-
     @RequestMapping(path = "/approve/{merchantId}", method = RequestMethod.PATCH)
     @Secured({Role.ROLE_MANAGER})
     public ResponseEntity<Void> approveMerchant(@PathVariable("merchantId") UUID merchantId,
-                                                @CookieValue(value = "language", defaultValue = "nl-NL") String language)
+                                                @CookieValue(value = "language", defaultValue = "nl-NL")
+                                                String language)
             throws DtoValidateException, URISyntaxException, IOException, InterruptedException, TalerException {
         merchantService.approveMerchant(merchantId, language);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

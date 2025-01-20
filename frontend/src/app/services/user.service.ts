@@ -14,18 +14,18 @@ export class UserService {
 
     public getRecoverByToken(token: string): Observable<RecoverPasswordDto> {
         const params = new HttpParams().set('token', token)
-        const url = `${environment.apiPath}/user/recover`;
+        const url = `${environment.apiPath}/public/user/recover`;
         return this.http.get(url, { params: params })
             .pipe(map((result) => result as RecoverPasswordDto));
     }
 
     public recoverPassword(recoverPassword: RecoverPasswordDto): Observable<string> {
-        const url = `${environment.apiPath}/user/recover`;
+        const url = `${environment.apiPath}/public/user/recover`;
         return this.http.post<string>(url, recoverPassword, {});
     }
 
     public changePassword(changePassword: ChangePasswordDto): Observable<ChangePasswordDto> {
-        const url = `${environment.apiPath}/user/recover/reset-password`;
+        const url = `${environment.apiPath}/public/user/recover/reset-password`;
         return this.http.put<ChangePasswordDto>(url, changePassword);
     }
 }

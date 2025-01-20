@@ -22,7 +22,7 @@ export class CategoryService {
 			return this.categoryObservable;
 		}
 
-		return this.httpClient.get<CategoryDto[]>(`${environment.apiPath}/category/all`).pipe(
+		return this.httpClient.get<CategoryDto[]>(`${environment.apiPath}/public/category/all`).pipe(
 			tap(data => this.categorySubject.next(data)),
 		);
 	}

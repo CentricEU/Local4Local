@@ -1,6 +1,7 @@
 package nl.centric.innovation.local4localEU.unit;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -11,8 +12,11 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import nl.centric.innovation.local4localEU.dto.InvitationDto;
+import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidateNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,7 +28,7 @@ import nl.centric.innovation.local4localEU.dto.InviteMerchantDto;
 import nl.centric.innovation.local4localEU.entity.MerchantInvitation;
 import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidateException;
 import nl.centric.innovation.local4localEU.repository.MerchantInvitationRepository;
-import nl.centric.innovation.local4localEU.service.impl.MerchantInvitationServiceImpl;
+import nl.centric.innovation.local4localEU.service.impl.MerchantInvitationService;
 import nl.centric.innovation.local4localEU.service.interfaces.EmailService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -35,7 +39,7 @@ import org.springframework.data.domain.Pageable;
 public class MerchantInvitationServiceImplTest {
 
     @InjectMocks
-    private MerchantInvitationServiceImpl merchantInvitationService;
+    private MerchantInvitationService merchantInvitationService;
 
     @Mock
     private EmailService emailService;
@@ -48,6 +52,11 @@ public class MerchantInvitationServiceImplTest {
     @Value("${error.TooManyEmails}")
     private String errorTooManyEmails;
 
+    @Value("${error.entity.notfound}")
+    private String errorEntityNotFound;
+
+    @Value("${error.invitation.expired}")
+    private String errorInvitationExpired;
 
     @Test
     void GivenTooManyEmails_WhenSave_ThenExpectDtoValidateException() {
@@ -55,7 +64,7 @@ public class MerchantInvitationServiceImplTest {
                 .emails(Arrays.asList(new String[51])) // More than 50 emails
                 .build();
         assertThrows(DtoValidateException.class, () -> {
-            merchantInvitationService.save(dto, "en");
+            merchantInvitationService.inviteMerchant(dto, "en");
         });
     }
 
@@ -66,7 +75,7 @@ public class MerchantInvitationServiceImplTest {
                 .build();
 
         assertThrows(DtoValidateException.class, () -> {
-            merchantInvitationService.save(dto, "en");
+            merchantInvitationService.inviteMerchant(dto, "en");
         });
     }
 
@@ -77,7 +86,7 @@ public class MerchantInvitationServiceImplTest {
                 .build();
 
         assertThrows(DtoValidateException.class, () -> {
-            merchantInvitationService.save(dto, "en");
+            merchantInvitationService.inviteMerchant(dto, "en");
         });
     }
 
@@ -88,7 +97,7 @@ public class MerchantInvitationServiceImplTest {
                 .message("Join us!")
                 .build();
 
-        merchantInvitationService.save(dto, "en");
+        merchantInvitationService.inviteMerchant(dto, "en");
 
         verify(merchantInvitationRepository, times(2)).save(any(MerchantInvitation.class));
         verify(emailService, times(1)).sendInviteMerchantEmail(any(), anyString(), any(), anyString());
@@ -132,5 +141,46 @@ public class MerchantInvitationServiceImplTest {
 
         // Assert
         assertEquals(activeInvitationsCount, result);
+    }
+
+    @Test
+    void GivenValidToken_WhenValidateInvitationLink_ThenNoExceptionThrown() {
+        UUID token = UUID.randomUUID();
+        MerchantInvitation invitation = new MerchantInvitation();
+        invitation.setToken(token);
+        invitation.setTokenExpirationDate(LocalDateTime.now().plusDays(1));
+
+        when(merchantInvitationRepository.findByToken(token)).thenReturn(Optional.of(invitation));
+
+        assertDoesNotThrow(() -> merchantInvitationService.validateInvitationToken(token));
+    }
+
+    @Test
+    void GivenNonExistentToken_WhenValidateInvitationLink_ThenThrowDtoValidateNotFoundException() {
+        UUID token = UUID.randomUUID();
+
+        when(merchantInvitationRepository.findByToken(token)).thenReturn(Optional.empty());
+
+        DtoValidateNotFoundException exception = assertThrows(DtoValidateNotFoundException.class, () -> {
+            merchantInvitationService.validateInvitationToken(token);
+        });
+
+        assertEquals(errorEntityNotFound, exception.getMessage());
+    }
+
+    @Test
+    void GivenExpiredToken_WhenValidateInvitationLink_ThenThrowDtoValidateNotFoundException() {
+        UUID token = UUID.randomUUID();
+        MerchantInvitation invitation = new MerchantInvitation();
+        invitation.setToken(token);
+        invitation.setTokenExpirationDate(LocalDateTime.now().minusDays(1));
+
+        when(merchantInvitationRepository.findByToken(token)).thenReturn(Optional.of(invitation));
+
+        DtoValidateNotFoundException exception = assertThrows(DtoValidateNotFoundException.class, () -> {
+            merchantInvitationService.validateInvitationToken(token);
+        });
+
+        assertEquals(errorInvitationExpired, exception.getMessage());
     }
 }
