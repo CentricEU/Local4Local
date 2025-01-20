@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import lombok.SneakyThrows;
 import nl.centric.innovation.local4localEU.dto.InvitationDto;
 import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidateNotFoundException;
 import nl.centric.innovation.local4localEU.service.impl.EmailService;
@@ -95,7 +96,8 @@ public class MerchantInvitationServiceImplTest {
     }
 
     @Test
-    void GivenValidInviteMerchantDto_WhenSave_ThenMerchantInvitationIsSavedAndEmailsAreSent() throws DtoValidateException {
+    @SneakyThrows
+    void GivenValidInviteMerchantDto_WhenSave_ThenMerchantInvitationIsSavedAndEmailsAreSent() {
         // Given
         InviteMerchantDto dto = InviteMerchantDto.builder()
                 .emails(Arrays.asList("test1@example.com", "test2@example.com"))
@@ -121,7 +123,7 @@ public class MerchantInvitationServiceImplTest {
     }
 
     @Test
-    void GivenValidPageRequest_WhenGetAllLatestSentToEmail_ThenReturnListOfInvitationDto() throws DtoValidateException {
+    void GivenValidPageRequest_WhenGetAllLatestSentToEmail_ThenReturnListOfInvitationDto() {
         // Arrange
         Pageable pageable = PageRequest.of(0, 2);
         MerchantInvitation invitation1 = new MerchantInvitation();
