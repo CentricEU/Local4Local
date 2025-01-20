@@ -1,6 +1,8 @@
 package nl.centric.innovation.local4localEU.unit;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -11,6 +13,7 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,6 +22,7 @@ import nl.centric.innovation.local4localEU.dto.InvitationDto;
 import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidateNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -92,15 +96,28 @@ public class MerchantInvitationServiceImplTest {
 
     @Test
     void GivenValidInviteMerchantDto_WhenSave_ThenMerchantInvitationIsSavedAndEmailsAreSent() throws DtoValidateException {
+        // Given
         InviteMerchantDto dto = InviteMerchantDto.builder()
                 .emails(Arrays.asList("test1@example.com", "test2@example.com"))
                 .message("Join us!")
                 .build();
 
+        // When
         merchantInvitationService.inviteMerchant(dto, "en");
 
-        verify(merchantInvitationRepository, times(2)).save(any(MerchantInvitation.class));
-        verify(emailService, times(1)).sendInviteMerchantEmail(any(), anyString(), any(), anyString());
+        // Then
+        ArgumentCaptor<Collection<MerchantInvitation>> captor = ArgumentCaptor.forClass(Collection.class);
+        verify(merchantInvitationRepository, times(1)).saveAll(captor.capture());
+
+        // Verify
+        Collection<MerchantInvitation> capturedInvitations = captor.getValue();
+        assertEquals(2, capturedInvitations.size());
+
+        MerchantInvitation firstInvitation = capturedInvitations.iterator().next();
+        assertNotNull(firstInvitation.getToken());
+        assertTrue(firstInvitation.getEmail().equals("test1@example.com") || firstInvitation.getEmail().equals("test2@example.com"));
+
+        verify(emailService, times(1)).sendInviteMerchantEmail(anyString(), any(), anyString());
     }
 
     @Test

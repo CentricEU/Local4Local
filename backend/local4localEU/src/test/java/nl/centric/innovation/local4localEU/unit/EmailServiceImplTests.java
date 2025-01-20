@@ -23,6 +23,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import util.MailTemplate;
 
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -147,16 +148,14 @@ public class EmailServiceImplTests {
     @Test
     void GivenValidInformation_WhenSendInviteSupplierEmail_ThenExpectAmazonEmailServiceToBeCalled() {
         // Given
-        String url = "http://example.com";
-        String[] toAddress = {"email@domain.com"};
+        Map<String,UUID> toAddress = Map.of("email@domain.com", UUID.randomUUID());
         String language = "en";
-        String tenandName = "Iasi";
         String message = "Test message";
         String htmlContent = "<html><body><h1>Test Content</h1></body></html>";
         when(mailTemplateBuilder.buildEmailTemplate(any())).thenReturn(htmlContent);
         when(amazonEmailService.sendEmail(any())).thenReturn(null);
         // When
-        emailService.sendInviteMerchantEmail(url, language, toAddress, message);
+        emailService.sendInviteMerchantEmail(language, toAddress, message);
 
         // Then
         verify(mailTemplateBuilder, times(1)).buildEmailTemplate(any());

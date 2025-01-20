@@ -1,9 +1,10 @@
 package nl.centric.innovation.local4localEU.service.interfaces;
 
+import java.util.Map;
 import java.util.UUID;
 
 public interface EmailService {
-    void sendInviteMerchantEmail(String url, String language, String[] toAddress, String message);
+    void sendInviteMerchantEmail(String language, Map<String, UUID> toAddress, String message);
 
     void sendPasswordRecoveryEmail(String url, String[] toAddress, String language);
 

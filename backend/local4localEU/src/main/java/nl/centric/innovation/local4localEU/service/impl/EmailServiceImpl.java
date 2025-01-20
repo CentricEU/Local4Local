@@ -23,6 +23,7 @@ import util.MailTemplate;
 import util.StringUtils;
 
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 
 @Slf4j
@@ -107,12 +108,19 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendInviteMerchantEmail(String url, String language, String[] toAddress, String message) {
-        MailTemplate mailTemplate = getInviteMerchantTemplate(language, url,
-                EmailTemplateEnum.INVITE_MERCHANT.getTemplate(), message);
-        String htmlContent = mailTemplateBuilder.buildEmailTemplate(mailTemplate);
-        String textContent = buildTemplateText(mailTemplate);
-        sendEmail(emailSender, toAddress, mailTemplate.getSubject(), htmlContent, textContent.toString());
+    public void sendInviteMerchantEmail(String language, Map<String, UUID> toAddress, String message) {
+        toAddress.forEach((email, uuid) -> {
+            String url = String.format("%s/register/%s", baseURL, uuid);
+
+            MailTemplate mailTemplate = getInviteMerchantTemplate(language, url,
+                    EmailTemplateEnum.INVITE_MERCHANT.getTemplate(), message);
+
+            sendEmail(emailSender,
+                    new String[]{email},
+                    mailTemplate.getSubject(),
+                    mailTemplateBuilder.buildEmailTemplate(mailTemplate),
+                    buildTemplateText(mailTemplate));
+        });
     }
 
     @Override
@@ -165,6 +173,9 @@ public class EmailServiceImpl implements EmailService {
     private MailTemplate getInviteMerchantTemplate(String language, String url, String templateMiddlePart, String message) {
         Locale locale = new Locale(language);
         MailTemplate mailTemplate = buildGenericTemplate(locale, language, url, templateMiddlePart, "");
+
+        String content = getContentForInviteMerchant(locale, templateMiddlePart, message);
+
         String closing = getEmailStringText(locale, EmailStructureEnum.GENERIC.getStructure(),
                 EmailStructureEnum.CLOSING.getStructure());
         String btnText = getEmailStringText(locale, EmailStructureEnum.GENERIC.getStructure(),
@@ -172,8 +183,9 @@ public class EmailServiceImpl implements EmailService {
 
         mailTemplate.setClosing(closing);
         mailTemplate.setAction(null);
+        //mailTemplate.setContent(content);
         mailTemplate.setBtnText(btnText);
-        mailTemplate.setContent(message);
+        mailTemplate.setContent(content);
 
         return mailTemplate;
     }
@@ -229,10 +241,11 @@ public class EmailServiceImpl implements EmailService {
         return mailTemplate;
     }
 
-    private String getContentForInviteMerchant(Locale locale, String templateMiddlePart) {
+
+    private String getContentForInviteMerchant(Locale locale, String templateMiddlePart, String message) {
         String contentInfo = getEmailStringText(locale, templateMiddlePart, EmailStructureEnum.CONTENT.getStructure())
                 .replace(EmailHtmlEnum.LINE_BREAK.getTag(), EmailHtmlEnum.RN.getTag());
-        return StringUtils.joinStringPieces(contentInfo);
+        return StringUtils.joinStringPieces(message, EmailHtmlEnum.LINE_BREAK.getTag(), EmailHtmlEnum.LINE_BREAK.getTag(), contentInfo);
     }
 
     private String getContentForApproveMerchant(Locale locale, String templateMiddlePart, UUID token, String merchantName) {

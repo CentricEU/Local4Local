@@ -1,8 +1,10 @@
 package nl.centric.innovation.local4localEU.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -55,7 +57,7 @@ public class MerchantInvitationService {
     @Transactional
     public void inviteMerchant(InviteMerchantDto inviteMerchantDto, String language) throws DtoValidateException {
         validateInviteMerchantDto(inviteMerchantDto);
-        Set<String> processedEmails = processEmails(inviteMerchantDto);
+        Map<String, UUID> processedEmails = processEmails(inviteMerchantDto);
         sendInvitationEmails(processedEmails, inviteMerchantDto.message(), language);
     }
 
@@ -100,26 +102,28 @@ public class MerchantInvitationService {
         }
     }
 
-    private Set<String> processEmails(InviteMerchantDto inviteMerchantDto) throws DtoValidateException {
+    private Map<String, UUID> processEmails(InviteMerchantDto inviteMerchantDto) throws DtoValidateException {
         // Check for duplicates in the input list first
         List<String> emails = inviteMerchantDto.emails();
         if (emails.size() != new HashSet<>(emails).size()) {
             throw new DtoValidateException(duplicateValue);
         }
 
+        Map<String, UUID> emailTokenMap = new HashMap<>();
         Set<MerchantInvitation> invitations = emails.stream()
-                .map(email -> MerchantInvitation.of(email, inviteMerchantDto.message()))
+                .map(email -> {
+                    MerchantInvitation invitation = MerchantInvitation.of(email, inviteMerchantDto.message());
+                    emailTokenMap.put(email, invitation.getToken());
+                    return invitation;
+                })
                 .collect(Collectors.toSet());
 
         merchantInvitationRepository.saveAll(invitations);
 
-        return emails.stream().collect(Collectors.toSet());
-        
+        return emailTokenMap;
     }
 
-    private void sendInvitationEmails(Set<String> processedEmails, String message, String language) {
-        String url = baseURL;
-        String[] emailsArray = processedEmails.toArray(new String[0]);
-        emailService.sendInviteMerchantEmail(url, language, emailsArray, message);
+    private void sendInvitationEmails(Map<String, UUID> emailsArray, String message, String language) {
+        emailService.sendInviteMerchantEmail(language, emailsArray, message);
     }
 }
