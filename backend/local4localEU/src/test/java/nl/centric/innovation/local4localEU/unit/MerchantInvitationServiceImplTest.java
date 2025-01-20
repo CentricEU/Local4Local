@@ -20,6 +20,7 @@ import java.util.UUID;
 
 import nl.centric.innovation.local4localEU.dto.InvitationDto;
 import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidateNotFoundException;
+import nl.centric.innovation.local4localEU.service.impl.EmailService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;

@@ -29,6 +29,7 @@ import nl.centric.innovation.local4localEU.exception.CustomException.PasswordSam
 import nl.centric.innovation.local4localEU.exception.CustomException.RecoverException;
 import nl.centric.innovation.local4localEU.repository.UserRepository;
 import nl.centric.innovation.local4localEU.service.impl.CaptchaServiceImpl;
+import nl.centric.innovation.local4localEU.service.impl.EmailService;
 import nl.centric.innovation.local4localEU.service.impl.LoginAttemptServiceImpl;
 import nl.centric.innovation.local4localEU.service.impl.RecoverPasswordServiceImpl;
 import nl.centric.innovation.local4localEU.service.impl.UserServiceImpl;
