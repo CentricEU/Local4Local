@@ -23,6 +23,7 @@ import nl.centric.innovation.local4localEU.entity.MerchantInvitation;
 import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidateException;
 import nl.centric.innovation.local4localEU.repository.MerchantInvitationRepository;
 import nl.centric.innovation.local4localEU.service.interfaces.EmailService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -51,6 +52,7 @@ public class MerchantInvitationService {
     @Value("${error.invitation.expired}")
     private String errorInvitationExpired;
 
+    @Transactional
     public void inviteMerchant(InviteMerchantDto inviteMerchantDto, String language) throws DtoValidateException {
         validateInviteMerchantDto(inviteMerchantDto);
         Set<String> processedEmails = processEmails(inviteMerchantDto);
@@ -105,12 +107,13 @@ public class MerchantInvitationService {
             throw new DtoValidateException(duplicateValue);
         }
 
-        return emails.stream()
-                .peek(email -> {
-                    MerchantInvitation invitation = MerchantInvitation.of(email, inviteMerchantDto.message());
-                    merchantInvitationRepository.save(invitation);
-                })
+        Set<MerchantInvitation> invitations = emails.stream()
+                .map(email -> MerchantInvitation.of(email, inviteMerchantDto.message()))
                 .collect(Collectors.toSet());
+
+        merchantInvitationRepository.saveAll(invitations);
+
+        return emails.stream().collect(Collectors.toSet());
     }
 
     private void sendInvitationEmails(Set<String> processedEmails, String message, String language) {
