@@ -12,12 +12,14 @@ import nl.centric.innovation.local4localEU.enums.MerchantStatusEnum;
 import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidateAlreadyExistsException;
 import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidateException;
 import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidateNotFoundException;
+import nl.centric.innovation.local4localEU.repository.MerchantInvitationRepository;
 import nl.centric.innovation.local4localEU.repository.MerchantRepository;
 import nl.centric.innovation.local4localEU.repository.RejectMerchantRepository;
 import nl.centric.innovation.local4localEU.repository.UserRepository;
 import nl.centric.innovation.local4localEU.service.impl.EmailService;
-import nl.centric.innovation.local4localEU.service.impl.MerchantServiceImpl;
+import nl.centric.innovation.local4localEU.service.impl.MerchantService;
 import nl.centric.innovation.local4localEU.service.interfaces.TalerService;
+import nl.centric.innovation.local4localEU.service.interfaces.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -47,7 +49,7 @@ import java.util.UUID;
 public class MerchantServiceImplTests {
 
     @InjectMocks
-    private MerchantServiceImpl merchantService;
+    private MerchantService merchantService;
 
     @Mock
     private MerchantRepository merchantRepository;
@@ -56,9 +58,15 @@ public class MerchantServiceImplTests {
     private RejectMerchantRepository rejectMerchantRepository;
 
     @Mock
+    private MerchantInvitationRepository merchantInvitationRepository;
+
+    @Mock
     private UserRepository userRepository;
     @Mock
     private EmailService emailService;
+
+    @Mock
+    private UserService userService;
 
     @Mock
     private TalerService talerService;
@@ -81,6 +89,7 @@ public class MerchantServiceImplTests {
     @BeforeEach
     void setup() {
         ReflectionTestUtils.setField(merchantService, "currencyManagerEmail", CURRENCY_MANAGER_EMAIL);
+        ReflectionTestUtils.setField(merchantService, "userService", userService);
 
         validMerchantDto = MerchantDto.builder()
                 .companyName("Company")
@@ -134,7 +143,7 @@ public class MerchantServiceImplTests {
         when(merchantRepository.findByIdentifierNumber(VALID_IDENTIFIER_NUMBER)).thenReturn(Optional.empty());
 
         // When
-        merchantService.saveMerchant(validMerchantDto);
+        merchantService.saveMerchantAndSendEmail(validMerchantDto, "nl-NL");
 
         // Then
         verify(merchantRepository, times(1)).save(any(Merchant.class));
@@ -147,7 +156,7 @@ public class MerchantServiceImplTests {
         when(merchantRepository.findByIdentifierNumber(VALID_IDENTIFIER_NUMBER)).thenReturn(Optional.of(existingMerchant));
 
         // When Then
-        assertThrows(DtoValidateAlreadyExistsException.class, () -> merchantService.saveMerchant(validMerchantDto));
+        assertThrows(DtoValidateAlreadyExistsException.class, () -> merchantService.saveMerchantAndSendEmail(validMerchantDto, "nl-NL"));
 
         verify(merchantRepository, never()).save(any(Merchant.class));
     }
@@ -158,7 +167,7 @@ public class MerchantServiceImplTests {
         when(merchantRepository.findByIdentifierNumber(VALID_IDENTIFIER_NUMBER)).thenReturn(Optional.empty());
 
         // When Then
-        assertThrows(DtoValidateException.class, () -> merchantService.saveMerchant(invalidCategoryMerchantDto));
+        assertThrows(DtoValidateException.class, () -> merchantService.saveMerchantAndSendEmail(invalidCategoryMerchantDto, "nl-NL"));
 
         verify(merchantRepository, never()).save(any(Merchant.class));
     }
@@ -169,7 +178,7 @@ public class MerchantServiceImplTests {
         when(merchantRepository.findByIdentifierNumber(VALID_IDENTIFIER_NUMBER)).thenReturn(Optional.empty());
 
         // When Then
-        assertThrows(DtoValidateException.class, () -> merchantService.saveMerchant(invalidWebsiteMerchantDto));
+        assertThrows(DtoValidateException.class, () -> merchantService.saveMerchantAndSendEmail(invalidWebsiteMerchantDto, "nl-NL"));
 
         verify(merchantRepository, never()).save(any(Merchant.class));
     }
@@ -473,7 +482,7 @@ public class MerchantServiceImplTests {
         when(merchantRepository.findByContactEmailIgnoreCase(validMerchantDto.contactEmail())).thenReturn(Optional.of(rejectedMerchant));
 
         // When
-        merchantService.saveMerchant(validMerchantDto);
+        merchantService.saveMerchantAndSendEmail(validMerchantDto, "nl-NL");
 
         // Then
         verify(merchantRepository, times(1)).deleteById(rejectedMerchant.getId());
@@ -488,7 +497,7 @@ public class MerchantServiceImplTests {
         when(merchantRepository.findByContactEmailIgnoreCase(validMerchantDto.contactEmail())).thenReturn(Optional.of(existingMerchant));
 
         // When Then
-        assertThrows(DtoValidateAlreadyExistsException.class, () -> merchantService.saveMerchant(validMerchantDto));
+        assertThrows(DtoValidateAlreadyExistsException.class, () -> merchantService.saveMerchantAndSendEmail(validMerchantDto, "nl-NL"));
 
         verify(merchantRepository, never()).save(any(Merchant.class));
     }
