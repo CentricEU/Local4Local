@@ -13,7 +13,6 @@ import nl.centric.innovation.local4localEU.enums.AssetsEnum;
 import nl.centric.innovation.local4localEU.enums.EmailHtmlEnum;
 import nl.centric.innovation.local4localEU.enums.EmailStructureEnum;
 import nl.centric.innovation.local4localEU.enums.EmailTemplateEnum;
-import nl.centric.innovation.local4localEU.service.interfaces.EmailService;
 import nl.centric.innovation.local4localEU.service.interfaces.MailTemplateBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -30,7 +29,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @PropertySource({"classpath:application.properties"})
-public class EmailServiceImpl implements EmailService {
+public class EmailService {
     @Value("${local4localEU.default.email.sender}")
     private String emailSender;
 
@@ -99,7 +98,6 @@ public class EmailServiceImpl implements EmailService {
                 .action(action).btnText(btnText).closing(closing).build();
     }
 
-    @Override
     public void sendPasswordRecoveryEmail(String url, String[] toAddress, String language) {
         MailTemplate mailTemplate = getPasswordRecoveryTemplate(language, url, EmailTemplateEnum.PASSWORD_RECOVER.getTemplate());
         String htmlContent = mailTemplateBuilder.buildEmailTemplate(mailTemplate);
@@ -107,7 +105,6 @@ public class EmailServiceImpl implements EmailService {
         sendEmail(emailSender, toAddress, mailTemplate.getSubject(), htmlContent, textContent.toString());
     }
 
-    @Override
     public void sendInviteMerchantEmail(String language, Map<String, UUID> toAddress, String message) {
         toAddress.forEach((email, uuid) -> {
             String url = String.format("%s/register/%s", baseURL, uuid);
@@ -123,7 +120,6 @@ public class EmailServiceImpl implements EmailService {
         });
     }
 
-    @Override
     public void sendMerchantRegisteredEmail(String url, String language, String merchantName, String[] managerEmails) {
         MailTemplate mailTemplate = getMerchantRegisteredTemplate(language, url, EmailTemplateEnum.MERCHANT_REGISTERED.getTemplate(), merchantName);
         String htmlContent = mailTemplateBuilder.buildEmailTemplate(mailTemplate);
@@ -132,7 +128,6 @@ public class EmailServiceImpl implements EmailService {
         sendEmail(emailSender, managerEmails, mailTemplate.getSubject() + merchantName, htmlContent, textContent);
     }
 
-    @Override
     public void sendManagerOtpEmail(String language, String[] managerEmail, Integer otpCode) {
         MailTemplate mailTemplate = getManagerOtpEmailTemplate(language, EmailTemplateEnum.MANAGER_OTP.getTemplate(), otpCode);
         String htmlContent = mailTemplateBuilder.buildEmailTemplate(mailTemplate);
@@ -142,7 +137,6 @@ public class EmailServiceImpl implements EmailService {
 
     }
 
-    @Override
     public void sendApproveMerchantEmail(String[] email, String language, String companyName, UUID token, String merchantName) {
         MailTemplate mailTemplate = getApproveMerchantTemplate(language, baseURL, EmailTemplateEnum.APPROVE_MERCHANT.getTemplate(),
                 companyName + EmailHtmlEnum.EXCL.getTag(), token, merchantName);
@@ -151,7 +145,6 @@ public class EmailServiceImpl implements EmailService {
         sendEmail(emailSender, email, mailTemplate.getSubject(), htmlContent, textContent.toString());
     }
 
-    @Override
     public void sendRejectMerchantEmail(String[] toAddress, String language, String companyName, String reason) {
         MailTemplate mailTemplate = getRejectMerchantTemplate(language, "", EmailTemplateEnum.REJECT_MERCHANT.getTemplate(), companyName + EmailHtmlEnum.EXCL.getTag(), reason);
         String htmlContent = mailTemplateBuilder.buildEmailTemplate(mailTemplate);

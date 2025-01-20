@@ -10,7 +10,7 @@ import com.amazonaws.services.simpleemail.model.SendEmailRequest;
 import com.amazonaws.services.simpleemail.model.SendEmailResult;
 import lombok.SneakyThrows;
 import nl.centric.innovation.local4localEU.enums.EmailStructureEnum;
-import nl.centric.innovation.local4localEU.service.impl.EmailServiceImpl;
+import nl.centric.innovation.local4localEU.service.impl.EmailService;
 import nl.centric.innovation.local4localEU.service.interfaces.MailTemplateBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,7 +39,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class EmailServiceImplTests {
     @InjectMocks
-    private EmailServiceImpl emailService;
+    private EmailService emailService;
     @Mock
     private AmazonSimpleEmailService amazonEmailService;
 
@@ -133,9 +133,9 @@ public class EmailServiceImplTests {
                 .withDestination(new Destination().withToAddresses(toAddr))
                 .withMessage(new Message()
                         .withBody(new Body()
-                                .withHtml(new Content().withCharset(EmailServiceImpl.UTF_8).withData(htmlContent))
-                                .withText(new Content().withCharset(EmailServiceImpl.UTF_8).withData(textContent)))
-                        .withSubject(new Content().withCharset(EmailServiceImpl.UTF_8).withData(subject)))
+                                .withHtml(new Content().withCharset(EmailService.UTF_8).withData(htmlContent))
+                                .withText(new Content().withCharset(EmailService.UTF_8).withData(textContent)))
+                        .withSubject(new Content().withCharset(EmailService.UTF_8).withData(subject)))
                 .withSource(fromAddr);
 
         // When

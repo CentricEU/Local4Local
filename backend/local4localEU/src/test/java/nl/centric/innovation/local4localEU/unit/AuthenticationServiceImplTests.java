@@ -13,7 +13,6 @@ import nl.centric.innovation.local4localEU.exception.CustomException.CaptchaExce
 import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidateNotFoundException;
 import nl.centric.innovation.local4localEU.service.impl.AuthenticationServiceImpl;
 import nl.centric.innovation.local4localEU.service.interfaces.CaptchaService;
-import nl.centric.innovation.local4localEU.service.interfaces.EmailService;
 import nl.centric.innovation.local4localEU.service.interfaces.LoginAttemptService;
 import nl.centric.innovation.local4localEU.service.interfaces.OtpCodesService;
 import nl.centric.innovation.local4localEU.authentication.JwtUtil;

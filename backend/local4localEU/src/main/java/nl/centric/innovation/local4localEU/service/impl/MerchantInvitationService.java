@@ -24,7 +24,6 @@ import nl.centric.innovation.local4localEU.dto.InviteMerchantDto;
 import nl.centric.innovation.local4localEU.entity.MerchantInvitation;
 import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidateException;
 import nl.centric.innovation.local4localEU.repository.MerchantInvitationRepository;
-import nl.centric.innovation.local4localEU.service.interfaces.EmailService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service

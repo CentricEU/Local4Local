@@ -9,7 +9,6 @@ import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidate
 import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidateNotFoundException;
 import nl.centric.innovation.local4localEU.repository.OtpResendRepository;
 import nl.centric.innovation.local4localEU.service.impl.OtpResendService;
-import nl.centric.innovation.local4localEU.service.interfaces.EmailService;
 import nl.centric.innovation.local4localEU.service.interfaces.OtpCodesService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

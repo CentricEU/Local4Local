@@ -33,7 +33,6 @@ import nl.centric.innovation.local4localEU.entity.MerchantInvitation;
 import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidateException;
 import nl.centric.innovation.local4localEU.repository.MerchantInvitationRepository;
 import nl.centric.innovation.local4localEU.service.impl.MerchantInvitationService;
-import nl.centric.innovation.local4localEU.service.interfaces.EmailService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;

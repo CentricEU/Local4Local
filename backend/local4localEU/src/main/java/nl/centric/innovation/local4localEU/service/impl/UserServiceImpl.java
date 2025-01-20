@@ -15,7 +15,6 @@ import nl.centric.innovation.local4localEU.exception.CustomException.PasswordSam
 import nl.centric.innovation.local4localEU.exception.CustomException.RecoverException;
 import nl.centric.innovation.local4localEU.repository.UserRepository;
 import nl.centric.innovation.local4localEU.service.interfaces.CaptchaService;
-import nl.centric.innovation.local4localEU.service.interfaces.EmailService;
 import nl.centric.innovation.local4localEU.service.interfaces.LoginAttemptService;
 import nl.centric.innovation.local4localEU.service.interfaces.RecoverPasswordService;
 import nl.centric.innovation.local4localEU.service.interfaces.UserService;
