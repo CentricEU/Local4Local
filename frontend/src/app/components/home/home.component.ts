@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CategoryService } from '../../services/category.service';
 import { CategoryDto } from '../../_models/category-dto.model';
@@ -9,16 +9,17 @@ import { ALREADY_REGISTERED_CODE, SUCCESS_CODE } from '../../_constants/error-co
 import { MerchantsMapComponent } from '../merchants-map/merchants-map.component';
 import { MerchantDialogComponent } from '../merchant-dialog/merchant-dialog.component';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
 	selector: 'app-home',
 	templateUrl: './home.component.html',
 	styleUrl: './home.component.scss'
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
 	readonly dialog = inject(MatDialog);
 	readonly categoryService = inject(CategoryService);
-
+	readonly route = inject(ActivatedRoute);
 	@ViewChild(MerchantsMapComponent) merchantsMapComponent!: MerchantsMapComponent;
 
 	public categoriesData: CategoryDto[] = [];
@@ -26,6 +27,10 @@ export class HomeComponent implements OnInit {
 
 	public ngOnInit(): void {
 		this.initCategoriesData();
+	}
+
+	public ngAfterViewInit(): void {
+		this.checkForToken();
 	}
 
 	public openDialog(): void {
@@ -82,6 +87,18 @@ export class HomeComponent implements OnInit {
 		);
 
 		this.dialog.open(GenericDialogComponent, CustomDialogConfigUtil.createMessageModal(approvalWaitingModalData));
+	}
+
+	private checkForToken(): void {
+
+		this.route.params.subscribe(params => {
+			const token = params['token'];
+			
+			if (token) {
+				this.dialog
+				.open(MerchantDialogComponent, CustomDialogConfigUtil.GENERIC_MODAL_CONFIG);
+			}
+		  });
 	}
 
 	private displayAlreadyRegisteredDialog(): void {
