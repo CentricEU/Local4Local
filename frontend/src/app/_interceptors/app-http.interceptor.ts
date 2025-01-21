@@ -7,7 +7,7 @@ import { Observable, tap } from 'rxjs';
 export class AppHttpInterceptor<T> implements HttpInterceptor {
 	private totalRequests = 0;
 
-	constructor(private readonly appLoaderService: AppLoaderService) {}
+	constructor(private readonly appLoaderService: AppLoaderService) { }
 
 	intercept(req: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<T>> {
 		this.totalRequests++;
@@ -17,7 +17,8 @@ export class AppHttpInterceptor<T> implements HttpInterceptor {
 			tap({
 				next: (event: HttpEvent<T>) => this.handleResponse(event),
 				error: () => this.decreaseRequests()
-			})
+			}),
+			// finalize(() => this.decreaseRequests())
 		);
 	}
 

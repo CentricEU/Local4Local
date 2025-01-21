@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CategoryService } from '../../services/category.service';
-import { of } from 'rxjs';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 import { MatChip, MatChipSet, MatChipsModule } from '@angular/material/chips';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HomeComponent } from './home.component';
@@ -24,6 +24,11 @@ const matDialogMock = {
 
 const merchantsMapComponentMock = {
 	filterMerchantsByCategory: jest.fn()
+};
+
+const routeParamsSubject = new BehaviorSubject<{ token?: string }>({});
+const activatedRouteMock = {
+	params: routeParamsSubject.asObservable()
 };
 
 describe('HomeComponent', () => {
@@ -67,7 +72,7 @@ describe('HomeComponent', () => {
 				{ provide: CategoryService, useValue: categoryServiceMock },
 				{ provide: MerchantsMapComponent, useValue: merchantsMapComponentMock },
 				{ provide: InvitationService, useValue: invitationServiceMock },
-				{ provide: ActivatedRoute, useValue: { snapshot: { queryParams: {} } } },
+				{ provide: ActivatedRoute, useValue: activatedRouteMock },
 				MatChipSet,
 				MatChip,
 				TranslateService
@@ -190,4 +195,55 @@ describe('HomeComponent', () => {
 
 		expect(component.selectCategory).toHaveBeenCalledWith(expectedCategory);
 	});
+
+
+	it('should call validateInvitationToken when token is present in route params', () => {
+		jest.spyOn(component as any, 'validateInvitationToken').mockImplementation();
+
+		routeParamsSubject.next({ token: 'test-token' });
+
+		expect((component as any).validateInvitationToken).toHaveBeenCalledWith('test-token');
+	});
+
+	it('should NOT call validateInvitationToken when no token is present in route params', () => {
+		jest.spyOn(component as any, 'validateInvitationToken').mockImplementation();
+
+		routeParamsSubject.next({});
+
+		expect((component as any).validateInvitationToken).not.toHaveBeenCalled();
+	});
+
+	it('should open MerchantDialogComponent when validateInvitationToken is successful', () => {
+		const token = 'valid-token';
+		jest.spyOn(component.dialog, 'open');
+
+		invitationServiceMock.validateInvitationToken.mockReturnValue(of({}));
+
+		(component as any).validateInvitationToken(token);
+
+		expect(component.dialog.open).toHaveBeenCalledWith(MerchantDialogComponent, {
+			...CustomDialogConfigUtil.GENERIC_MODAL_CONFIG,
+			data: { token }
+		});
+	});
+
+	it('should call clearPath when validateInvitationToken fails', () => {
+		const token = 'invalid-token';
+		jest.spyOn(component as any, 'clearPath');
+
+		invitationServiceMock.validateInvitationToken.mockReturnValue(throwError(() => new Error('Token validation failed')));
+
+		(component as any).validateInvitationToken(token);
+
+		expect((component as any).clearPath).toHaveBeenCalled();
+	});
+
+	it('should replace state with empty string in clearPath', () => {
+		jest.spyOn(component.location, 'replaceState');
+
+		(component as any).clearPath();
+
+		expect(component.location.replaceState).toHaveBeenCalledWith('');
+	});
+
 });

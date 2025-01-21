@@ -93,12 +93,12 @@ export class HomeComponent implements OnInit {
 	}
 
 	private checkForToken(): void {
-
 		this.route.params.subscribe(params => {
 			const token = params['token'];
 
 			if (token) {
 				this.validateInvitationToken(token);
+				return;
 			}
 		});
 	}

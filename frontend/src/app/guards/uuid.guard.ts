@@ -1,14 +1,15 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { RegexUtil } from '../util/regex.util';
-import { commonRoutingConstants } from '../_constants/common-routing.constants';
+import { Location } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UUIDGuard implements CanActivate {
-  constructor(private router: Router) { }
+  readonly router = inject(Router);
+  readonly location = inject(Location);
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -19,8 +20,12 @@ export class UUIDGuard implements CanActivate {
       return true;
     }
 
-    this.router.navigate([commonRoutingConstants.home]);
-    return false;
+    this.clearPath();
+    return true;
 
   }
+
+  private clearPath(): void {
+		this.location.replaceState('');
+	}
 }
