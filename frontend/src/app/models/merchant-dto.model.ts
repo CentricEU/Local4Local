@@ -7,6 +7,7 @@ export class MerchantDto {
     public address: string;
     public contactEmail: string;
     public website?: string;
+    public token?: string;
     public id?: string;
     public status?: string;
 }

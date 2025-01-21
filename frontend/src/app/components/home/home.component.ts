@@ -98,10 +98,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
 			const token = params['token'];
 
 			if (token) {
+				console.log('Token found:', token);
 				this.invitationService.validateInvitationToken(token).subscribe(() => {
 					this.dialog
-						.open(MerchantDialogComponent, CustomDialogConfigUtil.GENERIC_MODAL_CONFIG);
-						
+						.open(MerchantDialogComponent, {
+							...CustomDialogConfigUtil.GENERIC_MODAL_CONFIG,
+							data: { token }
+						});
 				});
 			}
 		});

@@ -6,11 +6,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { InviteMerchantsDto } from '../models/invite-merchants-dto.model';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class InvitationService {
 
-  readonly httpClient = inject(HttpClient);
+	readonly httpClient = inject(HttpClient);
 
 	public getPaginatedInvitations(page: number, size: number): Observable<InvitationDto[]> {
 		const httpParams = new HttpParams().set('page', page.toString()).set('size', size.toString());
@@ -19,7 +19,7 @@ export class InvitationService {
 			withCredentials: true
 		});
 	}
-  
+
 	public countAllInvitations(): Observable<number> {
 		return this.httpClient.get<number>(`${environment.apiPath}/invitations/count`, {
 			withCredentials: true
@@ -32,7 +32,7 @@ export class InvitationService {
 		});
 	}
 
-  public validateInvitationToken(token: string): Observable<string> {
-    return this.httpClient.post<string>(`${environment.apiPath}/invitations/public/validate/${token}`, {}, {});
-  }
+	public validateInvitationToken(token: string): Observable<string> {
+		return this.httpClient.post<string>(`${environment.apiPath}/invitations/public/validate/${token}`, {});
+	}
 }
