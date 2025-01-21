@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { InviteMerchantDialogComponent } from './invite-merchant-dialog.component';
-import { MerchantService } from '../../services/merchant.service';
 import { of } from 'rxjs';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -12,11 +11,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { GenericDialogComponent } from '../generic-dialog/generic-dialog.component';
+import { InvitationService } from '../../services/invitation.service';
 
 describe('InviteMerchantDialogComponent', () => {
 	let component: InviteMerchantDialogComponent;
 	let fixture: ComponentFixture<InviteMerchantDialogComponent>;
-	let merchantServiceMock: jest.Mocked<MerchantService>;
+	let invitationServiceMock: jest.Mocked<InvitationService>;
 	let mockChipInputEvent: MatChipInputEvent;
 
 	const dialogRefStub = {
@@ -43,7 +43,7 @@ describe('InviteMerchantDialogComponent', () => {
 			chipInput: mockChipInput as MatChipInput
 		} as MatChipInputEvent;
 
-		merchantServiceMock = {
+		invitationServiceMock = {
 			inviteMerchants: jest.fn(() =>
 				of({
 					subscribe: () => jest.fn()
@@ -68,7 +68,7 @@ describe('InviteMerchantDialogComponent', () => {
 			providers: [
 				FormBuilder,
 				{ provide: MatDialogRef, useValue: dialogRefStub },
-				{ provide: MerchantService, useValue: merchantServiceMock },
+				{ provide: InvitationService, useValue: invitationServiceMock },
 				{ provide: MAT_DIALOG_DATA, useValue: null }
 			]
 		}).compileComponents();
@@ -164,7 +164,7 @@ describe('InviteMerchantDialogComponent', () => {
 
 		expect(component['getFormValuesToInviteMerchantsDto']).toHaveBeenCalled();
 		expect(component['showSuccessToaster']).toHaveBeenCalled();
-		expect(merchantServiceMock.inviteMerchants).toHaveBeenCalled();
+		expect(invitationServiceMock.inviteMerchants).toHaveBeenCalled();
 		expect(dialogRefStub.close).toHaveBeenCalled();
 	});
 

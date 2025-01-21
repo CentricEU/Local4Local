@@ -70,7 +70,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/resendOtp")
-    public ResponseEntity<LoginResponseDto> resendOtp(@CookieValue(value = "language", defaultValue = "nl-NL") String language,
+    public ResponseEntity<Void> resendOtp(@CookieValue(value = "language", defaultValue = "nl-NL") String language,
                                                       HttpServletRequest request) throws Exception {
         HttpHeaders httpHeaders = otpResendService.resendOtp(language, request);
         return ResponseEntity.ok().headers(httpHeaders).build();

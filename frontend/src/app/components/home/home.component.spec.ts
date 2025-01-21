@@ -13,6 +13,8 @@ import { ALREADY_REGISTERED_CODE, SUCCESS_CODE } from '../../_constants/error-co
 import { MerchantsMapComponent } from '../merchants-map/merchants-map.component';
 import { MerchantDialogComponent } from '../merchant-dialog/merchant-dialog.component';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { InvitationService } from '../../services/invitation.service';
+import { ActivatedRoute } from '@angular/router';
 
 const matDialogMock = {
 	open: jest.fn().mockReturnValue({
@@ -28,6 +30,7 @@ describe('HomeComponent', () => {
 	let component: HomeComponent;
 	let fixture: ComponentFixture<HomeComponent>;
 	let categoryServiceMock: any;
+	let invitationServiceMock: any;
 
 	beforeEach(async () => {
 		jest.clearAllMocks();
@@ -35,6 +38,10 @@ describe('HomeComponent', () => {
 		global.structuredClone = jest.fn((val) => {
 			return JSON.parse(JSON.stringify(val));
 		});
+
+		invitationServiceMock = {
+			validateInvitationToken: jest.fn().mockReturnValue(of({}))
+		};
 
 		categoryServiceMock = {
 			getAllCategories: jest.fn().mockReturnValue(
@@ -59,6 +66,8 @@ describe('HomeComponent', () => {
 				{ provide: MatDialog, useValue: matDialogMock },
 				{ provide: CategoryService, useValue: categoryServiceMock },
 				{ provide: MerchantsMapComponent, useValue: merchantsMapComponentMock },
+				{ provide: InvitationService, useValue: invitationServiceMock },
+				{ provide: ActivatedRoute, useValue: { snapshot: { queryParams: {} } } },
 				MatChipSet,
 				MatChip,
 				TranslateService

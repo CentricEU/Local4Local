@@ -9,6 +9,7 @@ import { of } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { ColumnType } from '../../enums/column.enum';
 import { InvitationDto } from '../../models/invitation-dto.model';
+import { InvitationService } from '../../services/invitation.service';
 
 describe('InvitationsComponent', () => {
 	let component: InvitationsComponent;
@@ -37,7 +38,7 @@ describe('InvitationsComponent', () => {
 			imports: [TranslateModule.forRoot()],
 			providers: [
 				TranslateService,
-				{ provide: invitationService, useValue: invitationService },
+				{ provide: InvitationService, useValue: invitationService },
 				{ provide: MatDialog, useValue: matDialogMock }
 			]
 		}).compileComponents();
@@ -87,7 +88,7 @@ describe('InvitationsComponent', () => {
 		const mockInvitation: InvitationDto = {
 			email: 'test@example.com',
 			createdDate: '2024-10-24T10:00:00Z',
-			registered: false
+			isRegistered: false
 		};
 
 		const formattedDate = component.columnConfigs[1].cell(mockInvitation);
@@ -98,7 +99,7 @@ describe('InvitationsComponent', () => {
 		const mockInvitation: InvitationDto = {
 			email: 'test@example.com',
 			createdDate: '2024-10-24T10:00:00Z',
-			registered: false
+			isRegistered: false
 		};
 
 		const email = component.columnConfigs[0].cell(mockInvitation);
@@ -107,8 +108,8 @@ describe('InvitationsComponent', () => {
 
 	it('should initialize data correctly', () => {
 		const mockInvitations: InvitationDto[] = [
-			{ email: 'test1@example.com', createdDate: '2024-10-24T10:00:00Z', registered: false },
-			{ email: 'test2@example.com', createdDate: '2024-10-25T10:00:00Z', registered: true }
+			{ email: 'test1@example.com', createdDate: '2024-10-24T10:00:00Z', isRegistered: false },
+			{ email: 'test2@example.com', createdDate: '2024-10-25T10:00:00Z', isRegistered: true }
 		];
 
 		invitationService.getPaginatedInvitations.mockReturnValue(of(mockInvitations));
