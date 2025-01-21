@@ -54,6 +54,9 @@ public class MerchantInvitationService {
     @Value("${error.invitation.expired}")
     private String errorInvitationExpired;
 
+    @Value("${error.invitation.alreadyUsedToken}")
+    private String alreadyUsedToken;
+
     @Transactional
     public void inviteMerchant(InviteMerchantDto inviteMerchantDto, String language) throws DtoValidateException {
         validateInviteMerchantDto(inviteMerchantDto);
@@ -74,7 +77,7 @@ public class MerchantInvitationService {
         return merchantInvitationRepository.countByIsActiveTrue();
     }
 
-    public void validateInvitationToken(UUID token) throws DtoValidateNotFoundException {
+    public void validateInvitationToken(UUID token) throws DtoValidateException {
         Optional<MerchantInvitation> merchantInvitation = merchantInvitationRepository.findByToken(token);
 
         if (merchantInvitation.isEmpty()) {
@@ -83,6 +86,10 @@ public class MerchantInvitationService {
 
         if (!isTokenValid(merchantInvitation.get().getTokenExpirationDate())) {
             throw new DtoValidateNotFoundException(errorInvitationExpired);
+        }
+
+        if (Boolean.TRUE.equals(merchantInvitation.get().getIsRegistered())) {
+            throw new DtoValidateException(alreadyUsedToken);
         }
     }
 

@@ -63,6 +63,9 @@ public class MerchantInvitationServiceImplTest {
     @Value("${error.invitation.expired}")
     private String errorInvitationExpired;
 
+    @Value("${error.invitation.alreadyUsedToken}")
+    private String alreadyUsedToken;
+
     @Test
     void GivenTooManyEmails_WhenSave_ThenExpectDtoValidateException() {
         InviteMerchantDto dto = InviteMerchantDto.builder()
@@ -201,5 +204,22 @@ public class MerchantInvitationServiceImplTest {
         });
 
         assertEquals(errorInvitationExpired, exception.getMessage());
+    }
+
+    @Test
+    void GivenUsedToken_WhenValidateInvitationLink_ThenThrowDtoValidateException() {
+        UUID token = UUID.randomUUID();
+        MerchantInvitation invitation = new MerchantInvitation();
+        invitation.setToken(token);
+        invitation.setTokenExpirationDate(LocalDateTime.now().plusDays(1));
+        invitation.setIsRegistered(true);
+
+        when(merchantInvitationRepository.findByToken(token)).thenReturn(Optional.of(invitation));
+
+        DtoValidateException exception = assertThrows(DtoValidateException.class, () -> {
+            merchantInvitationService.validateInvitationToken(token);
+        });
+
+        assertEquals(alreadyUsedToken, exception.getMessage());
     }
 }
