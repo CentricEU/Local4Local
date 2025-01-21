@@ -9,19 +9,21 @@ import { ALREADY_REGISTERED_CODE, SUCCESS_CODE } from '../../_constants/error-co
 import { MerchantsMapComponent } from '../merchants-map/merchants-map.component';
 import { MerchantDialogComponent } from '../merchant-dialog/merchant-dialog.component';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { InvitationService } from '../../services/invitation.service';
+import { commonRoutingConstants } from '../../_constants/common-routing.constants';
 
 @Component({
 	selector: 'app-home',
 	templateUrl: './home.component.html',
 	styleUrl: './home.component.scss'
 })
-export class HomeComponent implements OnInit, AfterViewInit {
+export class HomeComponent implements OnInit {
 	readonly dialog = inject(MatDialog);
 	readonly categoryService = inject(CategoryService);
 	readonly route = inject(ActivatedRoute);
 	readonly invitationService = inject(InvitationService);
+	readonly router = inject(Router);
 
 	@ViewChild(MerchantsMapComponent) merchantsMapComponent!: MerchantsMapComponent;
 
@@ -30,9 +32,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 	public ngOnInit(): void {
 		this.initCategoriesData();
-	}
-
-	public ngAfterViewInit(): void {
 		this.checkForToken();
 	}
 
@@ -98,16 +97,23 @@ export class HomeComponent implements OnInit, AfterViewInit {
 			const token = params['token'];
 
 			if (token) {
-				console.log('Token found:', token);
-				this.invitationService.validateInvitationToken(token).subscribe(() => {
-					this.dialog
-						.open(MerchantDialogComponent, {
-							...CustomDialogConfigUtil.GENERIC_MODAL_CONFIG,
-							data: { token }
-						});
-				});
+				this.invitationService.validateInvitationToken(token).subscribe(
+					() => {
+						this.dialog
+							.open(MerchantDialogComponent, {
+								...CustomDialogConfigUtil.GENERIC_MODAL_CONFIG,
+								data: { token }
+							});
+					},
+					() => {
+						this.navigateToHome();
+					});
 			}
 		});
+	}
+
+	private navigateToHome(): void {
+		this.router.navigate([commonRoutingConstants.home]);
 	}
 
 	private displayAlreadyRegisteredDialog(): void {

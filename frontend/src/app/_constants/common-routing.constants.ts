@@ -8,5 +8,6 @@ export const commonRoutingConstants = {
     invitations: 'invitations',
     profile: 'profile',
     mfa: 'mfa',
-    register: 'register'
+    register: 'register',
+    home: ''
 }
