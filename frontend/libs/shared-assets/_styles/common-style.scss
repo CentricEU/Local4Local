@@ -37,3 +37,11 @@ $background-image: '/assets/images/starting-background.svg';
 		'GRAD' 0,
 		'opsz' 24
 }
+
+.check {
+    color: var(--success-200);
+}
+
+.cancel {
+    color: var(--neutral-500);
+}

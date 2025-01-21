@@ -20,8 +20,9 @@ export class InvitationsComponent implements OnInit {
 
 	public readonly noDataTitle: string = 'inviteMerchants.noData.title';
 	public readonly noDataDescription: string = 'inviteMerchants.noData.description';
+	public readonly registered = 'registered';
 
-	public displayedColumns: string[] = [ColumnType.EMAIL, ColumnType.SENDING_DATE];
+	public displayedColumns: string[] = [ColumnType.EMAIL, ColumnType.SENDING_DATE, ColumnType.REGISTERED];
 
 	public dataSource: MatTableDataSource<InvitationDto>;
 	public data: InvitationDto[] = [];
