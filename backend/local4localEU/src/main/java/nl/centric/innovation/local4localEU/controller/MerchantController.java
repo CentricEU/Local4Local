@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import nl.centric.innovation.local4localEU.dto.RejectMerchantDto;
 import nl.centric.innovation.local4localEU.exception.CustomException.TalerException;
+import nl.centric.innovation.local4localEU.service.impl.MerchantService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -25,7 +26,6 @@ import nl.centric.innovation.local4localEU.dto.MerchantDto;
 import nl.centric.innovation.local4localEU.dto.MerchantViewDto;
 import nl.centric.innovation.local4localEU.entity.Role;
 import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidateException;
-import nl.centric.innovation.local4localEU.service.interfaces.MerchantService;
 import nl.centric.innovation.local4localEU.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -35,18 +35,16 @@ import org.springframework.beans.factory.annotation.Value;
 public class MerchantController {
     private final MerchantService merchantService;
 
-    private final UserService userService;
-
     @Value("${local4localEU.server.name}")
     private String baseURL;
 
     private static final String RESET_URL = "/recover/reset-password/";
 
-    @RequestMapping(path = "/public/register", method = RequestMethod.POST)
+    @PostMapping("/public/register")
     public ResponseEntity<MerchantDto> saveMerchant(@RequestBody MerchantDto merchantDto,
-                                                    @CookieValue(value = "language", defaultValue = "nl-NL") String language) throws DtoValidateException {
-        MerchantDto savedMerchant = merchantService.saveMerchant(merchantDto);
-        userService.sendMerchantRegisteredEmail(merchantDto.companyName(), language);
+                                                    @CookieValue(value = "language", defaultValue = "nl-NL")
+                                                    String language) throws DtoValidateException {
+        MerchantDto savedMerchant = merchantService.saveMerchantAndSendEmail(merchantDto, language);
 
         return ResponseEntity.ok(savedMerchant);
     }

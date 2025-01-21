@@ -1,6 +1,7 @@
 package nl.centric.innovation.local4localEU.service.impl;
 
 import static nl.centric.innovation.local4localEU.dto.MerchantDto.toEntity;
+import static util.Validators.isTokenValid;
 import static util.Validators.isValidUrl;
 
 import java.io.IOException;
@@ -12,14 +13,17 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import nl.centric.innovation.local4localEU.dto.RejectMerchantDto;
+import nl.centric.innovation.local4localEU.entity.MerchantInvitation;
 import nl.centric.innovation.local4localEU.entity.RejectMerchant;
 import nl.centric.innovation.local4localEU.entity.User;
 import nl.centric.innovation.local4localEU.enums.MerchantStatusEnum;
 import nl.centric.innovation.local4localEU.exception.CustomException.TalerException;
 import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidateNotFoundException;
+import nl.centric.innovation.local4localEU.repository.MerchantInvitationRepository;
 import nl.centric.innovation.local4localEU.repository.RejectMerchantRepository;
 import nl.centric.innovation.local4localEU.repository.UserRepository;
 import nl.centric.innovation.local4localEU.service.interfaces.TalerService;
+import nl.centric.innovation.local4localEU.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -36,13 +40,12 @@ import nl.centric.innovation.local4localEU.entity.Merchant;
 import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidateAlreadyExistsException;
 import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidateException;
 import nl.centric.innovation.local4localEU.repository.MerchantRepository;
-import nl.centric.innovation.local4localEU.service.interfaces.MerchantService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 @PropertySource({"classpath:errorcodes.properties"})
-public class MerchantServiceImpl implements MerchantService {
+public class MerchantService {
 
     private final MerchantRepository merchantRepository;
 
@@ -50,9 +53,13 @@ public class MerchantServiceImpl implements MerchantService {
 
     private final TalerService talerService;
 
+    private final UserService userService;
+
     private final RejectMerchantRepository rejectMerchantRepository;
 
     private final UserRepository userRepository;
+
+    private final MerchantInvitationRepository merchantInvitationRepository;
 
     @Value("${error.unique.violation}")
     private String errorUniqueViolation;
@@ -75,7 +82,15 @@ public class MerchantServiceImpl implements MerchantService {
     @Value("${local4localEU.currencyManager.email}")
     private String currencyManagerEmail;
 
-    @Override
+    @Value("${error.invitation.expired}")
+    private String errorInvitationExpired;
+
+    @Value("${error.invitation.differentEmailAddress}")
+    private String errorDifferentEmailAddress;
+
+    @Value("${error.invitation.alreadyUsedToken}")
+    private String alreadyUsedToken;
+
     public void approveMerchant(UUID merchantId, String language) throws DtoValidateException, URISyntaxException,
             IOException, InterruptedException, TalerException {
         Optional<Merchant> merchant = merchantRepository.findById(merchantId);
@@ -96,7 +111,6 @@ public class MerchantServiceImpl implements MerchantService {
         emailService.sendApproveMerchantEmail(email, language, merchant.get().getCompanyName(), token, merchant.get().getCompanyName());
     }
 
-    @Override
     public void rejectMerchant(RejectMerchantDto merchantDto, String language)
             throws DtoValidateException, DataIntegrityViolationException {
 
@@ -129,23 +143,26 @@ public class MerchantServiceImpl implements MerchantService {
         emailService.sendRejectMerchantEmail(email, language, merchant.get().getCompanyName(), merchantDto.reason());
     }
 
-    @Override
+
     @Transactional
-    public MerchantDto saveMerchant(MerchantDto merchantDto) throws DtoValidateException {
+    public MerchantDto saveMerchantAndSendEmail(MerchantDto merchantDto, String language) throws DtoValidateException {
+        MerchantInvitation merchantInvitation = validateToken(merchantDto);
         validateMerchantDto(merchantDto);
         merchantRepository.save(toEntity(merchantDto));
+        markMerchantAsRegistered(merchantInvitation);
+
+        userService.sendMerchantRegisteredEmail(merchantDto.companyName(), language);
 
         return merchantDto;
     }
 
-    @Override
+
     public List<MerchantViewDto> getAllApproved() {
         return merchantRepository.findByStatus(MerchantStatusEnum.APPROVED).stream()
                 .map(MerchantViewDto::fromEntity)
                 .collect(Collectors.toList());
     }
 
-    @Override
     public List<MerchantViewDto> getPaginatedMerchants(Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(
                 Sort.Order.asc("status"),
@@ -159,7 +176,6 @@ public class MerchantServiceImpl implements MerchantService {
                 .collect(Collectors.toList());
     }
 
-    @Override
     public List<MerchantViewDto> getByCategory(Integer categoryId) {
         boolean isValidCategory = categoryId != null && categoryId >= 0 && categoryId <= 8;
 
@@ -172,7 +188,6 @@ public class MerchantServiceImpl implements MerchantService {
                 .collect(Collectors.toList());
     }
 
-    @Override
     public Long countAll() {
         return merchantRepository.count();
     }
@@ -201,6 +216,38 @@ public class MerchantServiceImpl implements MerchantService {
         if (merchantDto.website() != null && !merchantDto.website().isEmpty() && !isValidUrl(merchantDto.website())) {
             throw new DtoValidateException(errorEntityValidate);
         }
+    }
+
+    private MerchantInvitation validateToken(MerchantDto merchantDto) throws DtoValidateException {
+        if (merchantDto.token() == null) {
+            return null;
+        }
+
+        MerchantInvitation merchantInvitation = merchantInvitationRepository.findByToken(merchantDto.token())
+                .orElseThrow(() -> new DtoValidateNotFoundException(errorEntityNotFound));
+
+        if (!isTokenValid(merchantInvitation.getTokenExpirationDate())) {
+            throw new DtoValidateNotFoundException(errorInvitationExpired);
+        }
+
+        if (Boolean.TRUE.equals(merchantInvitation.getIsRegistered())) {
+            throw new DtoValidateException(alreadyUsedToken);
+        }
+
+        if (!merchantDto.contactEmail().equals(merchantInvitation.getEmail())) {
+            throw new DtoValidateException(alreadyUsedToken);
+        }
+
+        return merchantInvitation;
+    }
+
+    private void markMerchantAsRegistered(MerchantInvitation merchantInvitation) {
+        if (merchantInvitation == null) {
+            return;
+        }
+
+        merchantInvitation.setIsRegistered(true);
+        merchantInvitationRepository.save(merchantInvitation);
     }
 
 }
