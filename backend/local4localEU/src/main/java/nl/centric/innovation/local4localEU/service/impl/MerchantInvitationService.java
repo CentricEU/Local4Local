@@ -1,6 +1,5 @@
 package nl.centric.innovation.local4localEU.service.impl;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -25,6 +24,8 @@ import nl.centric.innovation.local4localEU.entity.MerchantInvitation;
 import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidateException;
 import nl.centric.innovation.local4localEU.repository.MerchantInvitationRepository;
 import org.springframework.transaction.annotation.Transactional;
+
+import static util.Validators.isTokenValid;
 
 @Service
 @RequiredArgsConstructor
@@ -83,11 +84,6 @@ public class MerchantInvitationService {
         if (!isTokenValid(merchantInvitation.get().getTokenExpirationDate())) {
             throw new DtoValidateNotFoundException(errorInvitationExpired);
         }
-    }
-
-    private boolean isTokenValid(LocalDateTime expirationDate) {
-        return Optional.ofNullable(expirationDate)
-                .map(date -> date.isAfter(LocalDateTime.now())).orElse(false);
     }
 
     private void validateInviteMerchantDto(InviteMerchantDto inviteMerchantDto) throws DtoValidateException {
