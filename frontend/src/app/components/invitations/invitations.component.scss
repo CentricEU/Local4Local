@@ -5,11 +5,3 @@
     @include mixins.flex(row, start, center);
     gap:4px;
 }
-
-.check {
-    color: var(--success-200);
-}
-
-.cancel {
-    color: var(--neutral-500);
-}
