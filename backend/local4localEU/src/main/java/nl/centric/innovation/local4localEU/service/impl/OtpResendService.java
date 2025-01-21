@@ -10,7 +10,6 @@ import nl.centric.innovation.local4localEU.exception.CustomException.Authenticat
 import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidateException;
 import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidateNotFoundException;
 import nl.centric.innovation.local4localEU.repository.OtpResendRepository;
-import nl.centric.innovation.local4localEU.service.interfaces.EmailService;
 import nl.centric.innovation.local4localEU.service.interfaces.OtpCodesService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpCookie;

@@ -19,7 +19,6 @@ import nl.centric.innovation.local4localEU.exception.CustomException.TalerExcept
 import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidateNotFoundException;
 import nl.centric.innovation.local4localEU.repository.RejectMerchantRepository;
 import nl.centric.innovation.local4localEU.repository.UserRepository;
-import nl.centric.innovation.local4localEU.service.interfaces.EmailService;
 import nl.centric.innovation.local4localEU.service.interfaces.TalerService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
