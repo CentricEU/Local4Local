@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { MerchantDto } from '../models/merchant-dto.model';
-import { InviteMerchantsDto } from '../models/invite-merchants-dto.model';
 import { RejectMerchantDto } from '../models/reject-merchant-dto.model';
-import { InvitationDto } from '../models/invitation-dto.model';
 
 @Injectable({
 	providedIn: 'root'
@@ -25,32 +23,12 @@ export class MerchantService {
 		});
 	}
 
-	public getPaginatedInvitations(page: number, size: number): Observable<InvitationDto[]> {
-		const httpParams = new HttpParams().set('page', page.toString()).set('size', size.toString());
-		return this.httpClient.get<InvitationDto[]>(`${environment.apiPath}/invitations`, {
-			params: httpParams,
-			withCredentials: true
-		});
-	}
-
 	public getMerchantsByCategory(categoryId: number): Observable<MerchantDto[]> {
 		return this.httpClient.get<MerchantDto[]>(`${environment.apiPath}/merchant/public/filter/${categoryId}`);
 	}
 
 	public countAllMerchants(): Observable<number> {
 		return this.httpClient.get<number>(`${environment.apiPath}/merchant/count/all`, { withCredentials: true });
-	}
-
-	public countAllInvitations(): Observable<number> {
-		return this.httpClient.get<number>(`${environment.apiPath}/invitations/count`, {
-			withCredentials: true
-		});
-	}
-
-	public inviteMerchants(inviteMerchantsDto: InviteMerchantsDto): Observable<void> {
-		return this.httpClient.post<void>(`${environment.apiPath}/invitations/send`, inviteMerchantsDto, {
-			withCredentials: true
-		});
 	}
 
 	public registerMerchant(merchantDto: MerchantDto): Observable<MerchantDto> {

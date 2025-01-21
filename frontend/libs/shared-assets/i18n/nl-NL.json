@@ -202,7 +202,8 @@
 		"40017": "Je nieuwe wachtwoord komt overeen met je oude wachtwoord. Kies alstublieft een ander wachtwoord.",
 		"40021": "De opgegeven code is niet geldig.",
 		"40025": "Het inwonersaccount kon niet worden aangemaakt omdat het e-mailadres al in gebruik is. Gebruik een ander e-mailadres om een nieuw account aan te maken.",
-		"40027": "U moet 5 minuten wachten voordat u een nieuwe code opnieuw kunt verzenden."
+		"40027": "U moet 5 minuten wachten voordat u een nieuwe code opnieuw kunt verzenden.",
+		"40028": "...The link has expired. You have been redirected to the homepage."
 	},
 	"presentation": {
 		"description": {

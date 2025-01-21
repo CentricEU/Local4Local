@@ -4,11 +4,11 @@ import { InviteMerchantDialogComponent } from '../invite-merchant-dialog/invite-
 import { CustomDialogConfigUtil } from '../../config/custom-dialog-config';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { forkJoin } from 'rxjs';
-import { MerchantService } from '../../services/merchant.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { InvitationDto } from '../../models/invitation-dto.model';
 import { ColumnType } from '../../enums/column.enum';
 import { ColumnConfig } from '../../models/column-config.model';
+import { InvitationService } from '../../services/invitation.service';
 
 @Component({
 	selector: 'app-invitations',
@@ -42,7 +42,7 @@ export class InvitationsComponent implements OnInit {
 	private currentPageSize = 10;
 
 	private readonly dialog = inject(MatDialog);
-	private readonly merchantsService = inject(MerchantService);
+	private readonly invitationService = inject(InvitationService);
 
 	public ngOnInit(): void {
 		this.initData(this.currentPageIndex, this.currentPageSize);
@@ -69,8 +69,8 @@ export class InvitationsComponent implements OnInit {
 
 	private initData(pageIndex: number, pageSize: number): void {
 		forkJoin({
-			invitations: this.merchantsService.getPaginatedInvitations(pageIndex, pageSize),
-			count: this.merchantsService.countAllInvitations()
+			invitations: this.invitationService.getPaginatedInvitations(pageIndex, pageSize),
+			count: this.invitationService.countAllInvitations()
 		}).subscribe(({ invitations, count }) => {
 			this.data = invitations;
 			this.dataSource = new MatTableDataSource<InvitationDto>(invitations);

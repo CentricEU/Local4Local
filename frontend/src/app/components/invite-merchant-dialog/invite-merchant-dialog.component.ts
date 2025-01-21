@@ -6,7 +6,6 @@ import { FormUtil } from '../../util/form.util';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { RegexUtil } from '../../util/regex.util';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { MerchantService } from '../../services/merchant.service';
 import { InviteMerchantsDto } from '../../models/invite-merchants-dto.model';
 import { SnackbarType } from '../../_enums/snackbar-type.enum';
 import { CustomSnackbarComponent } from '../custom-snackbar/custom-snackbar.component';
@@ -16,6 +15,7 @@ import { SnackbarData } from '../../models/snackbar-data.model';
 import { ModalData } from '../../models/dialog-data.model';
 import { GenericDialogComponent } from '../generic-dialog/generic-dialog.component';
 import { CustomDialogConfigUtil } from '../../config/custom-dialog-config';
+import { InvitationService } from '../../services/invitation.service';
 
 @Component({
 	selector: 'app-invite-merchant-dialog',
@@ -34,7 +34,7 @@ export class InviteMerchantDialogComponent implements OnInit {
 
 	private readonly fb = inject(FormBuilder);
 	private readonly dialogRef = inject(MatDialogRef<InviteMerchantDialogComponent>);
-	private readonly merchantService = inject(MerchantService);
+	private readonly invitationService = inject(InvitationService);
 	private readonly snackBar = inject(MatSnackBar);
 	private readonly translateService = inject(TranslateService);
 	private readonly dialog = inject(MatDialog);
@@ -106,7 +106,7 @@ export class InviteMerchantDialogComponent implements OnInit {
 
 	private sendInvitations(): void {
 		const inviteSuppliersDto = this.getFormValuesToInviteMerchantsDto();
-		this.merchantService.inviteMerchants(inviteSuppliersDto).subscribe(() => {
+		this.invitationService.inviteMerchants(inviteSuppliersDto).subscribe(() => {
 			this.dialogRef.close(true);
 			this.showSuccessToaster(inviteSuppliersDto.emails.length === 1);
 		});

@@ -10,6 +10,7 @@ import { MerchantsMapComponent } from '../merchants-map/merchants-map.component'
 import { MerchantDialogComponent } from '../merchant-dialog/merchant-dialog.component';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
+import { InvitationService } from '../../services/invitation.service';
 
 @Component({
 	selector: 'app-home',
@@ -20,6 +21,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
 	readonly dialog = inject(MatDialog);
 	readonly categoryService = inject(CategoryService);
 	readonly route = inject(ActivatedRoute);
+	readonly invitationService = inject(InvitationService);
+
 	@ViewChild(MerchantsMapComponent) merchantsMapComponent!: MerchantsMapComponent;
 
 	public categoriesData: CategoryDto[] = [];
@@ -93,12 +96,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 		this.route.params.subscribe(params => {
 			const token = params['token'];
-			
+
 			if (token) {
-				this.dialog
-				.open(MerchantDialogComponent, CustomDialogConfigUtil.GENERIC_MODAL_CONFIG);
+				this.invitationService.validateInvitationToken(token).subscribe(() => {
+					this.dialog
+						.open(MerchantDialogComponent, CustomDialogConfigUtil.GENERIC_MODAL_CONFIG);
+						
+				});
 			}
-		  });
+		});
 	}
 
 	private displayAlreadyRegisteredDialog(): void {
