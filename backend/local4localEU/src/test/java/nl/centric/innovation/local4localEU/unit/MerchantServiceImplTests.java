@@ -6,6 +6,7 @@ import nl.centric.innovation.local4localEU.dto.MerchantViewDto;
 import nl.centric.innovation.local4localEU.dto.RejectMerchantDto;
 import nl.centric.innovation.local4localEU.entity.Category;
 import nl.centric.innovation.local4localEU.entity.Merchant;
+import nl.centric.innovation.local4localEU.entity.MerchantInvitation;
 import nl.centric.innovation.local4localEU.entity.RejectMerchant;
 import nl.centric.innovation.local4localEU.entity.User;
 import nl.centric.innovation.local4localEU.enums.MerchantStatusEnum;
@@ -31,11 +32,13 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -101,6 +104,7 @@ public class MerchantServiceImplTests {
                 .address("Address 1")
                 .contactEmail("domain@example.com")
                 .build();
+
 
         invalidIdentifierNumberMerchantDto = MerchantDto.builder()
                 .companyName("Company")
@@ -502,6 +506,127 @@ public class MerchantServiceImplTests {
         verify(merchantRepository, never()).save(any(Merchant.class));
     }
 
+    @Test
+    public void GivenInvalidToken_WhenSaveMerchant_ThenThrowDtoValidateNotFoundException() {
+        // Given
+        UUID invalidToken = UUID.randomUUID();
+        when(merchantInvitationRepository.findByToken(any())).thenReturn(Optional.empty());
+
+        MerchantDto merchantDto = createMerchantDtoWithToken(invalidToken);
+
+        // When & Then
+        assertThrows(DtoValidateNotFoundException.class,
+                () -> merchantService.saveMerchantAndSendEmail(merchantDto, "en"));
+
+        verify(merchantInvitationRepository, times(1)).findByToken(invalidToken);
+    }
+
+    @Test
+    public void GivenExpiredToken_WhenSaveMerchant_ThenThrowDtoValidateNotFoundException() {
+        // Given
+        UUID expiredToken = UUID.randomUUID();
+        MerchantInvitation invitation = new MerchantInvitation();
+        invitation.setTokenExpirationDate(LocalDateTime.now().minusDays(1));
+
+        when(merchantInvitationRepository.findByToken(any())).thenReturn(Optional.of(invitation));
+
+        MerchantDto merchantDto = createMerchantDtoWithToken(expiredToken);
+
+        // When & Then
+        assertThrows(DtoValidateNotFoundException.class,
+                () -> merchantService.saveMerchantAndSendEmail(merchantDto, "en"));
+
+        verify(merchantInvitationRepository, times(1)).findByToken(expiredToken);
+    }
+
+//    @Test
+//    public void GivenMismatchedEmail_WhenSaveMerchant_ThenThrowDtoValidateException() {
+//        // Given
+//        UUID token = UUID.randomUUID();
+//        MerchantInvitation invitation = new MerchantInvitation();
+//        invitation.setIsRegistered(false);  // Not registered yet
+//        invitation.setTokenExpirationDate(LocalDateTime.now().plusDays(1));
+//        invitation.setEmail("correct@example.com");
+//
+//        when(merchantInvitationRepository.findByToken(token)).thenReturn(Optional.of(invitation));
+//
+//        verify(merchantInvitationRepository, times(1)).findByToken(token);
+//    }
+
+    @Test
+    public void GivenAlreadyRegisteredToken_WhenSaveMerchant_ThenThrowDtoValidateException() {
+        // Given
+        UUID token = UUID.randomUUID();
+        MerchantInvitation invitation = new MerchantInvitation();
+        invitation.setIsRegistered(true);  // Already registered
+        invitation.setTokenExpirationDate(LocalDateTime.now().plusDays(1));
+        invitation.setEmail("test@example.com");
+
+        when(merchantInvitationRepository.findByToken(token)).thenReturn(Optional.of(invitation));
+
+        MerchantDto merchantDto = createMerchantDtoWithToken(token);
+
+        // When & Then
+        assertThrows(DtoValidateException.class,
+                () -> merchantService.saveMerchantAndSendEmail(merchantDto, "en"));
+
+        verify(merchantInvitationRepository, times(1)).findByToken(token);
+    }
+
+    @Test
+    public void GivenDifferentEmailAddress_WhenSaveMerchant_ThenThrowDtoValidateException() {
+        // Given
+        UUID token = UUID.randomUUID();
+        MerchantInvitation invitation = new MerchantInvitation();
+        invitation.setIsRegistered(false);  // Not registered yet
+        invitation.setTokenExpirationDate(LocalDateTime.now().plusDays(1));
+        invitation.setEmail("different@example.com");
+
+        when(merchantInvitationRepository.findByToken(token)).thenReturn(Optional.of(invitation));
+
+        MerchantDto merchantDto = createMerchantDtoWithToken(token);
+
+        // When & Then
+        assertThrows(DtoValidateException.class,
+                () -> merchantService.saveMerchantAndSendEmail(merchantDto, "en"));
+
+        verify(merchantInvitationRepository, times(1)).findByToken(token);
+    }
+
+    @Test
+    public void GivenMismatchedEmail_WhenSaveMerchant_ThenThrowDtoValidateException() {
+        // Given
+        UUID token = UUID.randomUUID();
+        MerchantInvitation invitation = new MerchantInvitation();
+        invitation.setIsRegistered(false);  // Not registered yet
+        invitation.setTokenExpirationDate(LocalDateTime.now().plusDays(1));
+        invitation.setEmail("correct@example.com");
+
+        when(merchantInvitationRepository.findByToken(token)).thenReturn(Optional.of(invitation));
+
+        MerchantDto merchantDto = createMerchantDtoWithToken(token);
+
+        // When & Then
+        assertThrows(DtoValidateException.class,
+                () -> merchantService.saveMerchantAndSendEmail(merchantDto, "en"));
+
+        verify(merchantInvitationRepository, times(1)).findByToken(token);
+    }
+
+    @Test
+    public void GivenValidMerchantInvitation_WhenMarkMerchantAsRegistered_ThenIsRegisteredIsTrue() {
+        // Given
+        MerchantInvitation merchantInvitation = new MerchantInvitation();
+        merchantInvitation.setIsRegistered(false);
+
+        // When
+        ReflectionTestUtils.invokeMethod(merchantService, "markMerchantAsRegistered", merchantInvitation);
+
+        // Then
+        assertTrue(merchantInvitation.getIsRegistered());
+        verify(merchantInvitationRepository, times(1)).save(merchantInvitation);
+    }
+
     private Merchant merchantBuilder(String companyName, String identifierNumber) {
         return Merchant.builder()
                 .companyName(companyName)
@@ -515,4 +640,19 @@ public class MerchantServiceImplTests {
                 .status(MerchantStatusEnum.APPROVED)
                 .build();
     }
+
+    private MerchantDto createMerchantDtoWithToken(UUID token) {
+        return MerchantDto.builder()
+                .companyName("Company")
+                .identifierNumber(VALID_IDENTIFIER_NUMBER)
+                .website(VALID_WEBSITE)
+                .category(VALID_CATEGORY)
+                .longitude(51.926517)
+                .latitude(4.462456)
+                .address("Address 1")
+                .token(token)
+                .contactEmail("test@example.com")
+                .build();
+    }
+
 }
