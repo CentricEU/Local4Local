@@ -8,5 +8,6 @@ export enum ColumnType {
 	WEBSITE = 'website',
 	CONTACT_EMAIL = 'contactEmail',
 	EMAIL = 'email',
-	SENDING_DATE = 'sendingDate'
+	SENDING_DATE = 'sendingDate',
+	REGISTERED = 'registered'
 }

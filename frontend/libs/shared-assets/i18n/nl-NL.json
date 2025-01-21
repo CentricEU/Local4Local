@@ -33,7 +33,9 @@
 		"noLocationData": {
 			"noDataTitle": "Locatie is uitgeschakeld",
 			"noDataDescription": "Het lijkt erop dat locatie is uitgeschakeld in uw systeemvoorkeuren. Schakel locatievoorzieningen in om de kaart te verkennen."
-		}
+		},
+		"yes": "...Yes",
+        "no": "...No"
 	},
 	"tooltip": {
 		"approveMerchant": "Goedkeuren van locaties",
@@ -49,7 +51,8 @@
 			"status": "Status",
 			"actions": "Acties",
 			"email": "E-mail",
-			"sendingDate": "Verzenddatum"
+			"sendingDate": "Verzenddatum",
+			"registered": "Geregistreerd"
 		}
 	},
 	"welcomePage": {

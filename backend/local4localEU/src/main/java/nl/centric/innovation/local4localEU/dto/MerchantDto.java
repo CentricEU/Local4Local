@@ -6,6 +6,8 @@ import nl.centric.innovation.local4localEU.entity.Category;
 import nl.centric.innovation.local4localEU.entity.Merchant;
 import nl.centric.innovation.local4localEU.enums.MerchantStatusEnum;
 
+import java.util.UUID;
+
 @Builder
 public record MerchantDto(
         @NonNull String companyName,
@@ -15,7 +17,8 @@ public record MerchantDto(
         @NonNull Double longitude,
         @NonNull String address,
         @NonNull String contactEmail,
-        String website
+        String website,
+        UUID token
 ) {
 
     public static Merchant toEntity(MerchantDto createMerchantDto) {

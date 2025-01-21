@@ -86,7 +86,8 @@ describe('InvitationsComponent', () => {
 	it('should format date correctly in cell function', () => {
 		const mockInvitation: InvitationDto = {
 			email: 'test@example.com',
-			createdDate: '2024-10-24T10:00:00Z'
+			createdDate: '2024-10-24T10:00:00Z',
+			registered: false
 		};
 
 		const formattedDate = component.columnConfigs[1].cell(mockInvitation);
@@ -96,7 +97,8 @@ describe('InvitationsComponent', () => {
 	it('should retrieve email correctly in cell function', () => {
 		const mockInvitation: InvitationDto = {
 			email: 'test@example.com',
-			createdDate: '2024-10-24T10:00:00Z'
+			createdDate: '2024-10-24T10:00:00Z',
+			registered: false
 		};
 
 		const email = component.columnConfigs[0].cell(mockInvitation);
@@ -105,8 +107,8 @@ describe('InvitationsComponent', () => {
 
 	it('should initialize data correctly', () => {
 		const mockInvitations: InvitationDto[] = [
-			{ email: 'test1@example.com', createdDate: '2024-10-24T10:00:00Z' },
-			{ email: 'test2@example.com', createdDate: '2024-10-25T10:00:00Z' }
+			{ email: 'test1@example.com', createdDate: '2024-10-24T10:00:00Z', registered: false },
+			{ email: 'test2@example.com', createdDate: '2024-10-25T10:00:00Z', registered: true }
 		];
 
 		invitationService.getPaginatedInvitations.mockReturnValue(of(mockInvitations));

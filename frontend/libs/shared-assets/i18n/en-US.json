@@ -33,7 +33,9 @@
         "noLocationData": {
             "noDataTitle": "...Location is turned off",
             "noDataDescription": "...It looks like location is turned off in your system preferences. Please enable location services to explore the map."
-        }
+        },
+        "yes": "Yes",
+        "no": "No"
     },
     "table": {
         "column": {
@@ -45,7 +47,8 @@
             "status": "Status",
             "actions": "Actions",
             "email": "E-mail",
-            "sendingDate": "Sending date"
+            "sendingDate": "Sending date",
+            "registered": "Registered"
         }
     },
     "tooltip": {
