@@ -13,7 +13,6 @@ import nl.centric.innovation.local4localEU.enums.AssetsEnum;
 import nl.centric.innovation.local4localEU.enums.EmailHtmlEnum;
 import nl.centric.innovation.local4localEU.enums.EmailStructureEnum;
 import nl.centric.innovation.local4localEU.enums.EmailTemplateEnum;
-import nl.centric.innovation.local4localEU.service.interfaces.EmailService;
 import nl.centric.innovation.local4localEU.service.interfaces.MailTemplateBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -23,13 +22,14 @@ import util.MailTemplate;
 import util.StringUtils;
 
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 @PropertySource({"classpath:application.properties"})
-public class EmailServiceImpl implements EmailService {
+public class EmailService {
     @Value("${local4localEU.default.email.sender}")
     private String emailSender;
 
@@ -98,7 +98,6 @@ public class EmailServiceImpl implements EmailService {
                 .action(action).btnText(btnText).closing(closing).build();
     }
 
-    @Override
     public void sendPasswordRecoveryEmail(String url, String[] toAddress, String language) {
         MailTemplate mailTemplate = getPasswordRecoveryTemplate(language, url, EmailTemplateEnum.PASSWORD_RECOVER.getTemplate());
         String htmlContent = mailTemplateBuilder.buildEmailTemplate(mailTemplate);
@@ -106,16 +105,21 @@ public class EmailServiceImpl implements EmailService {
         sendEmail(emailSender, toAddress, mailTemplate.getSubject(), htmlContent, textContent.toString());
     }
 
-    @Override
-    public void sendInviteMerchantEmail(String url, String language, String[] toAddress, String message) {
-        MailTemplate mailTemplate = getInviteMerchantTemplate(language, url,
-                EmailTemplateEnum.INVITE_MERCHANT.getTemplate(), message);
-        String htmlContent = mailTemplateBuilder.buildEmailTemplate(mailTemplate);
-        String textContent = buildTemplateText(mailTemplate);
-        sendEmail(emailSender, toAddress, mailTemplate.getSubject(), htmlContent, textContent.toString());
+    public void sendInviteMerchantEmail(String language, Map<String, UUID> toAddress, String message) {
+        toAddress.forEach((email, uuid) -> {
+            String url = String.format("%s/register/%s", baseURL, uuid);
+
+            MailTemplate mailTemplate = getInviteMerchantTemplate(language, url,
+                    EmailTemplateEnum.INVITE_MERCHANT.getTemplate(), message);
+
+            sendEmail(emailSender,
+                    new String[]{email},
+                    mailTemplate.getSubject(),
+                    mailTemplateBuilder.buildEmailTemplate(mailTemplate),
+                    buildTemplateText(mailTemplate));
+        });
     }
 
-    @Override
     public void sendMerchantRegisteredEmail(String url, String language, String merchantName, String[] managerEmails) {
         MailTemplate mailTemplate = getMerchantRegisteredTemplate(language, url, EmailTemplateEnum.MERCHANT_REGISTERED.getTemplate(), merchantName);
         String htmlContent = mailTemplateBuilder.buildEmailTemplate(mailTemplate);
@@ -124,7 +128,6 @@ public class EmailServiceImpl implements EmailService {
         sendEmail(emailSender, managerEmails, mailTemplate.getSubject() + merchantName, htmlContent, textContent);
     }
 
-    @Override
     public void sendManagerOtpEmail(String language, String[] managerEmail, Integer otpCode) {
         MailTemplate mailTemplate = getManagerOtpEmailTemplate(language, EmailTemplateEnum.MANAGER_OTP.getTemplate(), otpCode);
         String htmlContent = mailTemplateBuilder.buildEmailTemplate(mailTemplate);
@@ -134,7 +137,6 @@ public class EmailServiceImpl implements EmailService {
 
     }
 
-    @Override
     public void sendApproveMerchantEmail(String[] email, String language, String companyName, UUID token, String merchantName) {
         MailTemplate mailTemplate = getApproveMerchantTemplate(language, baseURL, EmailTemplateEnum.APPROVE_MERCHANT.getTemplate(),
                 companyName + EmailHtmlEnum.EXCL.getTag(), token, merchantName);
@@ -143,7 +145,6 @@ public class EmailServiceImpl implements EmailService {
         sendEmail(emailSender, email, mailTemplate.getSubject(), htmlContent, textContent.toString());
     }
 
-    @Override
     public void sendRejectMerchantEmail(String[] toAddress, String language, String companyName, String reason) {
         MailTemplate mailTemplate = getRejectMerchantTemplate(language, "", EmailTemplateEnum.REJECT_MERCHANT.getTemplate(), companyName + EmailHtmlEnum.EXCL.getTag(), reason);
         String htmlContent = mailTemplateBuilder.buildEmailTemplate(mailTemplate);
@@ -165,6 +166,9 @@ public class EmailServiceImpl implements EmailService {
     private MailTemplate getInviteMerchantTemplate(String language, String url, String templateMiddlePart, String message) {
         Locale locale = new Locale(language);
         MailTemplate mailTemplate = buildGenericTemplate(locale, language, url, templateMiddlePart, "");
+
+        String content = getContentForInviteMerchant(locale, templateMiddlePart, message);
+
         String closing = getEmailStringText(locale, EmailStructureEnum.GENERIC.getStructure(),
                 EmailStructureEnum.CLOSING.getStructure());
         String btnText = getEmailStringText(locale, EmailStructureEnum.GENERIC.getStructure(),
@@ -173,7 +177,7 @@ public class EmailServiceImpl implements EmailService {
         mailTemplate.setClosing(closing);
         mailTemplate.setAction(null);
         mailTemplate.setBtnText(btnText);
-        mailTemplate.setContent(message);
+        mailTemplate.setContent(content);
 
         return mailTemplate;
     }
@@ -229,10 +233,11 @@ public class EmailServiceImpl implements EmailService {
         return mailTemplate;
     }
 
-    private String getContentForInviteMerchant(Locale locale, String templateMiddlePart) {
+
+    private String getContentForInviteMerchant(Locale locale, String templateMiddlePart, String message) {
         String contentInfo = getEmailStringText(locale, templateMiddlePart, EmailStructureEnum.CONTENT.getStructure())
                 .replace(EmailHtmlEnum.LINE_BREAK.getTag(), EmailHtmlEnum.RN.getTag());
-        return StringUtils.joinStringPieces(contentInfo);
+        return StringUtils.joinStringPieces(message, EmailHtmlEnum.LINE_BREAK.getTag(), EmailHtmlEnum.LINE_BREAK.getTag(), contentInfo);
     }
 
     private String getContentForApproveMerchant(Locale locale, String templateMiddlePart, UUID token, String merchantName) {

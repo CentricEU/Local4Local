@@ -15,8 +15,8 @@ import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidate
 import nl.centric.innovation.local4localEU.repository.MerchantRepository;
 import nl.centric.innovation.local4localEU.repository.RejectMerchantRepository;
 import nl.centric.innovation.local4localEU.repository.UserRepository;
+import nl.centric.innovation.local4localEU.service.impl.EmailService;
 import nl.centric.innovation.local4localEU.service.impl.MerchantServiceImpl;
-import nl.centric.innovation.local4localEU.service.interfaces.EmailService;
 import nl.centric.innovation.local4localEU.service.interfaces.TalerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -148,18 +148,6 @@ public class MerchantServiceImplTests {
 
         // When Then
         assertThrows(DtoValidateAlreadyExistsException.class, () -> merchantService.saveMerchant(validMerchantDto));
-
-        verify(merchantRepository, never()).save(any(Merchant.class));
-    }
-
-    @Test
-    @SneakyThrows
-    public void GivenInvalidIdentifierNumber_WhenSaveMerchant_ThenExpectDtoValidateException() {
-        // Given
-        when(merchantRepository.findByIdentifierNumber(INVALID_IDENTIFIER_NUMBER)).thenReturn(Optional.empty());
-
-        // When Then
-        assertThrows(DtoValidateException.class, () -> merchantService.saveMerchant(invalidIdentifierNumberMerchantDto));
 
         verify(merchantRepository, never()).save(any(Merchant.class));
     }

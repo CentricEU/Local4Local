@@ -15,7 +15,6 @@ import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidate
 import nl.centric.innovation.local4localEU.exception.CustomException.InvalidRoleException;
 import nl.centric.innovation.local4localEU.service.interfaces.AuthenticationService;
 import nl.centric.innovation.local4localEU.service.interfaces.CaptchaService;
-import nl.centric.innovation.local4localEU.service.interfaces.EmailService;
 import nl.centric.innovation.local4localEU.service.interfaces.LoginAttemptService;
 import nl.centric.innovation.local4localEU.service.interfaces.OtpCodesService;
 import org.springframework.beans.factory.annotation.Value;
