@@ -4,17 +4,17 @@ import { InvitationsComponent } from './invitations.component';
 import { InviteMerchantDialogComponent } from '../invite-merchant-dialog/invite-merchant-dialog.component';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { MerchantService } from '../../services/merchant.service';
 import { MatDialog } from '@angular/material/dialog';
 import { of } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { ColumnType } from '../../enums/column.enum';
 import { InvitationDto } from '../../models/invitation-dto.model';
+import { InvitationService } from '../../services/invitation.service';
 
 describe('InvitationsComponent', () => {
 	let component: InvitationsComponent;
 	let fixture: ComponentFixture<InvitationsComponent>;
-	let merchantService: any;
+	let invitationService: InvitationService;
 
 	const matDialogMock = {
 		open: jest.fn().mockReturnValue({
@@ -27,7 +27,7 @@ describe('InvitationsComponent', () => {
 			return JSON.parse(JSON.stringify(val));
 		});
 
-		merchantService = {
+		const invitationServiceStub = {
 			getPaginatedInvitations: jest.fn().mockReturnValue(of()),
 			countAllInvitations: jest.fn().mockReturnValue(of(12))
 		};
@@ -38,13 +38,14 @@ describe('InvitationsComponent', () => {
 			imports: [TranslateModule.forRoot()],
 			providers: [
 				TranslateService,
-				{ provide: MerchantService, useValue: merchantService },
+				{ provide: InvitationService, useValue: invitationServiceStub },
 				{ provide: MatDialog, useValue: matDialogMock }
 			]
 		}).compileComponents();
 
 		fixture = TestBed.createComponent(InvitationsComponent);
 		component = fixture.componentInstance;
+		invitationService = TestBed.inject(InvitationService) as jest.Mocked<InvitationService>;
 		fixture.detectChanges();
 	});
 
@@ -88,7 +89,7 @@ describe('InvitationsComponent', () => {
 		const mockInvitation: InvitationDto = {
 			email: 'test@example.com',
 			createdDate: '2024-10-24T10:00:00Z',
-			registered: false
+			isRegistered: false
 		};
 
 		const formattedDate = component.columnConfigs[1].cell(mockInvitation);
@@ -99,7 +100,7 @@ describe('InvitationsComponent', () => {
 		const mockInvitation: InvitationDto = {
 			email: 'test@example.com',
 			createdDate: '2024-10-24T10:00:00Z',
-			registered: false
+			isRegistered: false
 		};
 
 		const email = component.columnConfigs[0].cell(mockInvitation);
@@ -108,17 +109,17 @@ describe('InvitationsComponent', () => {
 
 	it('should initialize data correctly', () => {
 		const mockInvitations: InvitationDto[] = [
-			{ email: 'test1@example.com', createdDate: '2024-10-24T10:00:00Z', registered: false },
-			{ email: 'test2@example.com', createdDate: '2024-10-25T10:00:00Z', registered: true }
+			{ email: 'test1@example.com', createdDate: '2024-10-24T10:00:00Z', isRegistered: false },
+			{ email: 'test2@example.com', createdDate: '2024-10-25T10:00:00Z', isRegistered: true }
 		];
 
-		merchantService.getPaginatedInvitations.mockReturnValue(of(mockInvitations));
-		merchantService.countAllInvitations.mockReturnValue(of(2));
+		(invitationService.getPaginatedInvitations as jest.Mock).mockReturnValue(of(mockInvitations));
+		(invitationService.countAllInvitations as jest.Mock).mockReturnValue(of(2));
 
 		component['initData'](0, 10);
 
-		expect(merchantService.getPaginatedInvitations).toHaveBeenCalledWith(0, 10);
-		expect(merchantService.countAllInvitations).toHaveBeenCalled();
+		expect(invitationService.getPaginatedInvitations).toHaveBeenCalledWith(0, 10);
+		expect(invitationService.countAllInvitations).toHaveBeenCalled();
 		expect(component.data).toEqual(mockInvitations);
 		expect(component.noOfInvitations).toBe(2);
 		expect(component.dataSource.data).toEqual(mockInvitations);

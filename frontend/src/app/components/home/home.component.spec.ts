@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CategoryService } from '../../services/category.service';
-import { of } from 'rxjs';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 import { MatChip, MatChipSet, MatChipsModule } from '@angular/material/chips';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HomeComponent } from './home.component';
@@ -13,6 +15,8 @@ import { ALREADY_REGISTERED_CODE, SUCCESS_CODE } from '../../_constants/error-co
 import { MerchantsMapComponent } from '../merchants-map/merchants-map.component';
 import { MerchantDialogComponent } from '../merchant-dialog/merchant-dialog.component';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { InvitationService } from '../../services/invitation.service';
+import { ActivatedRoute } from '@angular/router';
 
 const matDialogMock = {
 	open: jest.fn().mockReturnValue({
@@ -24,10 +28,16 @@ const merchantsMapComponentMock = {
 	filterMerchantsByCategory: jest.fn()
 };
 
+const routeParamsSubject = new BehaviorSubject<{ token?: string }>({});
+const activatedRouteMock = {
+	params: routeParamsSubject.asObservable()
+};
+
 describe('HomeComponent', () => {
 	let component: HomeComponent;
 	let fixture: ComponentFixture<HomeComponent>;
-	let categoryServiceMock: any;
+	let categoryServiceMock: jest.Mocked<CategoryService>;
+	let invitationServiceMock: jest.Mocked<InvitationService>;
 
 	beforeEach(async () => {
 		jest.clearAllMocks();
@@ -36,7 +46,11 @@ describe('HomeComponent', () => {
 			return JSON.parse(JSON.stringify(val));
 		});
 
-		categoryServiceMock = {
+		const invitationServiceStub = {
+			validateInvitationToken: jest.fn().mockReturnValue(of('success-response')) // Ensure it returns an Observable<string>
+		}
+
+		const categoryServiceStub = {
 			getAllCategories: jest.fn().mockReturnValue(
 				of([
 					{
@@ -57,8 +71,10 @@ describe('HomeComponent', () => {
 			schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 			providers: [
 				{ provide: MatDialog, useValue: matDialogMock },
-				{ provide: CategoryService, useValue: categoryServiceMock },
+				{ provide: CategoryService, useValue: categoryServiceStub },
 				{ provide: MerchantsMapComponent, useValue: merchantsMapComponentMock },
+				{ provide: InvitationService, useValue: invitationServiceStub },
+				{ provide: ActivatedRoute, useValue: activatedRouteMock },
 				MatChipSet,
 				MatChip,
 				TranslateService
@@ -68,6 +84,7 @@ describe('HomeComponent', () => {
 		fixture = TestBed.createComponent(HomeComponent);
 		component = fixture.componentInstance;
 		component.merchantsMapComponent = merchantsMapComponentMock as unknown as MerchantsMapComponent;
+		invitationServiceMock = TestBed.inject(InvitationService) as jest.Mocked<InvitationService>;
 		fixture.detectChanges();
 	});
 
@@ -130,7 +147,7 @@ describe('HomeComponent', () => {
 			''
 		);
 
-		(component as any).displayApprovalWaitingPopup();
+		component["displayApprovalWaitingPopup"]();
 
 		expect(matDialogMock.open).toHaveBeenCalledWith(GenericDialogComponent, {
 			...CustomDialogConfigUtil.createMessageModal(expectedModalData),
@@ -153,7 +170,7 @@ describe('HomeComponent', () => {
 			''
 		);
 
-		(component as any).displayAlreadyRegisteredDialog();
+		component["displayAlreadyRegisteredDialog"]();
 
 		expect(matDialogMock.open).toHaveBeenCalledWith(GenericDialogComponent, {
 			...CustomDialogConfigUtil.createMessageModal(expectedModalData),
@@ -181,4 +198,60 @@ describe('HomeComponent', () => {
 
 		expect(component.selectCategory).toHaveBeenCalledWith(expectedCategory);
 	});
+
+
+	it('should call validateInvitationToken when token is present in route params', () => {
+		jest.spyOn(component as any, 'validateInvitationToken').mockImplementation();
+
+		routeParamsSubject.next({ token: 'test-token' });
+
+		expect((component as any).validateInvitationToken).toHaveBeenCalledWith('test-token');
+	});
+
+	it('should NOT call validateInvitationToken when no token is present in route params', () => {
+		jest.spyOn(component as any, 'validateInvitationToken').mockImplementation();
+
+		routeParamsSubject.next({});
+
+		expect(component["validateInvitationToken"]).not.toHaveBeenCalled();
+	});
+
+	it('should replace state with empty string in clearPath', () => {
+		jest.spyOn(component.location, 'replaceState');
+
+		component['clearPath']();
+
+		expect(component.location.replaceState).toHaveBeenCalledWith('');
+	});
+
+	it('should open MerchantDialogComponent when validateInvitationToken succeeds', () => {
+		const token = 'c1c75569-718f-45b5-b347-a41f653f9798';
+	
+		const validateInvitationTokenSpy = jest.spyOn(invitationServiceMock, 'validateInvitationToken').mockReturnValue(of(token));
+		const dialogOpenSpy = jest.spyOn(matDialogMock, 'open');
+	
+		component['validateInvitationToken'](token);
+	
+		expect(validateInvitationTokenSpy).toHaveBeenCalledTimes(1);
+		expect(validateInvitationTokenSpy).toHaveBeenCalledWith(token);
+		expect(dialogOpenSpy).toHaveBeenCalledWith(MerchantDialogComponent, {
+			...CustomDialogConfigUtil.GENERIC_MODAL_CONFIG,
+			data: { token }
+		});
+	});
+	
+	
+	
+	it('should call clearPath when validateInvitationToken fails', () => {
+		const token = 'c1c75569-718f-45b5-b347-a41f653f9798';
+	
+		const validateInvitationTokenSpy = jest.spyOn(invitationServiceMock, 'validateInvitationToken').mockReturnValue(throwError(() => new Error('Invalid token')));
+		const clearPathSpy = jest.spyOn(component as any, 'clearPath');
+	
+		component['validateInvitationToken'](token);
+	
+		expect(validateInvitationTokenSpy).toHaveBeenCalledWith(token);
+		expect(clearPathSpy).toHaveBeenCalled();
+	});
+	
 });

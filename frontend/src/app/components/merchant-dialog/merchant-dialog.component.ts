@@ -248,7 +248,8 @@ export class MerchantDialogComponent implements OnInit {
 			longitude: location?.x ?? 0.0,
 			address,
 			contactEmail,
-			website: this.ensureHttpsProtocol(website)
+			website: this.ensureHttpsProtocol(website),
+			token: this.data?.token
 		};
 	}
 

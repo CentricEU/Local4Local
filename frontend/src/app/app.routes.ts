@@ -23,5 +23,6 @@ export const appRoutes: Route[] = [
     { path: commonRoutingConstants.invitations, component: InvitationsComponent, canActivate: [AuthGuard] },
     { path: commonRoutingConstants.profile, component: ProfileComponent, canActivate: [AuthGuard] },
     { path: commonRoutingConstants.mfa, component: MfaComponent, canActivate: [MfaGuard] },
+    { path: `${commonRoutingConstants.register}/:token`, component: HomeComponent, canActivate: [NonAuthGuard] },
     { path: '**', redirectTo: '', pathMatch: 'full' }
 ];

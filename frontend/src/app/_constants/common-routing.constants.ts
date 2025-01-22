@@ -1,3 +1,4 @@
+
 export const commonRoutingConstants = {
     login: 'login',
     dashboard: 'dashboard',
@@ -6,5 +7,7 @@ export const commonRoutingConstants = {
     merchants: 'merchants',
     invitations: 'invitations',
     profile: 'profile',
-    mfa: 'mfa'
+    mfa: 'mfa',
+    register: 'register',
+    home: ''
 }

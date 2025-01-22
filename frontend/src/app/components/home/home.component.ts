@@ -9,6 +9,10 @@ import { ALREADY_REGISTERED_CODE, SUCCESS_CODE } from '../../_constants/error-co
 import { MerchantsMapComponent } from '../merchants-map/merchants-map.component';
 import { MerchantDialogComponent } from '../merchant-dialog/merchant-dialog.component';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { InvitationService } from '../../services/invitation.service';
+import { Location } from '@angular/common';
+import { RegexUtil } from '../../util/regex.util';
 
 @Component({
 	selector: 'app-home',
@@ -18,6 +22,10 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 export class HomeComponent implements OnInit {
 	readonly dialog = inject(MatDialog);
 	readonly categoryService = inject(CategoryService);
+	readonly route = inject(ActivatedRoute);
+	readonly invitationService = inject(InvitationService);
+	readonly router = inject(Router);
+	readonly location = inject(Location);
 
 	@ViewChild(MerchantsMapComponent) merchantsMapComponent!: MerchantsMapComponent;
 
@@ -26,6 +34,7 @@ export class HomeComponent implements OnInit {
 
 	public ngOnInit(): void {
 		this.initCategoriesData();
+		this.checkForToken();
 	}
 
 	public openDialog(): void {
@@ -82,6 +91,40 @@ export class HomeComponent implements OnInit {
 		);
 
 		this.dialog.open(GenericDialogComponent, CustomDialogConfigUtil.createMessageModal(approvalWaitingModalData));
+	}
+
+	private checkForToken(): void {
+		this.route.params.subscribe(params => {
+			const token = params['token'];
+
+			if (token) {
+				this.validateInvitationToken(token);
+				return;
+			}
+		});
+	}
+
+	private validateInvitationToken(token: string): void {
+		if (!RegexUtil.uuidRegexPattern.test(token)) {
+			this.clearPath();
+			return;
+		}
+
+		this.invitationService.validateInvitationToken(token).subscribe(
+			() => {
+				this.dialog
+					.open(MerchantDialogComponent, {
+						...CustomDialogConfigUtil.GENERIC_MODAL_CONFIG,
+						data: { token }
+					});
+			},
+			() => {
+				this.clearPath();
+			});
+	}
+
+	private clearPath(): void {
+		this.location.replaceState('');
 	}
 
 	private displayAlreadyRegisteredDialog(): void {

@@ -1,5 +1,5 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AppLoaderService } from '../services/app-loader.service';
 import { Observable, tap } from 'rxjs';
 
@@ -7,7 +7,7 @@ import { Observable, tap } from 'rxjs';
 export class AppHttpInterceptor<T> implements HttpInterceptor {
 	private totalRequests = 0;
 
-	constructor(private readonly appLoaderService: AppLoaderService) {}
+	private readonly appLoaderService = inject(AppLoaderService)
 
 	intercept(req: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<T>> {
 		this.totalRequests++;
@@ -17,7 +17,7 @@ export class AppHttpInterceptor<T> implements HttpInterceptor {
 			tap({
 				next: (event: HttpEvent<T>) => this.handleResponse(event),
 				error: () => this.decreaseRequests()
-			})
+			}),
 		);
 	}
 

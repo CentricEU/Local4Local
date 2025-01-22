@@ -205,7 +205,9 @@
         "40017": "Your new password matches your old one. Please choose a different password.",
         "40021": "The code provided is not valid.",
         "40025": "The citizen account could not be created because the email is already in use. Please use a different email address to create a new account.",
-        "40027": "You need to wait 5 minutes before resending a new code."
+        "40027": "You need to wait 5 minutes before resending a new code.",
+        "40028": "The link has expired. You have been redirected to the homepage.",
+        "40030": "The link was already used. You have been redirected to the homepage."
     },
     "presentation": {
         "description": {

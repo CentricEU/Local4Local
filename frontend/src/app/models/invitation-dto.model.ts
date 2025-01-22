@@ -1,11 +1,11 @@
 export class InvitationDto {
     public email: string;
     public createdDate: string;
-    public registered: boolean;
+    public isRegistered: boolean;
 
     constructor(email: string, createdDate: string, registered: boolean) {
         this.email = email;
         this.createdDate = createdDate;
-        this.registered = registered;
+        this.isRegistered = registered;
     }
 }
