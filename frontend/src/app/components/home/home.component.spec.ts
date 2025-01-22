@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -45,8 +47,8 @@ describe('HomeComponent', () => {
 		});
 
 		const invitationServiceStub = {
-			validateInvitationToken: jest.fn().mockReturnValue(of({}))
-		};
+			validateInvitationToken: jest.fn().mockReturnValue(of('success-response')) // Ensure it returns an Observable<string>
+		}
 
 		const categoryServiceStub = {
 			getAllCategories: jest.fn().mockReturnValue(
@@ -82,6 +84,7 @@ describe('HomeComponent', () => {
 		fixture = TestBed.createComponent(HomeComponent);
 		component = fixture.componentInstance;
 		component.merchantsMapComponent = merchantsMapComponentMock as unknown as MerchantsMapComponent;
+		invitationServiceMock = TestBed.inject(InvitationService) as jest.Mocked<InvitationService>;
 		fixture.detectChanges();
 	});
 
@@ -144,7 +147,7 @@ describe('HomeComponent', () => {
 			''
 		);
 
-		(component as any).displayApprovalWaitingPopup();
+		component["displayApprovalWaitingPopup"]();
 
 		expect(matDialogMock.open).toHaveBeenCalledWith(GenericDialogComponent, {
 			...CustomDialogConfigUtil.createMessageModal(expectedModalData),
@@ -167,7 +170,7 @@ describe('HomeComponent', () => {
 			''
 		);
 
-		(component as any).displayAlreadyRegisteredDialog();
+		component["displayAlreadyRegisteredDialog"]();
 
 		expect(matDialogMock.open).toHaveBeenCalledWith(GenericDialogComponent, {
 			...CustomDialogConfigUtil.createMessageModal(expectedModalData),
@@ -210,40 +213,45 @@ describe('HomeComponent', () => {
 
 		routeParamsSubject.next({});
 
-		expect((component as any).validateInvitationToken).not.toHaveBeenCalled();
-	});
-
-	it('should open MerchantDialogComponent when validateInvitationToken is successful', () => {
-		const token = 'valid-token';
-		jest.spyOn(component.dialog, 'open');
-
-		invitationServiceMock.validateInvitationToken.mockReturnValue(of({}));
-
-		(component as any).validateInvitationToken(token);
-
-		expect(component.dialog.open).toHaveBeenCalledWith(MerchantDialogComponent, {
-			...CustomDialogConfigUtil.GENERIC_MODAL_CONFIG,
-			data: { token }
-		});
-	});
-
-	it('should call clearPath when validateInvitationToken fails', () => {
-		const token = 'invalid-token';
-		jest.spyOn(component as any, 'clearPath');
-
-		invitationServiceMock.validateInvitationToken.mockReturnValue(throwError(() => new Error('Token validation failed')));
-
-		(component as any).validateInvitationToken(token);
-
-		expect((component as any).clearPath).toHaveBeenCalled();
+		expect(component["validateInvitationToken"]).not.toHaveBeenCalled();
 	});
 
 	it('should replace state with empty string in clearPath', () => {
 		jest.spyOn(component.location, 'replaceState');
 
-		(component as any).clearPath();
+		component['clearPath']();
 
 		expect(component.location.replaceState).toHaveBeenCalledWith('');
 	});
 
+	it('should open MerchantDialogComponent when validateInvitationToken succeeds', () => {
+		const token = 'c1c75569-718f-45b5-b347-a41f653f9798';
+	
+		const validateInvitationTokenSpy = jest.spyOn(invitationServiceMock, 'validateInvitationToken').mockReturnValue(of(token));
+		const dialogOpenSpy = jest.spyOn(matDialogMock, 'open');
+	
+		component['validateInvitationToken'](token);
+	
+		expect(validateInvitationTokenSpy).toHaveBeenCalledTimes(1);
+		expect(validateInvitationTokenSpy).toHaveBeenCalledWith(token);
+		expect(dialogOpenSpy).toHaveBeenCalledWith(MerchantDialogComponent, {
+			...CustomDialogConfigUtil.GENERIC_MODAL_CONFIG,
+			data: { token }
+		});
+	});
+	
+	
+	
+	it('should call clearPath when validateInvitationToken fails', () => {
+		const token = 'c1c75569-718f-45b5-b347-a41f653f9798';
+	
+		const validateInvitationTokenSpy = jest.spyOn(invitationServiceMock, 'validateInvitationToken').mockReturnValue(throwError(() => new Error('Invalid token')));
+		const clearPathSpy = jest.spyOn(component as any, 'clearPath');
+	
+		component['validateInvitationToken'](token);
+	
+		expect(validateInvitationTokenSpy).toHaveBeenCalledWith(token);
+		expect(clearPathSpy).toHaveBeenCalled();
+	});
+	
 });
