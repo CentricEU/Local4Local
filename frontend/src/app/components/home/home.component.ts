@@ -12,6 +12,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InvitationService } from '../../services/invitation.service';
 import { Location } from '@angular/common';
+import { RegexUtil } from '../../util/regex.util';
 
 @Component({
 	selector: 'app-home',
@@ -104,6 +105,11 @@ export class HomeComponent implements OnInit {
 	}
 
 	private validateInvitationToken(token: string): void {
+		if (!RegexUtil.uuidRegexPattern.test(token)) {
+			this.clearPath();
+			return;
+		}
+
 		this.invitationService.validateInvitationToken(token).subscribe(
 			() => {
 				this.dialog

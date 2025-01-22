@@ -34,8 +34,8 @@ const activatedRouteMock = {
 describe('HomeComponent', () => {
 	let component: HomeComponent;
 	let fixture: ComponentFixture<HomeComponent>;
-	let categoryServiceMock: any;
-	let invitationServiceMock: any;
+	let categoryServiceMock: jest.Mocked<CategoryService>;
+	let invitationServiceMock: jest.Mocked<InvitationService>;
 
 	beforeEach(async () => {
 		jest.clearAllMocks();
@@ -44,11 +44,11 @@ describe('HomeComponent', () => {
 			return JSON.parse(JSON.stringify(val));
 		});
 
-		invitationServiceMock = {
+		const invitationServiceStub = {
 			validateInvitationToken: jest.fn().mockReturnValue(of({}))
 		};
 
-		categoryServiceMock = {
+		const categoryServiceStub = {
 			getAllCategories: jest.fn().mockReturnValue(
 				of([
 					{
@@ -69,9 +69,9 @@ describe('HomeComponent', () => {
 			schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 			providers: [
 				{ provide: MatDialog, useValue: matDialogMock },
-				{ provide: CategoryService, useValue: categoryServiceMock },
+				{ provide: CategoryService, useValue: categoryServiceStub },
 				{ provide: MerchantsMapComponent, useValue: merchantsMapComponentMock },
-				{ provide: InvitationService, useValue: invitationServiceMock },
+				{ provide: InvitationService, useValue: invitationServiceStub },
 				{ provide: ActivatedRoute, useValue: activatedRouteMock },
 				MatChipSet,
 				MatChip,

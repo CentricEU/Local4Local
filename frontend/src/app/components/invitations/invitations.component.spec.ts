@@ -14,7 +14,7 @@ import { InvitationService } from '../../services/invitation.service';
 describe('InvitationsComponent', () => {
 	let component: InvitationsComponent;
 	let fixture: ComponentFixture<InvitationsComponent>;
-	let invitationService: any;
+	let invitationService: InvitationService;
 
 	const matDialogMock = {
 		open: jest.fn().mockReturnValue({
@@ -27,7 +27,7 @@ describe('InvitationsComponent', () => {
 			return JSON.parse(JSON.stringify(val));
 		});
 
-		invitationService = {
+		const invitationServiceStub = {
 			getPaginatedInvitations: jest.fn().mockReturnValue(of()),
 			countAllInvitations: jest.fn().mockReturnValue(of(12))
 		};
@@ -38,13 +38,14 @@ describe('InvitationsComponent', () => {
 			imports: [TranslateModule.forRoot()],
 			providers: [
 				TranslateService,
-				{ provide: InvitationService, useValue: invitationService },
+				{ provide: InvitationService, useValue: invitationServiceStub },
 				{ provide: MatDialog, useValue: matDialogMock }
 			]
 		}).compileComponents();
 
 		fixture = TestBed.createComponent(InvitationsComponent);
 		component = fixture.componentInstance;
+		invitationService = TestBed.inject(InvitationService) as jest.Mocked<InvitationService>;
 		fixture.detectChanges();
 	});
 
@@ -112,8 +113,8 @@ describe('InvitationsComponent', () => {
 			{ email: 'test2@example.com', createdDate: '2024-10-25T10:00:00Z', isRegistered: true }
 		];
 
-		invitationService.getPaginatedInvitations.mockReturnValue(of(mockInvitations));
-		invitationService.countAllInvitations.mockReturnValue(of(2));
+		(invitationService.getPaginatedInvitations as jest.Mock).mockReturnValue(of(mockInvitations));
+		(invitationService.countAllInvitations as jest.Mock).mockReturnValue(of(2));
 
 		component['initData'](0, 10);
 
