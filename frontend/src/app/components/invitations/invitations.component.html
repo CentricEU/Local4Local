@@ -33,7 +33,7 @@
 						} @else {
 						<mat-icon class="cancel">cancel</mat-icon>
 						}
-						<p>{{ element.isRegistered ? ('general.yes' | translate) : ('general.no' | translate) }}</p>
+						<p>{{ (element.isRegistered ? 'general.yes' : 'general.no') | translate }}</p>
 					</div>
 				</td>
 			</ng-container>
