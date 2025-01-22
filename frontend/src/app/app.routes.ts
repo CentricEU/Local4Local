@@ -11,7 +11,6 @@ import { InvitationsComponent } from './components/invitations/invitations.compo
 import { ProfileComponent } from './components/profile/profile.component';
 import { MfaComponent } from './components/mfa/mfa.component';
 import { MfaGuard } from './guards/mfa.guard';
-import { UUIDGuard } from './guards/uuid.guard';
 
 
 export const appRoutes: Route[] = [
@@ -24,6 +23,6 @@ export const appRoutes: Route[] = [
     { path: commonRoutingConstants.invitations, component: InvitationsComponent, canActivate: [AuthGuard] },
     { path: commonRoutingConstants.profile, component: ProfileComponent, canActivate: [AuthGuard] },
     { path: commonRoutingConstants.mfa, component: MfaComponent, canActivate: [MfaGuard] },
-    { path: `${commonRoutingConstants.register}/:token`, component: HomeComponent, canActivate: [NonAuthGuard, UUIDGuard] },
+    { path: `${commonRoutingConstants.register}/:token`, component: HomeComponent, canActivate: [NonAuthGuard] },
     { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
