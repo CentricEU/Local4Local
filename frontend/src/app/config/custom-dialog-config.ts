@@ -6,8 +6,8 @@ export class CustomDialogConfigUtil {
 		width: '560px',
 		autoFocus: false,
 		hasBackdrop: true,
-		disableClose: true,
-		restoreFocus: false
+		disableClose: false,
+		restoreFocus: true
 	};
 
 	static MESSAGE_MODAL_CONFIG: MatDialogConfig = {
@@ -15,7 +15,7 @@ export class CustomDialogConfigUtil {
 		disableClose: false,
 		hasBackdrop: true,
 		autoFocus: false,
-		restoreFocus: false,
+		restoreFocus: true,
 		data: {
 			title: '',
 			mainContent: '',
