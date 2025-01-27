@@ -67,7 +67,7 @@
 		"registerButton": "Registreer",
 		"contactEmail": "Contact e-mail",
 		"error": {
-			"companyNameRequired": "vul bedrijfsnaam in.",
+			"companyNameRequired": "Vul bedrijfsnaam in.",
 			"identifierNumberRequired": "...Enter Identifier number.",
 			"categoryRequired": "Kies categorie.",
 			"addressRequired": "Vul adres in.",
@@ -117,7 +117,7 @@
 		"label": "E-mail",
 		"error": {
 			"emailRequired": "Email is vereist.",
-			"validEmail": "vul een geldig emailadres in."
+			"validEmail": "Vul een geldig emailadres in."
 		}
 	},
 	"password": {
