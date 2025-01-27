@@ -67,9 +67,9 @@ describe('InvitationsComponent', () => {
 		expect(matDialogMock.open).toHaveBeenCalledWith(InviteMerchantDialogComponent, {
 			width: '560px',
 			autoFocus: false,
-			disableClose: true,
+			disableClose: false,
 			hasBackdrop: true,
-			restoreFocus: false
+			restoreFocus: true
 		});
 	});
 
