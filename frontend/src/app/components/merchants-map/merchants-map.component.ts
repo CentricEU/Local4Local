@@ -13,7 +13,7 @@ import Icon from 'ol/style/Icon';
 import { MerchantService } from '../../services/merchant.service';
 import { Coordinate } from 'ol/coordinate';
 import { MerchantDto } from '../../models/merchant-dto.model';
-import { Component, OnInit, inject, Input } from '@angular/core';
+import { Component, OnInit, inject, Input, Output, EventEmitter } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { FeatureLike } from 'ol/Feature';
 import { CATEGORY_ICON_MAP } from '../../_constants/category-icon-constant';
@@ -25,6 +25,8 @@ import { CATEGORY_ICON_MAP } from '../../_constants/category-icon-constant';
 })
 export class MerchantsMapComponent implements OnInit {
 	@Input() public showCategories = true;
+	@Output() emptyStateChange = new EventEmitter<boolean>();
+
 	public readonly merchantService = inject(MerchantService);
 	public readonly translateService = inject(TranslateService);
 	public map: Map;
@@ -33,7 +35,6 @@ export class MerchantsMapComponent implements OnInit {
 	private overlay!: Overlay;
 	private data: MerchantDto[];
 	private vectorLayer!: VectorLayer<Feature>;
-
 
 	public ngOnInit(): void {
 		this.initializeSuppliersData();
@@ -234,8 +235,13 @@ export class MerchantsMapComponent implements OnInit {
 		}
 
 		navigator.geolocation.getCurrentPosition(
-			(position) => this.handleGeolocationSuccess(position),
-			() => (this.showEmptyState = true)
+			(position) => {
+				this.handleGeolocationSuccess(position);
+			},
+			() => {
+				this.emptyStateChange.emit(true);
+				this.showEmptyState = true;
+			}
 		);
 	}
 
@@ -264,8 +270,9 @@ export class MerchantsMapComponent implements OnInit {
 	}
 
 	private createFeatureFromMerchant(merchant: MerchantDto, showCategories?: boolean): Feature {
-		const iconSrc = showCategories ? (CATEGORY_ICON_MAP[merchant.category as number] || '/assets/images/map-marker.svg') :
-			'/assets/images/map-marker.svg';
+		const iconSrc = showCategories
+			? CATEGORY_ICON_MAP[merchant.category as number] || '/assets/images/map-marker.svg'
+			: '/assets/images/map-marker.svg';
 
 		const feature = new Feature({
 			geometry: new Point(fromLonLat([merchant.longitude, merchant.latitude])),

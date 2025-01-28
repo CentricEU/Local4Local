@@ -2,24 +2,32 @@
 
 $neutral-0: var(--neutral-0);
 
-::ng-deep {
+:host {
+	::ng-deep {
 
-	.ol-attribution,
-	.ol-rotate {
-		display: none;
+		.ol-attribution,
+		.ol-rotate {
+			display: none;
+		}
+
+		.ol-viewport {
+			border-radius: 8px;
+		}
+
+		.mat-typography p {
+			margin: 0;
+		}
+
+		.ol-overlay-container {
+			padding-bottom: 24px;
+		}
 	}
 
-	.ol-viewport {
-		border-radius: 8px;
+	.no-location-data {
+		height: auto;
+		gap: 16px;
 	}
 
-	.mat-typography p {
-		margin: 0;
-	}
-
-	.ol-overlay-container {
-		padding-bottom: 24px;
-	}
 }
 
 $common-font-size: 14px;

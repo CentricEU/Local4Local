@@ -13,7 +13,7 @@
 	<mat-tab tabindex="0" [label]="category.label | translate" (keydown.enter)="selectCategory(category)"> </mat-tab>
 	}
 </mat-tab-group>
-<div class="map-container">
-	<app-merchants-map [showCategories]="true"></app-merchants-map>
+<div class="map-container" [class.no-location]="showEmptyState">
+	<app-merchants-map [showCategories]="true" (emptyStateChange)="onShowEmptyStateChange($event)"></app-merchants-map>
 </div>
 <app-presentation></app-presentation>

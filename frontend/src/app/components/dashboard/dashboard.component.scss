@@ -8,6 +8,10 @@ $theme-500-rgb: var(--theme-500-rgb);
 			border-radius: 0 0 12px 12px;
 		}
 	}
+
+	.no-location {
+        height: auto !important;
+    }
 }
 
 .dashboard {

@@ -12,6 +12,8 @@ import { CustomDialogConfigUtil } from '../../config/custom-dialog-config';
 })
 export class DashboardComponent implements OnInit {
 	public merchantsCount = 0;
+	public showEmptyState: boolean = false;
+	
 	private merchantService = inject(MerchantService);
 	private dialog = inject(MatDialog);
 
@@ -21,6 +23,10 @@ export class DashboardComponent implements OnInit {
 
 	public openInviteMerchantsDialog(): void {
 		this.dialog.open(InviteMerchantDialogComponent, CustomDialogConfigUtil.GENERIC_MODAL_CONFIG);
+	}
+
+	public onShowEmptyStateChange(value: boolean): void {
+		this.showEmptyState = value;
 	}
 
 	private initData(): void {

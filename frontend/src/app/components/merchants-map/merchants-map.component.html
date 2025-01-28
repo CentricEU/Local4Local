@@ -1,37 +1,39 @@
 <ng-container *ngIf="!showEmptyState; else noDataState">
-
-<div id="map" class="map"></div>
-<div id="popup" class="ol-popup">
-	<div id="popup-content">
-		<div class="popup-header">
-			<div class="flex-row-spaced">
-				<p id="popup-title"></p>
-				<button
-					mat-icon-button
-					class="close-button"
-					id="popup-closer"
-					[attr.aria-label]="'general.button.delete' | translate">
-					<mat-icon>clear</mat-icon>
-				</button>
+	<div id="map" class="map"></div>
+	<div id="popup" class="ol-popup">
+		<div id="popup-content">
+			<div class="popup-header">
+				<div class="flex-row-spaced">
+					<p id="popup-title"></p>
+					<button
+						mat-icon-button
+						class="close-button"
+						id="popup-closer"
+						[attr.aria-label]="'general.button.delete' | translate">
+						<mat-icon>clear</mat-icon>
+					</button>
+				</div>
+				<p id="popup-category"></p>
 			</div>
-			<p id="popup-category"></p>
-		</div>
-		<div class="popup-body">
-			<div class="address">
-				<mat-icon class="location-icon">room</mat-icon>
-				<p id="popup-address"></p>
-			</div>
-			<div id="popup-link-container" class="link">
-				<mat-icon class="link-icon">language</mat-icon>
-				<a href="#" id="popup-link"></a>
+			<div class="popup-body">
+				<div class="address">
+					<mat-icon class="location-icon">room</mat-icon>
+					<p id="popup-address"></p>
+				</div>
+				<div id="popup-link-container" class="link">
+					<mat-icon class="link-icon">language</mat-icon>
+					<a href="#" id="popup-link"></a>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 </ng-container>
 
 <ng-template #noDataState>
-	<app-no-data class="no-location-data" [noDataTitle]="'general.noLocationData.noDataTitle'"
-		[noDataDescription]="'general.noLocationData.noDataDescription'" [imageName]="'no-location.svg'">
+	<app-no-data
+		class="no-location-data"
+		[noDataTitle]="'general.noLocationData.noDataTitle'"
+		[noDataDescription]="'general.noLocationData.noDataDescription'"
+		[imageName]="'no-location.svg'">
 	</app-no-data>
 </ng-template>

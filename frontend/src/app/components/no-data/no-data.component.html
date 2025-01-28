@@ -1,4 +1,4 @@
-<img [src]="getImagePath()" alt="{{ 'general.noData' | translate }}" />
+<img [src]="getImagePath()" [class.no-location]="isNoLocationImage()" alt="{{ 'general.noData' | translate }}" />
 <section class="no-data-description">
 	<p class="bold title-container">{{ noDataTitle | translate }}</p>
 	<p [innerHTML]="noDataDescription | translate"></p>

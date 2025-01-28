@@ -15,9 +15,7 @@
 				</mat-card-subtitle>
 			</mat-card-header>
 			<mat-card-content>
-				<p>
-					1 Local = 1 €
-				</p>
+				<p>1 Local = 1 €</p>
 			</mat-card-content>
 		</mat-card>
 		<mat-card>
@@ -49,8 +47,10 @@
 					{{ 'dashboard.merchantsMap' | translate }}
 				</mat-card-title>
 			</mat-card-header>
-			<div class="map-container">
-				<app-merchants-map [showCategories]="false"></app-merchants-map>
+			<div class="map-container" [class.no-location]="showEmptyState">
+				<app-merchants-map
+					[showCategories]="false"
+					(emptyStateChange)="onShowEmptyStateChange($event)"></app-merchants-map>
 			</div>
 		</mat-card>
 	</div>

@@ -7,6 +7,10 @@
         border: 1px solid var(--neutral-300);
     }
 
+    .no-location {
+        height: auto;
+    }
+
     ::ng-deep {
         .mdc-evolution-chip__action--presentational:hover {
             cursor: pointer;
