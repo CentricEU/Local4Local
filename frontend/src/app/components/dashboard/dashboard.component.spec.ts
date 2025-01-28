@@ -57,4 +57,12 @@ describe('DashboardComponent', () => {
 			restoreFocus: true
 		});
 	});
+
+	it('should update showEmptyState when onShowEmptyStateChange is called', () => {
+		component.onShowEmptyStateChange(true);
+		expect(component.showEmptyState).toBe(true);
+
+		component.onShowEmptyStateChange(false);
+		expect(component.showEmptyState).toBe(false);
+	});
 });
