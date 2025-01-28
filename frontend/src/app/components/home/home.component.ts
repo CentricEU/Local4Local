@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
 	public categoriesData: CategoryDto[] = [];
 	public selectedCategoryId = -1;
 
-	public showEmptyState: boolean = false;
+	public showEmptyState = false;
 
 	public ngOnInit(): void {
 		this.initCategoriesData();
