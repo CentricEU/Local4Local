@@ -253,5 +253,13 @@ describe('HomeComponent', () => {
 		expect(validateInvitationTokenSpy).toHaveBeenCalledWith(token);
 		expect(clearPathSpy).toHaveBeenCalled();
 	});
-	
+	it('should set showEmptyState to true when onShowEmptyStateChange is called with true', () => {
+		component.onShowEmptyStateChange(true);
+		expect(component.showEmptyState).toBe(true);
+	});
+
+	it('should set showEmptyState to false when onShowEmptyStateChange is called with false', () => {
+		component.onShowEmptyStateChange(false);
+		expect(component.showEmptyState).toBe(false);
+	});
 });

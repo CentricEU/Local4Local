@@ -1,9 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { MerchantService } from "../../services/merchant.service";
-import { MatDialog } from "@angular/material/dialog";
-import { InviteMerchantDialogComponent } from "../invite-merchant-dialog/invite-merchant-dialog.component";
+import { MerchantService } from '../../services/merchant.service';
+import { MatDialog } from '@angular/material/dialog';
+import { InviteMerchantDialogComponent } from '../invite-merchant-dialog/invite-merchant-dialog.component';
 import { CustomDialogConfigUtil } from '../../config/custom-dialog-config';
-
 
 @Component({
 	selector: 'app-dashboard',
@@ -12,6 +11,8 @@ import { CustomDialogConfigUtil } from '../../config/custom-dialog-config';
 })
 export class DashboardComponent implements OnInit {
 	public merchantsCount = 0;
+	public showEmptyState = false;
+
 	private merchantService = inject(MerchantService);
 	private dialog = inject(MatDialog);
 
@@ -23,8 +24,12 @@ export class DashboardComponent implements OnInit {
 		this.dialog.open(InviteMerchantDialogComponent, CustomDialogConfigUtil.GENERIC_MODAL_CONFIG);
 	}
 
+	public onShowEmptyStateChange(value: boolean): void {
+		this.showEmptyState = value;
+	}
+
 	private initData(): void {
-		this.merchantService.countAllMerchants().subscribe(result => {
+		this.merchantService.countAllMerchants().subscribe((result) => {
 			this.merchantsCount = result;
 		});
 	}

@@ -6,6 +6,10 @@
     gap: 32px;
     padding: 24px 0;
 
+    .no-location {
+        height: 120px;
+    }
+
     .no-data-description {
         @include mixins.flex(column, center, center);
         width: 420px;

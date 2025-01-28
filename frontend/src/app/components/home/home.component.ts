@@ -32,6 +32,8 @@ export class HomeComponent implements OnInit {
 	public categoriesData: CategoryDto[] = [];
 	public selectedCategoryId = -1;
 
+	public showEmptyState = false;
+
 	public ngOnInit(): void {
 		this.initCategoriesData();
 		this.checkForToken();
@@ -49,6 +51,10 @@ export class HomeComponent implements OnInit {
 						return this.displayApprovalWaitingPopup();
 				}
 			});
+	}
+
+	public onShowEmptyStateChange(value: boolean): void {
+		this.showEmptyState = value;
 	}
 
 	public onTabChange(event: MatTabChangeEvent): void {
@@ -94,7 +100,7 @@ export class HomeComponent implements OnInit {
 	}
 
 	private checkForToken(): void {
-		this.route.params.subscribe(params => {
+		this.route.params.subscribe((params) => {
 			const token = params['token'];
 
 			if (token) {
@@ -112,15 +118,15 @@ export class HomeComponent implements OnInit {
 
 		this.invitationService.validateInvitationToken(token).subscribe(
 			() => {
-				this.dialog
-					.open(MerchantDialogComponent, {
-						...CustomDialogConfigUtil.GENERIC_MODAL_CONFIG,
-						data: { token }
-					});
+				this.dialog.open(MerchantDialogComponent, {
+					...CustomDialogConfigUtil.GENERIC_MODAL_CONFIG,
+					data: { token }
+				});
 			},
 			() => {
 				this.clearPath();
-			});
+			}
+		);
 	}
 
 	private clearPath(): void {
