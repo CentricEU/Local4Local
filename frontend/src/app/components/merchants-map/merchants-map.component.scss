@@ -92,7 +92,9 @@ $common-font-size: 14px;
 
 #popup-link {
 	color: var(--info-100);
-	margin-left: 4px;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+	max-width: 300px;
 }
 
 .popup-body {
@@ -120,6 +122,14 @@ $common-font-size: 14px;
 	color: var(--neutral-400);
 }
 
+#popup-link-container {
+	align-items: flex-start;
+	gap: 4px;
+}
+
 .location-icon {
 	margin-top: 2px;
+}
+.link-icon {
+	margin-top: 4px;
 }
