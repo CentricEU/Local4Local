@@ -183,9 +183,9 @@ describe('MerchantsComponent', () => {
 		expect(matDialogMock.open).toHaveBeenCalledWith(InviteMerchantDialogComponent, {
 			width: '560px',
 			autoFocus: false,
-			disableClose: true,
+			disableClose: false,
 			hasBackdrop: true,
-			restoreFocus: false
+			restoreFocus: true
 		});
 	});
 
@@ -208,9 +208,9 @@ describe('MerchantsComponent', () => {
 			data: { dialogType: MerchantDialogType.APPROVAL, merchant: mockMerchant },
 			width: '560px',
 			autoFocus: false,
-			disableClose: true,
+			disableClose: false,
 			hasBackdrop: true,
-			restoreFocus: false
+			restoreFocus: true
 		});
 	});
 
@@ -256,9 +256,9 @@ describe('MerchantsComponent', () => {
 			data: { dialogType: MerchantDialogType.REJECTION, merchant: mockMerchant },
 			width: '560px',
 			autoFocus: false,
-			disableClose: true,
+			disableClose: false,
 			hasBackdrop: true,
-			restoreFocus: false
+			restoreFocus: true
 		});
 	});
 

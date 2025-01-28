@@ -97,9 +97,9 @@ describe('HomeComponent', () => {
 		expect(matDialogMock.open).toHaveBeenCalledWith(MerchantDialogComponent, {
 			width: '560px',
 			autoFocus: false,
-			disableClose: true,
+			disableClose: false,
 			hasBackdrop: true,
-			restoreFocus: false
+			restoreFocus: true
 		});
 	});
 
