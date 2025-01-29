@@ -1,0 +1,22 @@
+{
+    "title": {
+        "merchants": "Händler",
+        "changeLanguage": "Sprache ändern"
+    },
+    "category": {
+        "all": "Alle",
+        "foodAndBeverage": "Essen & Trinken",
+        "retail": "Einzelhandel",
+        "healthAndWellness": "Gesundheit & Wellness",
+        "services": "Dienstleistungen",
+        "entertainmentAndLeisure": "Unterhaltung & Freizeit",
+        "specialtyStores": "Fachgeschäfte",
+        "technologyAndCommunications": "Technologie & Kommunikation",
+        "homeImprovement": "Heimwerker",
+        "other": "Andere"
+    },
+    "language": {
+        "en": "Englisch",
+        "nl": "Niederländisch"
+    }
+}
