@@ -18,6 +18,10 @@ export default function ChangeLanguage() {
 		{
 			title: 'nl',
 			icon: require('@/assets/flags/nl.png')
+		},
+		{
+			title: 'de',
+			icon: require('@/assets/flags/de.png')
 		}
 	];
 
