@@ -10,16 +10,18 @@ const resources = {
 	nl: {
 		common: nl
 	},
+	de: {
+		common: de
+	}
 };
 
-i18n.use(initReactI18next)
-	.init({
-		compatibilityJSON: 'v3',
-		resources,
-		lng: "en",
-		interpolation: {
-			escapeValue: false
-		}
-	});
+i18n.use(initReactI18next).init({
+	compatibilityJSON: 'v3',
+	resources,
+	lng: 'en',
+	interpolation: {
+		escapeValue: false
+	}
+});
 
 export default i18n;
