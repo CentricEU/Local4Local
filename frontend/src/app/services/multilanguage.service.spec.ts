@@ -4,10 +4,13 @@ import { MultilanguageService } from './multilanguage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Languages } from '../enums/language.enum';
 import { DateAdapter } from '@angular/material/core';
+import { CookieService } from 'ngx-cookie-service';
 
 describe('MultilanguageService', () => {
 	let service: MultilanguageService;
 	let translateService: TranslateService;
+	let cookieService: CookieService;
+
 	beforeEach(() => {
 		const translateServiceStub = () => ({
 			addLangs: () => ({}),
@@ -17,16 +20,22 @@ describe('MultilanguageService', () => {
 			})
 		});
 
+		const cookieServiceStub = () => ({
+			get: () => ({}),
+			set: () => ({})
+		});
+
 		TestBed.configureTestingModule({
 			providers: [
 				MultilanguageService,
 				{ provide: TranslateService, useFactory: translateServiceStub },
+				{ provide: CookieService, useFactory: cookieServiceStub },
 				DateAdapter
 			]
 		});
 		service = TestBed.inject(MultilanguageService);
 		translateService = TestBed.inject(TranslateService);
-
+		cookieService = TestBed.inject(CookieService);
 		jest.spyOn(translateService, 'addLangs');
 		jest.spyOn(translateService, 'setDefaultLang');
 	});
@@ -41,13 +50,11 @@ describe('MultilanguageService', () => {
 
 	it('should set up the default language and use the stored language if available', () => {
 		const storedLanguage = Languages.en;
-		localStorage.setItem('Br_Lang', storedLanguage);
+		cookieService.set('language', storedLanguage);
 		service.setupLanguage();
 
 		expect(translateService.addLangs).toHaveBeenCalledWith([Languages.en, Languages.nl]);
 		expect(translateService.setDefaultLang).toHaveBeenCalledWith(Languages.nl);
-		expect(service.usedLang).toBe(storedLanguage);
-		localStorage.clear();
 	});
 
 	describe('setupLanguage', () => {
@@ -60,5 +67,16 @@ describe('MultilanguageService', () => {
 			expect(translateServiceStub.addLangs).toHaveBeenCalled();
 			expect(translateServiceStub.setDefaultLang).toHaveBeenCalled();
 		});
+	});
+
+	it('should set up the default language if no stored language is available', () => {
+		jest.spyOn(cookieService, 'get').mockReturnValue('');
+		const setUsedLanguageSpy = jest.spyOn(service as any, 'setUsedLanguage');
+
+		service.setupLanguage();
+
+		expect(translateService.addLangs).toHaveBeenCalledWith([Languages.en, Languages.nl]);
+		expect(translateService.setDefaultLang).toHaveBeenCalledWith(Languages.nl);
+		expect(setUsedLanguageSpy).toHaveBeenCalledWith(Languages.nl);
 	});
 });

@@ -32,6 +32,7 @@
     "esri-loader": "^3.7.0",
     "express": "^4.18.2",
     "ng-recaptcha": "^13.2.1",
+    "ngx-cookie-service": "^19.1.0",
     "node": "^20.11.1",
     "ol": "^9.2.4",
     "rxjs": "~7.8.0",

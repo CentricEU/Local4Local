@@ -81,7 +81,7 @@ public class EmailService {
         return textContentBuffer.toString();
     }
 
-    private MailTemplate buildGenericTemplate(Locale locale, String language, String url, String templateMiddlePart,
+    private MailTemplate buildGenericTemplate(Locale locale, String url, String templateMiddlePart,
                                               String receiverName) {
         String logoImage = baseURL + AssetsEnum.LOCAL_LOGO.getPath();
         String title = StringUtils.addStringBeforeAndAfter(EmailHtmlEnum.BOLD_START.getTag(),
@@ -102,7 +102,7 @@ public class EmailService {
         MailTemplate mailTemplate = getPasswordRecoveryTemplate(language, url, EmailTemplateEnum.PASSWORD_RECOVER.getTemplate());
         String htmlContent = mailTemplateBuilder.buildEmailTemplate(mailTemplate);
         String textContent = buildTemplateText(mailTemplate);
-        sendEmail(emailSender, toAddress, mailTemplate.getSubject(), htmlContent, textContent.toString());
+        sendEmail(emailSender, toAddress, mailTemplate.getSubject(), htmlContent, textContent);
     }
 
     public void sendInviteMerchantEmail(String language, Map<String, UUID> toAddress, String message) {
@@ -132,7 +132,6 @@ public class EmailService {
         MailTemplate mailTemplate = getManagerOtpEmailTemplate(language, EmailTemplateEnum.MANAGER_OTP.getTemplate(), otpCode);
         String htmlContent = mailTemplateBuilder.buildEmailTemplate(mailTemplate);
         String textContent = buildTemplateText(mailTemplate);
-
         sendEmail(emailSender, managerEmail, mailTemplate.getSubject(), htmlContent, textContent);
 
     }
@@ -142,20 +141,19 @@ public class EmailService {
                 companyName + EmailHtmlEnum.EXCL.getTag(), token, merchantName);
         String htmlContent = mailTemplateBuilder.buildEmailTemplate(mailTemplate);
         String textContent = buildTemplateText(mailTemplate);
-        sendEmail(emailSender, email, mailTemplate.getSubject(), htmlContent, textContent.toString());
+        sendEmail(emailSender, email, mailTemplate.getSubject(), htmlContent, textContent);
     }
 
     public void sendRejectMerchantEmail(String[] toAddress, String language, String companyName, String reason) {
         MailTemplate mailTemplate = getRejectMerchantTemplate(language, "", EmailTemplateEnum.REJECT_MERCHANT.getTemplate(), companyName + EmailHtmlEnum.EXCL.getTag(), reason);
         String htmlContent = mailTemplateBuilder.buildEmailTemplate(mailTemplate);
         String textContent = buildTemplateText(mailTemplate);
-        sendEmail(emailSender, toAddress, mailTemplate.getSubject(), htmlContent, textContent.toString());
+        sendEmail(emailSender, toAddress, mailTemplate.getSubject(), htmlContent, textContent);
     }
 
     private MailTemplate getManagerOtpEmailTemplate(String language, String templateMiddlePart, int otpCode) {
-        Locale locale = new Locale(language);
-        MailTemplate mailTemplate = buildGenericTemplate(locale, language, "", templateMiddlePart, "");
-
+        Locale locale = Locale.forLanguageTag(language);
+        MailTemplate mailTemplate = buildGenericTemplate(locale, "", templateMiddlePart, "");
         String content = getContentForManagerOtp(locale, templateMiddlePart, otpCode);
         mailTemplate.setContent(content);
         mailTemplate.setBtnText(null);
@@ -164,8 +162,8 @@ public class EmailService {
     }
 
     private MailTemplate getInviteMerchantTemplate(String language, String url, String templateMiddlePart, String message) {
-        Locale locale = new Locale(language);
-        MailTemplate mailTemplate = buildGenericTemplate(locale, language, url, templateMiddlePart, "");
+        Locale locale = Locale.forLanguageTag(language);
+        MailTemplate mailTemplate = buildGenericTemplate(locale, url, templateMiddlePart, "");
 
         String content = getContentForInviteMerchant(locale, templateMiddlePart, message);
 
@@ -184,8 +182,8 @@ public class EmailService {
 
     private MailTemplate getApproveMerchantTemplate(String language, String url, String templateMiddlePart,
                                                     String receiverName, UUID token, String merchantName) {
-        Locale locale = new Locale(language);
-        MailTemplate mailTemplate = buildGenericTemplate(locale, language, url, templateMiddlePart, receiverName);
+        Locale locale = Locale.forLanguageTag(language);
+        MailTemplate mailTemplate = buildGenericTemplate(locale, url, templateMiddlePart, receiverName);
 
         String content = getContentForApproveMerchant(locale, templateMiddlePart, token, merchantName);
 
@@ -199,8 +197,8 @@ public class EmailService {
     }
 
     private MailTemplate getRejectMerchantTemplate(String language, String url, String templateMiddlePart, String receiverName, String reason) {
-        Locale locale = new Locale(language);
-        MailTemplate mailTemplate = buildGenericTemplate(locale, language, url, templateMiddlePart, receiverName);
+        Locale locale = Locale.forLanguageTag(language);
+        MailTemplate mailTemplate = buildGenericTemplate(locale, url, templateMiddlePart, receiverName);
 
         String fullReason = String.format("%s%s", reason, EmailHtmlEnum.END.getTag());
         String content = getContentForRejectMerchant(locale, templateMiddlePart, fullReason);
@@ -214,8 +212,8 @@ public class EmailService {
     }
 
     private MailTemplate getPasswordRecoveryTemplate(String language, String url, String templateMiddlePart) {
-        Locale locale = new Locale(language);
-        MailTemplate mailTemplate = buildGenericTemplate(locale, language, url, templateMiddlePart, "");
+        Locale locale = Locale.forLanguageTag(language);
+        MailTemplate mailTemplate = buildGenericTemplate(locale, url, templateMiddlePart, "");
 
         String content = getEmailStringText(locale, templateMiddlePart, EmailStructureEnum.CONTENT.getStructure()).replace(EmailHtmlEnum.LINE_BREAK.getTag(), EmailHtmlEnum.RN.getTag());
         mailTemplate.setContent(content);
@@ -224,8 +222,8 @@ public class EmailService {
     }
 
     private MailTemplate getMerchantRegisteredTemplate(String language, String url, String templateMiddlePart, String merchantName) {
-        Locale locale = new Locale(language);
-        MailTemplate mailTemplate = buildGenericTemplate(locale, language, url, templateMiddlePart, "");
+        Locale locale = Locale.forLanguageTag(language);
+        MailTemplate mailTemplate = buildGenericTemplate(locale, url, templateMiddlePart, "");
 
         String content = getContentForMerchantRegistered(locale, templateMiddlePart, merchantName);
         mailTemplate.setContent(content);
