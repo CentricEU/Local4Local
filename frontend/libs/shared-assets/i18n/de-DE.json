@@ -1,0 +1,273 @@
+{
+    "general": {
+        "noResults": "Keine Ergebnisse für diese Eingabe",
+        "noActions": "Keine Aktionen",
+        "button": {
+            "cancel": "Abbrechen",
+            "delete": "Löschen",
+            "understand": "Ich verstehe",
+            "confirm": "Bestätigen",
+            "link": "Link senden",
+            "continueToLogin": "Weiter zum Login",
+            "continue": "Fortfahren",
+            "stay": "Auf Seite bleiben",
+            "resendCode": "Code erneut senden"
+        },
+        "forgotPassword": "Passwort vergessen?",
+        "rememberMe": "Erinnere dich an mich",
+        "logo": "Logo",
+        "dashboard": "Dashboard",
+        "merchants": "Händler",
+        "profile": "Profilseite",
+        "logout": "Abmelden",
+        "invitations": "Einladungen",
+        "noData": "Keine Daten",
+        "warning": "Warnung",
+        "status": {
+            "pending": "Ausstehend",
+            "rejected": "Abgelehnt",
+            "approved": "Genehmigt"
+        },
+        "paginatorResult": "Ergebnisse pro Seite",
+        "congratulations": "Herzlichen Glückwunsch!",
+        "noLocationData": {
+            "noDataTitle": "Standort ist deaktiviert",
+            "noDataDescription": "Es sieht so aus, als wäre der Standort in Ihren Systemeinstellungen deaktiviert. Bitte aktivieren Sie die Standortdienste, um die Karte zu erkunden."
+        },
+        "yes": "Ja",
+        "no": "Nein"
+    },
+    "table": {
+        "column": {
+            "companyName": "Firmenname",
+            "category": "Kategorie",
+            "identifierNumber": "Identifikationsnummer",
+            "address": "Adresse",
+            "website": "Webseite",
+            "status": "Status",
+            "actions": "Aktionen",
+            "email": "E-Mail",
+            "sendingDate": "Sendedatum",
+            "registered": "Registriert"
+        }
+    },
+    "tooltip": {
+        "approveMerchant": "Händler genehmigen",
+        "rejectMerchant": "Händler ablehnen"
+    },
+    "welcomePage": {
+        "registerButton": "Als Händler registrieren",
+        "titleLeft": "Finden Sie heraus, wo",
+        "titleRight": "Sie *Münzname* verwenden können"
+    },
+    "register": {
+        "title": "Ihr Geschäft registrieren",
+        "subtitle": "Wachsen Sie Ihr Geschäft – treten Sie noch heute unserer Plattform bei.",
+        "website": "Webseite (optional)",
+        "registerButton": "Registrieren",
+        "contactEmail": "Kontakt E-Mail",
+        "error": {
+            "companyNameRequired": "Firmenname eingeben.",
+            "identifierNumberRequired": "Identifikationsnummer eingeben.",
+            "categoryRequired": "Kategorie wählen.",
+            "addressRequired": "Adresse eingeben.",
+            "invalidUrl": "Bitte geben Sie eine gültige Website-URL ein. (z.B. www.beispiel.com).",
+            "emailRequired": "Geben Sie Ihre E-Mail ein, um zukünftige Updates zu erhalten.",
+            "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein."
+        }
+    },
+    "category": {
+        "all": "Alle",
+        "foodAndBeverage": "Essen & Getränke",
+        "retail": "Einzelhandel",
+        "healthAndWellness": "Gesundheit & Wellness",
+        "services": "Dienstleistungen",
+        "entertainmentAndLeisure": "Unterhaltung & Freizeit",
+        "specialtyStores": "Fachgeschäfte",
+        "technologyAndCommunications": "Technologie & Kommunikation",
+        "homeImprovement": "Heimwerker",
+        "other": "Andere"
+    },
+    "approvalDialog": {
+        "title": "Warten auf Genehmigung",
+        "text": "Die Genehmigung durch den Manager dauert in der Regel bis zu 5 Werktage.<br>Bitte beachten Sie, dass Ihr Geschäft erst auf der Karte angezeigt wird, wenn Ihre Anfrage genehmigt wurde."
+    },
+    "recoveryDialog": {
+        "title": "Passwortwiederherstellung erfolgreich!",
+        "secondaryText": "Passwortwiederherstellungs-E-Mail gesendet!"
+    },
+    "changePassDialog": {
+        "title": "Neues Passwort erfolgreich gesetzt!",
+        "secondaryText": "Ihr Passwort wurde erfolgreich aktualisiert!"
+    },
+    "alreadyRegisteredDialog": {
+        "title": "Registrierung bereits beantragt",
+        "text": "Sie haben sich bereits mit dieser Identifikationsnummer beworben, und Ihre Bewerbung wird überprüft. Die Genehmigung durch den Manager dauert in der Regel bis zu 5 Werktage. <br>Bitte beachten Sie, dass Ihr Geschäft erst auf der Karte angezeigt wird, wenn Ihre Anfrage genehmigt wurde."
+    },
+    "login": {
+        "title": "Einloggen",
+        "subtitle": "um mit Ihrem Local for Local-Konto fortzufahren.",
+        "hidePassword": "Passwort verbergen"
+    },
+    "email": {
+        "label": "E-Mail",
+        "error": {
+            "emailRequired": "E-Mail ist erforderlich.",
+            "validEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein."
+        }
+    },
+    "recover": {
+        "title": "Passwort vergessen?",
+        "subtitle": "Bitte geben Sie die folgenden Informationen ein, um ein neues Passwort festzulegen:"
+    },
+    "password": {
+        "resetPassword": {
+            "title": "Neues Passwort festlegen"
+        },
+        "label": "Passwort",
+        "newPassword": "Neues Passwort",
+        "confirmPassword": "Neues Passwort erneut eingeben",
+        "error": {
+            "passwordRequired": "Passwort ist erforderlich.",
+            "confirmPasswordMatch": "Das Bestätigungspasswort muss mit dem Passwort übereinstimmen",
+            "confirmPasswordRequired": "Bestätigungspasswort ist erforderlich.",
+            "passwordRequirements": "Das Passwort muss mindestens 8 Zeichen lang sein. Es muss mindestens einen Großbuchstaben, eine Zahl und ein Symbol enthalten."
+        }
+    },
+    "dashboard": {
+        "greeting": "Hallo! \uD83D\uDC4B",
+        "currency": "Währung",
+        "changeRateMsg": "Sie können den Kurs ändern, indem Sie Ihre Profilseite aufrufen.",
+        "nrOfMerchants": "Anzahl der Händler",
+        "inviteMerchantsMsg": "Laden Sie noch heute mehr Händler ein!",
+        "merchantsMap": "Händlerkarte"
+    },
+    "inviteMerchants": {
+        "title": "Händler einladen",
+        "subtitle": "Senden Sie eine Einladung an Händler, um Local for Local beizutreten.",
+        "button": "Händler einladen",
+        "emailAddresses": "E-Mail-Adresse(n)",
+        "invitationMessage": "Einladungstext",
+        "emailsHint": "Sie können mehrere E-Mail-Adressen hinzufügen, indem Sie nach jeder Adresse die Eingabetaste drücken.",
+        "error": {
+            "emailAddressesRequired": "E-Mail-Adresse(n) eingeben.",
+            "invitationMessageRequired": "Einladungstext eingeben",
+            "emailPattern": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+            "emailAlreadyInList": "Diese E-Mail-Adresse ist bereits in der Liste.",
+            "emailsLimitReached": "Sie haben das Limit von 50 E-Mails erreicht."
+        },
+        "successOne": "Die Einladung wurde erfolgreich gesendet.",
+        "successMultiple": "Die Einladungen wurden erfolgreich gesendet.",
+        "warning": "Der Einladungsprozess wird abgebrochen und nicht gespeicherte Änderungen werden verworfen.",
+        "noData": {
+            "title": "Willkommen bei Einladungen",
+            "description": "Es sieht so aus, als hätten Sie noch keine Einladungen gesendet.<br> Lassen Sie uns damit beginnen, Händler einzuladen."
+        }
+    },
+    "merchants": {
+        "noData": {
+            "title": "Willkommen bei der Händlerverwaltung",
+            "description": "Es sieht so aus, als hätten sich noch keine Händler auf der Plattform registriert.<br> Lassen Sie uns damit beginnen, Händler einzuladen."
+        }
+    },
+    "mfa": {
+        "title": "Zwei-Faktor-Authentifizierung",
+        "subtitle": "Um fortzufahren, geben Sie den sicheren Code ein, den wir an Ihre E-Mail gesendet haben.<br>Überprüfen Sie den Spam-Ordner, wenn er nicht in Ihrem Posteingang ist.",
+        "label": "6-stelliger Code",
+        "resendMessage": "Keine E-Mail erhalten? Sie können einen neuen Code anfordern.",
+        "resendMessageWithSeconds": "Keine E-Mail erhalten? Sie können in {{seconds}} einen neuen Code anfordern.",
+        "error": {
+            "required": "Einmalcode eingeben.",
+            "invalid": "Ungültiger Code"
+        }
+    },
+    "approveMerchant": {
+        "title": "Anfrage genehmigen",
+        "subtitle": "Durch die Genehmigung dieses Händlers erlauben Sie ihm, auf der Karte angezeigt zu werden, die zeigt, welche Lieferanten die X-Währung akzeptieren.",
+        "success": "Die Anfrage wurde erfolgreich genehmigt."
+    },
+    "rejectMerchant": {
+        "title": "Anfrage ablehnen",
+        "subtitle": "Durch die Ablehnung dieses Händlers verhindern Sie, dass er auf der Karte angezeigt wird, die zeigt, welche Lieferanten die X-Währung akzeptieren.",
+        "success": "Die Anfrage wurde erfolgreich abgelehnt.",
+        "reason": "Ablehnungsgrund",
+        "error": {
+            "reasonRequired": "Ablehnungsgrund ist erforderlich."
+        },
+        "warning": "Der Ablehnungsprozess wird abgebrochen und nicht gespeicherte Änderungen werden verworfen."
+    },
+    "errors": {
+        "40007": "Ooops, wir haben einen Fehler. Ungültige Anmeldeinformationen. Bitte versuchen Sie es erneut oder verwenden Sie die Option 'Passwort vergessen'",
+        "40003": "Bestimmte Details in Ihrer Anfrage sind unvollständig. Bitte versuchen Sie es erneut.",
+        "40005": "Ihr Versuch war mehrmals erfolglos. Bitte vervollständigen Sie das ReCAPTCHA, um fortzufahren.",
+        "40014": "Sie können nur drei Passwortwiederherstellungsversuche pro Tag initiieren.",
+        "40016": "Der Link zur Passwortwiederherstellung ist abgelaufen.",
+        "40017": "Ihr neues Passwort entspricht Ihrem alten. Bitte wählen Sie ein anderes Passwort.",
+        "40021": "Der angegebene Code ist ungültig.",
+        "40025": "Das Bürgerkonto konnte nicht erstellt werden, da die E-Mail bereits verwendet wird. Bitte verwenden Sie eine andere E-Mail-Adresse, um ein neues Konto zu erstellen.",
+        "40027": "Sie müssen 5 Minuten warten, bevor Sie einen neuen Code erneut senden können.",
+        "40028": "Der Link ist abgelaufen. Sie wurden auf die Startseite weitergeleitet.",
+        "40030": "Der Link wurde bereits verwendet. Sie wurden auf die Startseite weitergeleitet."
+    },
+    "presentation": {
+        "description": {
+            "title": "Was ist Local for Local?",
+            "platformOverview": "Local for Local ist eine digitale Plattform, die Städten hilft, lokale Wirtschaftstoken/ lokale Währungssysteme einzuführen, um lokale Wirtschaften zu stärken.",
+            "currentChallenges": "Local for Local erkennt an, dass die aktuellen wirtschaftlichen Ströme in den Regionen den Kapitalfluss zu weit entfernten Orten fokussieren, anstatt die lokalen Vorteile zu betonen. Das Bild unten zeigt den aktuellen Zustand und den idealen Zustand nach der Implementierung von Local for Local in einer Pilotregion.",
+            "communityBenefits": "Durch den Zugang zu lokaler Währung und lokalen Kreditlinien für Unternehmen hoffen wir, durch durchdachte und einfache lokale Einkäufe soziale Kohäsion zu schaffen. Local for Local zielt auch darauf ab, Städten bei ihrer administrativen Belastung zu helfen, indem es einfache und offene Technologien mit leistungsstarken Verwaltungstools nutzt.",
+            "infrastructureSupport": "Local for Local bietet die dezentralisierte digitale Infrastruktur und die Plattform-Bausteine, um Bürger zu befähigen, Verbindungen aufzubauen und sich miteinander zu vernetzen."
+        },
+        "info": {
+            "applications": {
+                "title": "Anwendungen",
+                "text": "Anwendungen, die der lokalen Wirtschaft dienen, die Einführung nachhaltiger Initiativen erhöhen und soziale Bindungen stärken.<br> Innerhalb dieses Piloten entwickeln wir eine Anwendung: Locasus-n."
+            },
+            "buildingBlocks": {
+                "title": "Plattform-Bausteine",
+                "text": "Die Local for Local-Plattform ist modular aus NGI-Komponenten aufgebaut. Sie enthält Funktionen, Verbindungen und Infrastruktur für die schnelle Entwicklung von Anwendungen."
+            },
+            "infrastructure": {
+                "title": "Infrastruktur",
+                "text": "Dezentrale Infrastruktur bestehend aus einsetzbaren Knoten und Protokollen. Sie bietet einfache und schnelle dezentrale Netzwerke."
+            },
+            "objectives": {
+                "title": "Projektziele",
+                "subtitle": "Das Ziel dieses Projekts ist folgendes:",
+                "subsection": "Integration und Pilotierung eines Software-Stacks, der lokale ländliche Wirtschaften in ganz Europa stärkt.",
+                "goals": "Dieses Ziel führt zu zwei konkreten und messbaren Zielen:",
+                "firstGoal": "Sozioökonomische Auswirkungen in der lokalen Region",
+                "secondGoal": "Ein leistungsstarker Software-Stack von NGI-Innovatoren",
+                "conclusion": "Die wirtschaftlichen Ökosysteme werden selbsttragend und bereit sein, in Europa zu skalieren."
+            }
+        },
+        "members": {
+            "title": "Konsortiumsmitglieder",
+            "centricMember": {
+                "title": "Centric",
+                "description": "Centric ist ein IT-Dienstleistungsunternehmen mit 3.700 Experten in zehn europäischen Ländern. Es bedient über 3.500 Kunden und entwickelt maßgeschneiderte Lösungen für die Bereiche Regierung, Lieferkette und Finanzen, mit über 200 Softwareprodukten, die täglich von Millionen genutzt werden."
+            },
+            "delftMember": {
+                "title": "Delft",
+                "description": "Die TU Delft, gegründet 1842, ist eine führende niederländische Universität, die sich auf Ingenieurwesen, Technologie und angewandte Wissenschaften spezialisiert hat. Bekannt für Innovation, Nachhaltigkeit und Spitzenforschung, führt sie in Bereichen wie Luft- und Raumfahrt und Industriedesign."
+            },
+            "aixMarseilleMember": {
+                "title": "Aix-Marseille",
+                "description": "Die Aix-Marseille-Universität, 2012 gegründet, ist eine der größten Universitäten Frankreichs mit 78.000 Studenten. Bekannt für Forschung in den Gesundheitswissenschaften, fördert sie globale Partnerschaften und akademische Exzellenz auf verschiedenen Campus."
+            },
+            "KTUMember": {
+                "title": "KTU",
+                "description": "Die Technische Universität Kaunas, 1922 in Litauen gegründet, ist führend in der technischen und wissenschaftlichen Ausbildung. Sie legt Wert auf Innovation, Unternehmertum und globale Zusammenarbeit in Forschung und Lehre."
+            }
+        },
+        "footer": {
+            "privacyPolicy": {
+                "title": "Datenschutzrichtlinie",
+                "text": "Beim Teilen von Dateien über das Formular auf der Startseite speichern wir diese auf unserer eigenen virtuellen Maschine, die über Microsoft Azure gehostet wird, und verwenden nur die Informationen, die Sie im Formular angegeben haben.<br><br>Wenn Sie möchten, dass die von Ihnen geteilten Dateien gelöscht werden, senden Sie eine E-Mail an <a href='mailto:info@localforlocal.io' class='email-link'>info@localforlocal.io</a>."
+            },
+            "disclaimer": "Haftungsausschluss",
+            "poweredBy": "Powered by:",
+            "description": "Dieses Projekt wurde von der Europäischen Kommission im Rahmen des Fördervertrags finanziert.",
+            "number": "Nr. 101135443"
+        }
+    }
+}
