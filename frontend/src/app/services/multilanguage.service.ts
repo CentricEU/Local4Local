@@ -2,6 +2,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { Languages } from '../enums/language.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { DateAdapter } from '@angular/material/core';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
 	providedIn: 'root'
@@ -11,21 +12,25 @@ export class MultilanguageService {
 
 	public translations: string;
 	public defLang = Languages.nl;
-	public usedLang: string;
 	public translationsLoadedEventEmitter = new EventEmitter<boolean>();
 
-	constructor(private _translateService: TranslateService, private _dateAdapter: DateAdapter<unknown>) {}
+	constructor(
+		private _translateService: TranslateService,
+		private _dateAdapter: DateAdapter<unknown>,
+		private _cookieService: CookieService
+	) {}
 
 	public setupLanguage(): void {
 		this._translateService.addLangs([Languages.en, Languages.nl]);
 		this._translateService.setDefaultLang(this.defLang);
 
-		const storedLanguage = localStorage.getItem(MultilanguageService.BROWSER_LANGUAGE_LABEL);
+		const recordCookie = this._cookieService.get('language');
 
-		if (storedLanguage) {
-			this.setUsedLanguage(storedLanguage);
+		if (recordCookie) {
+			this.setUsedLanguage(recordCookie);
 			return;
 		}
+
 		this.setUsedLanguage(this.defLang);
 	}
 
@@ -37,6 +42,7 @@ export class MultilanguageService {
 			this.translations = value;
 			this.translationsLoadedEventEmitter.emit(true);
 		});
-		this.usedLang = lang;
+		
+		this._cookieService.set('language', lang);
 	}
 }
