@@ -9,15 +9,15 @@
 	}
 
 	.form-button {
-		 margin-top: 12px !important;
+		margin-top: 12px !important;
 	}
 
-    .resend-message {
-        margin-top: 32px !important; 
-    }
+	.resend-message {
+		margin-top: 32px !important;
+	}
 
 	.resend-button {
-		@include mixins.size(148px, 40px);
+		@include mixins.size(auto, 40px);
 		margin-top: 8px;
 		align-items: center;
 	}
