@@ -158,6 +158,8 @@
         },
         "successOne": "Die Einladung wurde erfolgreich gesendet.",
         "successMultiple": "Die Einladungen wurden erfolgreich gesendet.",
+        "merchantsAlreadyRegistered": "Einige Benutzer waren bereits registriert, weshalb einige Einladungen nicht gesendet wurden.",
+        "merchantAlreadyRegistered": "Der Benutzer war bereits registriert, weshalb die Einladung nicht gesendet wurde.",
         "warning": "Der Einladungsprozess wird abgebrochen und nicht gespeicherte Änderungen werden verworfen.",
         "noData": {
             "title": "Willkommen bei Einladungen",

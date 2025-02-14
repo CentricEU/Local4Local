@@ -39,7 +39,6 @@ export class InviteMerchantDialogComponent implements OnInit {
 	private readonly translateService = inject(TranslateService);
 	private readonly dialog = inject(MatDialog);
 
-
 	public get isFormValid(): boolean {
 		return this.form.valid && this.merchantEmails.size > 0;
 	}
@@ -106,9 +105,18 @@ export class InviteMerchantDialogComponent implements OnInit {
 
 	private sendInvitations(): void {
 		const inviteSuppliersDto = this.getFormValuesToInviteMerchantsDto();
-		this.invitationService.inviteMerchants(inviteSuppliersDto).subscribe(() => {
+		this.invitationService.inviteMerchants(inviteSuppliersDto).subscribe((result) => {
 			this.dialogRef.close(true);
-			this.showSuccessToaster(inviteSuppliersDto.emails.length === 1);
+
+			const isSingleMail = inviteSuppliersDto.emails.length === 1;
+
+			this.showToaster(isSingleMail, SnackbarType.SUCCESS);
+
+			if (!result) {
+				return;
+			}
+
+			this.showToaster(isSingleMail, SnackbarType.INFO);
 		});
 	}
 
@@ -148,13 +156,20 @@ export class InviteMerchantDialogComponent implements OnInit {
 			});
 	}
 
-	private showSuccessToaster(isSingleMail: boolean): void {
-		const message = isSingleMail ? 'inviteMerchants.successOne' : 'inviteMerchants.successMultiple';
-		const toasterMessage = this.translateService.instant(message);
+	private showToaster(isSingleMail: boolean, type: SnackbarType): void {
+		const messageKey = isSingleMail
+			? type === SnackbarType.SUCCESS
+				? 'inviteMerchants.successOne'
+				: 'inviteMerchants.merchantAlreadyRegistered'
+			: type === SnackbarType.SUCCESS
+			? 'inviteMerchants.successMultiple'
+			: 'inviteMerchants.merchantsAlreadyRegistered';
+
+		const toasterMessage = this.translateService.instant(messageKey);
 
 		this.snackBar.openFromComponent(CustomSnackbarComponent, {
 			duration: 8000,
-			data: new SnackbarData(toasterMessage, SnackbarType.SUCCESS),
+			data: new SnackbarData(toasterMessage, type),
 			horizontalPosition: 'right',
 			verticalPosition: 'bottom'
 		});

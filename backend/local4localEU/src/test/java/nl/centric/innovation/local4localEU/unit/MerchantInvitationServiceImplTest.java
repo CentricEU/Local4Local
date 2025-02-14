@@ -11,6 +11,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collection;
@@ -20,8 +21,12 @@ import java.util.UUID;
 
 import lombok.SneakyThrows;
 import nl.centric.innovation.local4localEU.dto.InvitationDto;
+import nl.centric.innovation.local4localEU.entity.Merchant;
+import nl.centric.innovation.local4localEU.enums.MerchantStatusEnum;
 import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidateNotFoundException;
+import nl.centric.innovation.local4localEU.repository.MerchantRepository;
 import nl.centric.innovation.local4localEU.service.impl.EmailService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -41,7 +46,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 @ExtendWith(MockitoExtension.class)
-public class MerchantInvitationServiceImplTest {
+class MerchantInvitationServiceImplTest {
 
     @InjectMocks
     private MerchantInvitationService merchantInvitationService;
@@ -51,6 +56,10 @@ public class MerchantInvitationServiceImplTest {
 
     @Mock
     private MerchantInvitationRepository merchantInvitationRepository;
+
+    @Mock
+    private MerchantRepository merchantRepository;
+
     @Value("${error.constraint.duplicate}")
     private String duplicateValue;
 
@@ -222,4 +231,69 @@ public class MerchantInvitationServiceImplTest {
 
         assertEquals(alreadyUsedToken, exception.getMessage());
     }
+
+    @Test
+    void GivenRejectedMerchant_WhenIsEligibleForInvitation_ThenReturnTrue() throws Exception {
+        // Given
+        String email = "rejected@example.com";
+        MerchantInvitation invitation = new MerchantInvitation();
+        invitation.setEmail(email);
+        invitation.setIsRegistered(false);
+
+        Merchant rejectedMerchant = new Merchant();
+        rejectedMerchant.setContactEmail(email);
+        rejectedMerchant.setStatus(MerchantStatusEnum.REJECTED);
+
+        when(merchantInvitationRepository.findByEmail(email)).thenReturn(Arrays.asList(invitation));
+        when(merchantRepository.findByContactEmailIgnoreCase(email)).thenReturn(Optional.of(rejectedMerchant));
+
+        Method method = MerchantInvitationService.class.getDeclaredMethod("isEligibleForInvitation", String.class);
+        method.setAccessible(true);
+
+        // When
+        boolean result = (boolean) method.invoke(merchantInvitationService, email);
+
+        // Then
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void GivenRegisteredMerchant_WhenIsEligibleForInvitation_ThenReturnFalse() throws Exception {
+        // Given
+        String email = "registered@example.com";
+        MerchantInvitation invitation = new MerchantInvitation();
+        invitation.setEmail(email);
+        invitation.setIsRegistered(true);
+
+        Merchant registeredMerchant = new Merchant();
+        registeredMerchant.setContactEmail(email);
+        registeredMerchant.setStatus(MerchantStatusEnum.APPROVED);
+
+        when(merchantInvitationRepository.findByEmail(email)).thenReturn(Arrays.asList(invitation));
+        when(merchantRepository.findByContactEmailIgnoreCase(email)).thenReturn(Optional.of(registeredMerchant));
+
+        Method method = MerchantInvitationService.class.getDeclaredMethod("isEligibleForInvitation", String.class);
+        method.setAccessible(true);
+
+        // When
+        boolean result = (boolean) method.invoke(merchantInvitationService, email);
+
+        // Then
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    void GivenDuplicateEmails_WhenInviteMerchant_ThenExpectDtoValidateException() {
+        InviteMerchantDto dto = InviteMerchantDto.builder()
+                .emails(Arrays.asList("duplicate@example.com", "duplicate@example.com"))
+                .message("Welcome!")
+                .build();
+
+        DtoValidateException exception = assertThrows(DtoValidateException.class, () -> {
+            merchantInvitationService.inviteMerchant(dto, "en");
+        });
+
+        Assertions.assertEquals(duplicateValue, exception.getMessage());
+    }
+
 }

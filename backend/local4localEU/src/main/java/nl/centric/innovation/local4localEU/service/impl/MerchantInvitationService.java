@@ -10,7 +10,10 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import nl.centric.innovation.local4localEU.dto.InvitationDto;
+import nl.centric.innovation.local4localEU.entity.Merchant;
+import nl.centric.innovation.local4localEU.enums.MerchantStatusEnum;
 import nl.centric.innovation.local4localEU.exception.CustomException.DtoValidateNotFoundException;
+import nl.centric.innovation.local4localEU.repository.MerchantRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.domain.Page;
@@ -36,6 +39,8 @@ public class MerchantInvitationService {
 
     private final MerchantInvitationRepository merchantInvitationRepository;
 
+    private final MerchantRepository merchantRepository;
+
     @Value("${error.constraint.duplicate}")
     private String duplicateValue;
 
@@ -58,10 +63,12 @@ public class MerchantInvitationService {
     private String alreadyUsedToken;
 
     @Transactional
-    public void inviteMerchant(InviteMerchantDto inviteMerchantDto, String language) throws DtoValidateException {
+    public boolean inviteMerchant(InviteMerchantDto inviteMerchantDto, String language) throws DtoValidateException {
         validateInviteMerchantDto(inviteMerchantDto);
         Map<String, UUID> processedEmails = processEmails(inviteMerchantDto);
         emailService.sendInviteMerchantEmail(language, processedEmails, inviteMerchantDto.message());
+
+        return processedEmails.size() < inviteMerchantDto.emails().size();
     }
 
     public List<InvitationDto> getAllLatestSentToEmail(Integer page, Integer size) {
@@ -105,7 +112,6 @@ public class MerchantInvitationService {
     }
 
     private Map<String, UUID> processEmails(InviteMerchantDto inviteMerchantDto) throws DtoValidateException {
-        // Check for duplicates in the input list first
         List<String> emails = inviteMerchantDto.emails();
 
         if (emails.size() != new HashSet<>(emails).size()) {
@@ -113,16 +119,34 @@ public class MerchantInvitationService {
         }
 
         Map<String, UUID> emailTokenMap = new HashMap<>();
+
         Set<MerchantInvitation> invitations = emails.stream()
-                .map(email -> {
-                    MerchantInvitation invitation = MerchantInvitation.of(email, inviteMerchantDto.message());
-                    emailTokenMap.put(email, invitation.getToken());
-                    return invitation;
-                })
+                .filter(this::isEligibleForInvitation)
+                .map(email -> createInvitation(email, inviteMerchantDto.message(), emailTokenMap))
                 .collect(Collectors.toSet());
 
         merchantInvitationRepository.saveAll(invitations);
 
         return emailTokenMap;
     }
+
+    private boolean isEligibleForInvitation(String email) {
+        List<MerchantInvitation> existingInvitation = merchantInvitationRepository.findByEmail(email);
+
+        if (existingInvitation.isEmpty()) {
+            return true;
+        }
+
+        Optional<Merchant> merchant = merchantRepository.findByContactEmailIgnoreCase(email);
+
+        return !existingInvitation.getLast().getIsRegistered()
+                || (merchant.isPresent() && merchant.get().getStatus() == MerchantStatusEnum.REJECTED);
+    }
+
+    private MerchantInvitation createInvitation(String email, String message, Map<String, UUID> emailTokenMap) {
+        MerchantInvitation invitation = MerchantInvitation.of(email, message);
+        emailTokenMap.put(email, invitation.getToken());
+        return invitation;
+    }
+
 }
