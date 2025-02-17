@@ -26,8 +26,8 @@ export class InvitationService {
 		});
 	}
 
-	public inviteMerchants(inviteMerchantsDto: InviteMerchantsDto): Observable<void> {
-		return this.httpClient.post<void>(`${environment.apiPath}/invitations/send`, inviteMerchantsDto, {
+	public inviteMerchants(inviteMerchantsDto: InviteMerchantsDto): Observable<boolean> {
+		return this.httpClient.post<boolean>(`${environment.apiPath}/invitations/send`, inviteMerchantsDto, {
 			withCredentials: true
 		});
 	}

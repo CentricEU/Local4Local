@@ -2,6 +2,8 @@ package nl.centric.innovation.local4localEU.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import nl.centric.innovation.local4localEU.dto.InvitationDto;
 import nl.centric.innovation.local4localEU.dto.InviteMerchantDto;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,20 +40,28 @@ public class InviteMerchantController {
         return ResponseEntity.ok(merchantInvitationService.getAllLatestSentToEmail(page, size));
     }
 
-    @RequestMapping(path = "/count", method = RequestMethod.GET)
+    @GetMapping("/count")
     @Secured({Role.ROLE_MANAGER})
-    public ResponseEntity<Integer> countInvitations() throws DtoValidateException {
+    public ResponseEntity<Integer> countInvitations() {
         return ResponseEntity.ok(merchantInvitationService.countInvitations());
     }
 
-    @RequestMapping(path = "/send", method = RequestMethod.POST)
+    @PostMapping("/send")
     @Secured({Role.ROLE_MANAGER})
-    public ResponseEntity<Void> inviteMerchant(@RequestBody InviteMerchantDto inviteMerchantDto,
-                                               @CookieValue(value = "language", defaultValue = "nl-NL")
-                                               String language) throws DtoValidateException {
+    @Operation(
+            summary = "Invite a merchant",
+            description = "Sends an invitation to a merchant using the provided details.",
+            responses = {
+                    @ApiResponse(responseCode = "200",
+                            description = "Returns false if all emails were processed, true if some emails were skipped.")
+            }
+    )
+    public ResponseEntity<Boolean> inviteMerchant(@RequestBody @Valid InviteMerchantDto inviteMerchantDto,
+                                                  @CookieValue(value = "language", defaultValue = "nl-NL")
+                                                  String language) throws DtoValidateException {
 
-        merchantInvitationService.inviteMerchant(inviteMerchantDto, language);
-        return ResponseEntity.ok().build();
+        boolean skippedEmailsExist = merchantInvitationService.inviteMerchant(inviteMerchantDto, language);
+        return ResponseEntity.ok(skippedEmailsExist);
     }
 
     @PostMapping("/public/validate/{token}")

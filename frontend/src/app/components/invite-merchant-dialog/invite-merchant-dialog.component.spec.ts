@@ -12,6 +12,8 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { GenericDialogComponent } from '../generic-dialog/generic-dialog.component';
 import { InvitationService } from '../../services/invitation.service';
+import { InviteMerchantsDto } from '../../models/invite-merchants-dto.model';
+import { SnackbarType } from '../../_enums/snackbar-type.enum';
 
 describe('InviteMerchantDialogComponent', () => {
 	let component: InviteMerchantDialogComponent;
@@ -157,13 +159,13 @@ describe('InviteMerchantDialogComponent', () => {
 
 	it('should send the invitations and close the dialog', () => {
 		jest.spyOn(component as any, 'getFormValuesToInviteMerchantsDto');
-		jest.spyOn(component as any, 'showSuccessToaster');
+		jest.spyOn(component as any, 'showToaster');
 		jest.spyOn(dialogRefStub, 'close');
 
 		component['sendInvitations']();
 
 		expect(component['getFormValuesToInviteMerchantsDto']).toHaveBeenCalled();
-		expect(component['showSuccessToaster']).toHaveBeenCalled();
+		expect(component['showToaster']).toHaveBeenCalled();
 		expect(invitationServiceMock.inviteMerchants).toHaveBeenCalled();
 		expect(dialogRefStub.close).toHaveBeenCalled();
 	});
@@ -234,5 +236,39 @@ describe('InviteMerchantDialogComponent', () => {
 
 		expect(component.hasFormChanges).toHaveBeenCalled();
 		expect(showWarningDialogSpy).toHaveBeenCalled();
+	});
+
+	it('should call invitationService.inviteMerchants with correct data', () => {
+		const inviteMerchantsDto = new InviteMerchantsDto(['email@domain.com'], 'Invitation message.');
+		jest.spyOn(component as any, 'getFormValuesToInviteMerchantsDto').mockReturnValue(inviteMerchantsDto);
+		jest.spyOn(invitationServiceMock, 'inviteMerchants').mockReturnValue(of(true));
+
+		component['sendInvitations']();
+
+		expect(invitationServiceMock.inviteMerchants).toHaveBeenCalledWith(inviteMerchantsDto);
+	});
+
+	it('should close the dialog and show success toaster if invitation is successful', () => {
+		const inviteMerchantsDto = new InviteMerchantsDto(['email@domain.com'], 'Invitation message.');
+		jest.spyOn(component as any, 'getFormValuesToInviteMerchantsDto').mockReturnValue(inviteMerchantsDto);
+		jest.spyOn(invitationServiceMock, 'inviteMerchants').mockReturnValue(of(true));
+		jest.spyOn(component['dialogRef'], 'close');
+		jest.spyOn(component as any, 'showToaster');
+
+		component['sendInvitations']();
+
+		expect(component['dialogRef'].close).toHaveBeenCalledWith(true);
+		expect(component['showToaster']).toHaveBeenCalledWith(true, SnackbarType.SUCCESS);
+	});
+
+	it('should show info toaster if invitation result is false', () => {
+		const inviteMerchantsDto = new InviteMerchantsDto(['email@domain.com'], 'Invitation message.');
+		jest.spyOn(component as any, 'getFormValuesToInviteMerchantsDto').mockReturnValue(inviteMerchantsDto);
+		jest.spyOn(invitationServiceMock, 'inviteMerchants').mockReturnValue(of(false));
+		jest.spyOn(component as any, 'showToaster');
+
+		component['sendInvitations']();
+
+		expect(component['showToaster']).toHaveBeenCalledWith(true, SnackbarType.SUCCESS);
 	});
 });

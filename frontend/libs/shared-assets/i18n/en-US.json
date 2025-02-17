@@ -158,6 +158,8 @@
         },
         "successOne": "The invitation was successfully sent.",
         "successMultiple": "The invitations were successfully sent.",
+        "merchantsAlreadyRegistered": "Some users were already registered, which is why some invitations were not sent.",
+        "merchantAlreadyRegistered": "The user was already registered, which is why the invitation was not sent.",
         "warning": "The invitation process will be canceled and unsaved changes will be discarded.",
         "noData": {
             "title": "Welcome to Invitations",

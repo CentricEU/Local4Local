@@ -35,7 +35,7 @@
 			"noDataDescription": "Het lijkt erop dat locatie is uitgeschakeld in uw systeemvoorkeuren. Schakel locatievoorzieningen in om de kaart te verkennen."
 		},
 		"yes": "...Yes",
-        "no": "...No"
+		"no": "...No"
 	},
 	"tooltip": {
 		"approveMerchant": "Goedkeuren van locaties",
@@ -158,6 +158,8 @@
 		},
 		"successOne": "De uitnodiging is verzonden.",
 		"successMultiple": "De uitnodigingen zijn verzonden.",
+		"merchantsAlreadyRegistered": "Sommige gebruikers waren al geregistreerd, waardoor sommige uitnodigingen niet zijn verzonden.",
+		"merchantAlreadyRegistered": "De gebruiker was al geregistreerd, waardoor de uitnodiging niet is verzonden.",
 		"warning": "Het uitnodigingsproces wordt geannuleerd en niet-opgeslagen wijzigingen worden verwijderd.",
 		"noData": {
 			"title": "Welkom bij Uitnodigingen",
@@ -208,7 +210,6 @@
 		"40027": "U moet 5 minuten wachten voordat u een nieuwe code opnieuw kunt verzenden.",
 		"40028": "...The link has expired. You have been redirected to the homepage.",
 		"40030": "...The link was already used. You have been redirected to the homepage."
-
 	},
 	"presentation": {
 		"description": {
