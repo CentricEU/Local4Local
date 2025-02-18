@@ -118,10 +118,7 @@ export class HomeComponent implements OnInit {
 
 		this.invitationService.validateInvitationToken(token).subscribe(
 			() => {
-				this.dialog.open(MerchantDialogComponent, {
-					...CustomDialogConfigUtil.GENERIC_MODAL_CONFIG,
-					data: { token }
-				});
+				this.openDialog();
 			},
 			() => {
 				this.clearPath();
