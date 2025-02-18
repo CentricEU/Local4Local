@@ -235,11 +235,13 @@ describe('HomeComponent', () => {
 		expect(validateInvitationTokenSpy).toHaveBeenCalledTimes(1);
 		expect(validateInvitationTokenSpy).toHaveBeenCalledWith(token);
 		expect(dialogOpenSpy).toHaveBeenCalledWith(MerchantDialogComponent, {
-			...CustomDialogConfigUtil.GENERIC_MODAL_CONFIG,
-			data: { token }
+			width: '560px',
+			autoFocus: false,
+			disableClose: false,
+			hasBackdrop: true,
+			restoreFocus: true
 		});
 	});
-	
 	
 	
 	it('should call clearPath when validateInvitationToken fails', () => {
