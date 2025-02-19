@@ -40,17 +40,11 @@ export class HomeComponent implements OnInit {
 	}
 
 	public openDialog(): void {
-		this.dialog
-			.open(MerchantDialogComponent, CustomDialogConfigUtil.GENERIC_MODAL_CONFIG)
-			.afterClosed()
-			.subscribe((result) => {
-				switch (result) {
-					case ALREADY_REGISTERED_CODE:
-						return this.displayAlreadyRegisteredDialog();
-					case SUCCESS_CODE:
-						return this.displayApprovalWaitingPopup();
-				}
-			});
+		this.openMerchantDialog();
+	}
+
+	private openDialogWithToken(token: string): void {
+		this.openMerchantDialog({ token });
 	}
 
 	public onShowEmptyStateChange(value: boolean): void {
@@ -118,7 +112,7 @@ export class HomeComponent implements OnInit {
 
 		this.invitationService.validateInvitationToken(token).subscribe(
 			() => {
-				this.openDialog();
+				this.openDialogWithToken(token);
 			},
 			() => {
 				this.clearPath();
@@ -144,5 +138,24 @@ export class HomeComponent implements OnInit {
 		);
 
 		this.dialog.open(GenericDialogComponent, CustomDialogConfigUtil.createMessageModal(alreadyRegisteredModalData));
+	}
+
+	private openMerchantDialog(data?: any): void {
+		this.dialog
+			.open(MerchantDialogComponent, {
+				...CustomDialogConfigUtil.GENERIC_MODAL_CONFIG,
+				data
+			})
+			.afterClosed()
+			.subscribe((result) => {
+				switch (result) {
+					case ALREADY_REGISTERED_CODE:
+						this.displayAlreadyRegisteredDialog();
+						break;
+					case SUCCESS_CODE:
+						this.displayApprovalWaitingPopup();
+						break;
+				}
+			});
 	}
 }
