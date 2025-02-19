@@ -48,7 +48,7 @@ describe('HomeComponent', () => {
 
 		const invitationServiceStub = {
 			validateInvitationToken: jest.fn().mockReturnValue(of('success-response')) // Ensure it returns an Observable<string>
-		}
+		};
 
 		const categoryServiceStub = {
 			getAllCategories: jest.fn().mockReturnValue(
@@ -147,7 +147,7 @@ describe('HomeComponent', () => {
 			''
 		);
 
-		component["displayApprovalWaitingPopup"]();
+		component['displayApprovalWaitingPopup']();
 
 		expect(matDialogMock.open).toHaveBeenCalledWith(GenericDialogComponent, {
 			...CustomDialogConfigUtil.createMessageModal(expectedModalData),
@@ -170,7 +170,7 @@ describe('HomeComponent', () => {
 			''
 		);
 
-		component["displayAlreadyRegisteredDialog"]();
+		component['displayAlreadyRegisteredDialog']();
 
 		expect(matDialogMock.open).toHaveBeenCalledWith(GenericDialogComponent, {
 			...CustomDialogConfigUtil.createMessageModal(expectedModalData),
@@ -199,7 +199,6 @@ describe('HomeComponent', () => {
 		expect(component.selectCategory).toHaveBeenCalledWith(expectedCategory);
 	});
 
-
 	it('should call validateInvitationToken when token is present in route params', () => {
 		jest.spyOn(component as any, 'validateInvitationToken').mockImplementation();
 
@@ -213,7 +212,7 @@ describe('HomeComponent', () => {
 
 		routeParamsSubject.next({});
 
-		expect(component["validateInvitationToken"]).not.toHaveBeenCalled();
+		expect(component['validateInvitationToken']).not.toHaveBeenCalled();
 	});
 
 	it('should replace state with empty string in clearPath', () => {
@@ -226,12 +225,14 @@ describe('HomeComponent', () => {
 
 	it('should open MerchantDialogComponent when validateInvitationToken succeeds', () => {
 		const token = 'c1c75569-718f-45b5-b347-a41f653f9798';
-	
-		const validateInvitationTokenSpy = jest.spyOn(invitationServiceMock, 'validateInvitationToken').mockReturnValue(of(token));
+
+		const validateInvitationTokenSpy = jest
+			.spyOn(invitationServiceMock, 'validateInvitationToken')
+			.mockReturnValue(of(token));
 		const dialogOpenSpy = jest.spyOn(matDialogMock, 'open');
-	
+
 		component['validateInvitationToken'](token);
-	
+
 		expect(validateInvitationTokenSpy).toHaveBeenCalledTimes(1);
 		expect(validateInvitationTokenSpy).toHaveBeenCalledWith(token);
 		expect(dialogOpenSpy).toHaveBeenCalledWith(MerchantDialogComponent, {
@@ -239,19 +240,21 @@ describe('HomeComponent', () => {
 			autoFocus: false,
 			disableClose: false,
 			hasBackdrop: true,
-			restoreFocus: true
+			restoreFocus: true,
+			data: { token }
 		});
 	});
-	
-	
+
 	it('should call clearPath when validateInvitationToken fails', () => {
 		const token = 'c1c75569-718f-45b5-b347-a41f653f9798';
-	
-		const validateInvitationTokenSpy = jest.spyOn(invitationServiceMock, 'validateInvitationToken').mockReturnValue(throwError(() => new Error('Invalid token')));
+
+		const validateInvitationTokenSpy = jest
+			.spyOn(invitationServiceMock, 'validateInvitationToken')
+			.mockReturnValue(throwError(() => new Error('Invalid token')));
 		const clearPathSpy = jest.spyOn(component as any, 'clearPath');
-	
+
 		component['validateInvitationToken'](token);
-	
+
 		expect(validateInvitationTokenSpy).toHaveBeenCalledWith(token);
 		expect(clearPathSpy).toHaveBeenCalled();
 	});
