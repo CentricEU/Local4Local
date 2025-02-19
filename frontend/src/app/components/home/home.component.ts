@@ -140,14 +140,14 @@ export class HomeComponent implements OnInit {
 		this.dialog.open(GenericDialogComponent, CustomDialogConfigUtil.createMessageModal(alreadyRegisteredModalData));
 	}
 
-	private openMerchantDialog(data?: any): void {
+	private openMerchantDialog(data?: { token?: string }): void {
 		this.dialog
 			.open(MerchantDialogComponent, {
 				...CustomDialogConfigUtil.GENERIC_MODAL_CONFIG,
 				data
 			})
 			.afterClosed()
-			.subscribe((result) => {
+			.subscribe((result: string) => {
 				switch (result) {
 					case ALREADY_REGISTERED_CODE:
 						this.displayAlreadyRegisteredDialog();
