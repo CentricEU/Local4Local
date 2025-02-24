@@ -91,6 +91,7 @@ public class MerchantService {
     @Value("${error.invitation.alreadyUsedToken}")
     private String alreadyUsedToken;
 
+
     public void approveMerchant(UUID merchantId, String language) throws DtoValidateException, URISyntaxException,
             IOException, InterruptedException, TalerException {
         Optional<Merchant> merchant = merchantRepository.findById(merchantId);
@@ -146,7 +147,7 @@ public class MerchantService {
 
     @Transactional
     public MerchantDto saveMerchantAndSendEmail(MerchantDto merchantDto, String language) throws DtoValidateException {
-        MerchantInvitation merchantInvitation = validateToken(merchantDto);
+        MerchantInvitation merchantInvitation = validateInvitation(merchantDto);
         validateMerchantDto(merchantDto);
         merchantRepository.save(toEntity(merchantDto));
         markMerchantAsRegistered(merchantInvitation);
@@ -218,13 +219,17 @@ public class MerchantService {
         }
     }
 
-    private MerchantInvitation validateToken(MerchantDto merchantDto) throws DtoValidateException {
+    private MerchantInvitation validateInvitation(MerchantDto merchantDto) throws DtoValidateException {
         if (merchantDto.token() == null) {
             return null;
         }
 
         MerchantInvitation merchantInvitation = merchantInvitationRepository.findByToken(merchantDto.token())
                 .orElseThrow(() -> new DtoValidateNotFoundException(errorEntityNotFound));
+
+        if (!merchantInvitation.isActive()) {
+            throw new DtoValidateException(errorInvitationExpired);
+        }
 
         if (!isTokenValid(merchantInvitation.getTokenExpirationDate())) {
             throw new DtoValidateNotFoundException(errorInvitationExpired);
