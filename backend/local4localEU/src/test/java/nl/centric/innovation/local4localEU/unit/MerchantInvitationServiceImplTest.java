@@ -269,7 +269,6 @@ class MerchantInvitationServiceImplTest {
         registeredMerchant.setContactEmail(email);
         registeredMerchant.setStatus(MerchantStatusEnum.APPROVED);
 
-        when(merchantInvitationRepository.findByEmail(email)).thenReturn(Arrays.asList(invitation));
         when(merchantRepository.findByContactEmailIgnoreCase(email)).thenReturn(Optional.of(registeredMerchant));
 
         Method method = MerchantInvitationService.class.getDeclaredMethod("isEligibleForInvitation", String.class);

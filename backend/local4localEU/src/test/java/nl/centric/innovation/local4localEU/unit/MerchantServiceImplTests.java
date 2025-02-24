@@ -24,6 +24,9 @@ import nl.centric.innovation.local4localEU.service.interfaces.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -47,9 +50,10 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @ExtendWith(MockitoExtension.class)
-public class MerchantServiceImplTests {
+class MerchantServiceImplTests {
 
     @InjectMocks
     private MerchantService merchantService;
@@ -75,7 +79,6 @@ public class MerchantServiceImplTests {
     private TalerService talerService;
 
     private static final String VALID_IDENTIFIER_NUMBER = "12345678";
-    private static final String INVALID_IDENTIFIER_NUMBER = "";
     private static final String VALID_WEBSITE = "https://www.example.com";
     private static final String INVALID_WEBSITE = "invalid-url";
     private static final Integer VALID_CATEGORY = 0;
@@ -85,9 +88,9 @@ public class MerchantServiceImplTests {
     private static final String CURRENCY_MANAGER_EMAIL = "currency.manager@example.com";
 
     private MerchantDto validMerchantDto;
-    private MerchantDto invalidIdentifierNumberMerchantDto;
     private MerchantDto invalidWebsiteMerchantDto;
     private MerchantDto invalidCategoryMerchantDto;
+
 
     @BeforeEach
     void setup() {
@@ -105,17 +108,6 @@ public class MerchantServiceImplTests {
                 .contactEmail("domain@example.com")
                 .build();
 
-
-        invalidIdentifierNumberMerchantDto = MerchantDto.builder()
-                .companyName("Company")
-                .identifierNumber(INVALID_IDENTIFIER_NUMBER)
-                .website(VALID_WEBSITE)
-                .category(VALID_CATEGORY)
-                .longitude(51.926517)
-                .latitude(4.462456)
-                .address("Address 2")
-                .contactEmail("domain@example.com")
-                .build();
 
         invalidWebsiteMerchantDto = MerchantDto.builder()
                 .companyName("Company")
@@ -142,7 +134,7 @@ public class MerchantServiceImplTests {
 
     @Test
     @SneakyThrows
-    public void GivenValidMerchantDto_WhenSaveMerchant_ThenMerchantIsSaved() {
+    void GivenValidMerchantDto_WhenSaveMerchant_ThenMerchantIsSaved() {
         // Given
         when(merchantRepository.findByIdentifierNumber(VALID_IDENTIFIER_NUMBER)).thenReturn(Optional.empty());
 
@@ -154,7 +146,7 @@ public class MerchantServiceImplTests {
     }
 
     @Test
-    public void GivenExistingMerchant_WhenSaveMerchant_ThenExpectDtoValidateAlreadyExistsException() {
+    void GivenExistingMerchant_WhenSaveMerchant_ThenExpectDtoValidateAlreadyExistsException() {
         // Given
         Merchant existingMerchant = new Merchant();
         when(merchantRepository.findByIdentifierNumber(VALID_IDENTIFIER_NUMBER)).thenReturn(Optional.of(existingMerchant));
@@ -166,7 +158,7 @@ public class MerchantServiceImplTests {
     }
 
     @Test
-    public void GivenInvalidCategoryId_WhenSaveMerchant_ThenExpectDtoValidateException() {
+    void GivenInvalidCategoryId_WhenSaveMerchant_ThenExpectDtoValidateException() {
         // Given
         when(merchantRepository.findByIdentifierNumber(VALID_IDENTIFIER_NUMBER)).thenReturn(Optional.empty());
 
@@ -177,7 +169,7 @@ public class MerchantServiceImplTests {
     }
 
     @Test
-    public void GivenInvalidWebsite_WhenSaveMerchant_ThenExpectDtoValidateException() {
+    void GivenInvalidWebsite_WhenSaveMerchant_ThenExpectDtoValidateException() {
         // Given
         when(merchantRepository.findByIdentifierNumber(VALID_IDENTIFIER_NUMBER)).thenReturn(Optional.empty());
 
@@ -188,7 +180,7 @@ public class MerchantServiceImplTests {
     }
 
     @Test
-    public void GivenMerchantsInRepository_WhenGetAll_ThenReturnMerchantViewDtoList() {
+    void GivenMerchantsInRepository_WhenGetAll_ThenReturnMerchantViewDtoList() {
         // Given
         Merchant merchant1 = merchantBuilder("Company 1", VALID_IDENTIFIER_NUMBER);
         Merchant merchant2 = merchantBuilder("Company 2", "12345679");
@@ -210,7 +202,7 @@ public class MerchantServiceImplTests {
     }
 
     @Test
-    public void GivenEmptyRepository_WhenGetAll_ThenReturnEmptyList() {
+    void GivenEmptyRepository_WhenGetAll_ThenReturnEmptyList() {
         // Given
         when(merchantRepository.findByStatus(MerchantStatusEnum.APPROVED)).thenReturn(List.of());
 
@@ -223,7 +215,7 @@ public class MerchantServiceImplTests {
     }
 
     @Test
-    public void GivenMerchantsInCategory_WhenGetByCategory_ThenReturnMerchantViewDtoList() {
+    void GivenMerchantsInCategory_WhenGetByCategory_ThenReturnMerchantViewDtoList() {
         // Given
         Merchant merchant1 = merchantBuilder("Company 1", VALID_IDENTIFIER_NUMBER);
         Merchant merchant2 = merchantBuilder("Company 2", "12345679");
@@ -247,7 +239,7 @@ public class MerchantServiceImplTests {
     }
 
     @Test
-    public void GivenNoMerchantsInCategory_WhenGetByCategory_ThenReturnEmptyList() {
+    void GivenNoMerchantsInCategory_WhenGetByCategory_ThenReturnEmptyList() {
         // Given
         when(merchantRepository.findByCategoryIdAndStatus(1, MerchantStatusEnum.APPROVED)).thenReturn(List.of());
 
@@ -260,7 +252,7 @@ public class MerchantServiceImplTests {
     }
 
     @Test
-    public void GivenInvalidCategoryId_WhenGetByCategory_ThenReturnAllMerchants() {
+    void GivenInvalidCategoryId_WhenGetByCategory_ThenReturnAllMerchants() {
         // Given
         Merchant merchant1 = merchantBuilder("Company 1", VALID_IDENTIFIER_NUMBER);
         Merchant merchant2 = merchantBuilder("Company 2", "12345679");
@@ -284,7 +276,7 @@ public class MerchantServiceImplTests {
     }
 
     @Test
-    public void GivenMerchantsInRepository_WhenCountAllMerchants_ThenReturnMerchantCount() {
+    void GivenMerchantsInRepository_WhenCountAllMerchants_ThenReturnMerchantCount() {
         // Given
         Long mockMerchantsCount = 12L;
         when(merchantRepository.count()).thenReturn(mockMerchantsCount);
@@ -298,7 +290,7 @@ public class MerchantServiceImplTests {
     }
 
     @Test
-    public void GivenMerchantsInRepository_WhenGetPaginatedMerchants_ThenReturnMerchantViewDtoList() {
+    void GivenMerchantsInRepository_WhenGetPaginatedMerchants_ThenReturnMerchantViewDtoList() {
         // Given
         Merchant merchant1 = merchantBuilder("Company 1", VALID_IDENTIFIER_NUMBER);
         Merchant merchant2 = merchantBuilder("Company 2", "12345679");
@@ -322,7 +314,7 @@ public class MerchantServiceImplTests {
     }
 
     @Test
-    public void GivenEmptyRepository_WhenGetPaginatedMerchants_ThenReturnEmptyList() {
+    void GivenEmptyRepository_WhenGetPaginatedMerchants_ThenReturnEmptyList() {
         // Given
         Page<Merchant> emptyMerchantPage = new PageImpl<>(List.of());
 
@@ -337,7 +329,7 @@ public class MerchantServiceImplTests {
     }
 
     @Test
-    public void GivenInvalidPage_WhenGetPaginatedMerchants_ThenReturnEmptyList() {
+    void GivenInvalidPage_WhenGetPaginatedMerchants_ThenReturnEmptyList() {
         // Given
         Page<Merchant> emptyMerchantPage = new PageImpl<>(List.of());
 
@@ -352,7 +344,7 @@ public class MerchantServiceImplTests {
     }
 
     @Test
-    public void GivenNonExistingMerchant_WhenApproveMerchant_ThenThrowDtoValidateNotFoundException() {
+    void GivenNonExistingMerchant_WhenApproveMerchant_ThenThrowDtoValidateNotFoundException() {
         // Given
         when(merchantRepository.findById(VALID_MERCHANT_ID)).thenReturn(Optional.empty());
 
@@ -365,7 +357,7 @@ public class MerchantServiceImplTests {
     }
 
     @Test
-    public void GivenAlreadyApprovedMerchant_WhenApproveMerchant_ThenThrowDtoValidateAlreadyExistsException() {
+    void GivenAlreadyApprovedMerchant_WhenApproveMerchant_ThenThrowDtoValidateAlreadyExistsException() {
         // Given
         Merchant approvedMerchant = merchantBuilder("Company 1", VALID_IDENTIFIER_NUMBER);
         approvedMerchant.setStatus(MerchantStatusEnum.APPROVED);
@@ -381,7 +373,7 @@ public class MerchantServiceImplTests {
 
     @Test
     @SneakyThrows
-    public void GivenPendingMerchant_WhenApproveMerchant_ThenMerchantIsApprovedAndEmailIsSent() {
+    void GivenPendingMerchant_WhenApproveMerchant_ThenMerchantIsApprovedAndEmailIsSent() {
         // Given
         Merchant pendingMerchant = merchantBuilder("Company 1", VALID_IDENTIFIER_NUMBER);
         UUID token = UUID.randomUUID();
@@ -401,7 +393,7 @@ public class MerchantServiceImplTests {
     }
 
     @Test
-    public void GivenNonExistingMerchant_WhenRejectMerchant_ThenThrowDtoValidateNotFoundException() {
+    void GivenNonExistingMerchant_WhenRejectMerchant_ThenThrowDtoValidateNotFoundException() {
         // Given
         RejectMerchantDto rejectMerchantDto = new RejectMerchantDto("aaaa", VALID_MERCHANT_ID);
         when(merchantRepository.findById(VALID_MERCHANT_ID)).thenReturn(Optional.empty());
@@ -416,7 +408,7 @@ public class MerchantServiceImplTests {
     }
 
     @Test
-    public void GivenAlreadyRejectedMerchant_WhenRejectMerchant_ThenThrowDtoValidateAlreadyExistsException() {
+    void GivenAlreadyRejectedMerchant_WhenRejectMerchant_ThenThrowDtoValidateAlreadyExistsException() {
         // Given
         Merchant rejectedMerchant = merchantBuilder("Company 1", VALID_IDENTIFIER_NUMBER);
         rejectedMerchant.setStatus(MerchantStatusEnum.REJECTED);
@@ -434,7 +426,7 @@ public class MerchantServiceImplTests {
     }
 
     @Test
-    public void GivenNonExistingCurrencyManager_WhenRejectMerchant_ThenThrowDtoValidateNotFoundException() {
+    void GivenNonExistingCurrencyManager_WhenRejectMerchant_ThenThrowDtoValidateNotFoundException() {
         // Given
         RejectMerchantDto rejectMerchantDto = new RejectMerchantDto("Reason for rejection", VALID_MERCHANT_ID);
         Merchant merchant = merchantBuilder("Company 1", VALID_IDENTIFIER_NUMBER);
@@ -455,7 +447,7 @@ public class MerchantServiceImplTests {
     }
 
     @Test
-    public void GivenValidMerchantAndCurrencyManager_WhenRejectMerchant_ThenMerchantIsRejectedAndEmailIsSent() throws DtoValidateException {
+    void GivenValidMerchantAndCurrencyManager_WhenRejectMerchant_ThenMerchantIsRejectedAndEmailIsSent() throws DtoValidateException {
         // Given
         Merchant rejectedMerchant = merchantBuilder("Company 1", VALID_IDENTIFIER_NUMBER);
         rejectedMerchant.setStatus(MerchantStatusEnum.PENDING);
@@ -478,7 +470,7 @@ public class MerchantServiceImplTests {
     }
 
     @Test
-    public void GivenRejectedMerchantByEmail_WhenSaveMerchant_ThenMerchantIsDeletedAndSaved() throws DtoValidateException {
+    void GivenRejectedMerchantByEmail_WhenSaveMerchant_ThenMerchantIsDeletedAndSaved() throws DtoValidateException {
         // Given
         Merchant rejectedMerchant = merchantBuilder("Company 1", VALID_IDENTIFIER_NUMBER);
         rejectedMerchant.setStatus(MerchantStatusEnum.REJECTED);
@@ -494,7 +486,7 @@ public class MerchantServiceImplTests {
     }
 
     @Test
-    public void GivenExistingMerchantEmail_WhenSaveMerchant_ThenExpectDtoValidateAlreadyExistsException() {
+    void GivenExistingMerchantEmail_WhenSaveMerchant_ThenExpectDtoValidateAlreadyExistsException() {
         // Given
         Merchant existingMerchant = new Merchant();
         existingMerchant.setStatus(MerchantStatusEnum.APPROVED);
@@ -507,7 +499,7 @@ public class MerchantServiceImplTests {
     }
 
     @Test
-    public void GivenInvalidToken_WhenSaveMerchant_ThenThrowDtoValidateNotFoundException() {
+    void GivenInvalidToken_WhenSaveMerchant_ThenThrowDtoValidateNotFoundException() {
         // Given
         UUID invalidToken = UUID.randomUUID();
         when(merchantInvitationRepository.findByToken(any())).thenReturn(Optional.empty());
@@ -522,7 +514,7 @@ public class MerchantServiceImplTests {
     }
 
     @Test
-    public void GivenExpiredToken_WhenSaveMerchant_ThenThrowDtoValidateNotFoundException() {
+    void GivenExpiredToken_WhenSaveMerchant_ThenThrowDtoValidateNotFoundException() {
         // Given
         UUID expiredToken = UUID.randomUUID();
         MerchantInvitation invitation = new MerchantInvitation();
@@ -533,34 +525,21 @@ public class MerchantServiceImplTests {
         MerchantDto merchantDto = createMerchantDtoWithToken(expiredToken);
 
         // When & Then
-        assertThrows(DtoValidateNotFoundException.class,
+        assertThrows(DtoValidateException.class,
                 () -> merchantService.saveMerchantAndSendEmail(merchantDto, "en"));
 
         verify(merchantInvitationRepository, times(1)).findByToken(expiredToken);
     }
 
-//    @Test
-//    public void GivenMismatchedEmail_WhenSaveMerchant_ThenThrowDtoValidateException() {
-//        // Given
-//        UUID token = UUID.randomUUID();
-//        MerchantInvitation invitation = new MerchantInvitation();
-//        invitation.setIsRegistered(false);  // Not registered yet
-//        invitation.setTokenExpirationDate(LocalDateTime.now().plusDays(1));
-//        invitation.setEmail("correct@example.com");
-//
-//        when(merchantInvitationRepository.findByToken(token)).thenReturn(Optional.of(invitation));
-//
-//        verify(merchantInvitationRepository, times(1)).findByToken(token);
-//    }
-
-    @Test
-    public void GivenAlreadyRegisteredToken_WhenSaveMerchant_ThenThrowDtoValidateException() {
+    @ParameterizedTest(name = "{3}")
+    @MethodSource("provideInvalidMerchantInvitations")
+    void GivenInvalidMerchantInvitation_WhenSaveMerchant_ThenThrowDtoValidateException(boolean isRegistered, LocalDateTime tokenExpirationDate, String email, String testName) {
         // Given
         UUID token = UUID.randomUUID();
         MerchantInvitation invitation = new MerchantInvitation();
-        invitation.setIsRegistered(true);  // Already registered
-        invitation.setTokenExpirationDate(LocalDateTime.now().plusDays(1));
-        invitation.setEmail("test@example.com");
+        invitation.setIsRegistered(isRegistered);
+        invitation.setTokenExpirationDate(tokenExpirationDate);
+        invitation.setEmail(email);
 
         when(merchantInvitationRepository.findByToken(token)).thenReturn(Optional.of(invitation));
 
@@ -574,47 +553,7 @@ public class MerchantServiceImplTests {
     }
 
     @Test
-    public void GivenDifferentEmailAddress_WhenSaveMerchant_ThenThrowDtoValidateException() {
-        // Given
-        UUID token = UUID.randomUUID();
-        MerchantInvitation invitation = new MerchantInvitation();
-        invitation.setIsRegistered(false);  // Not registered yet
-        invitation.setTokenExpirationDate(LocalDateTime.now().plusDays(1));
-        invitation.setEmail("different@example.com");
-
-        when(merchantInvitationRepository.findByToken(token)).thenReturn(Optional.of(invitation));
-
-        MerchantDto merchantDto = createMerchantDtoWithToken(token);
-
-        // When & Then
-        assertThrows(DtoValidateException.class,
-                () -> merchantService.saveMerchantAndSendEmail(merchantDto, "en"));
-
-        verify(merchantInvitationRepository, times(1)).findByToken(token);
-    }
-
-    @Test
-    public void GivenMismatchedEmail_WhenSaveMerchant_ThenThrowDtoValidateException() {
-        // Given
-        UUID token = UUID.randomUUID();
-        MerchantInvitation invitation = new MerchantInvitation();
-        invitation.setIsRegistered(false);  // Not registered yet
-        invitation.setTokenExpirationDate(LocalDateTime.now().plusDays(1));
-        invitation.setEmail("correct@example.com");
-
-        when(merchantInvitationRepository.findByToken(token)).thenReturn(Optional.of(invitation));
-
-        MerchantDto merchantDto = createMerchantDtoWithToken(token);
-
-        // When & Then
-        assertThrows(DtoValidateException.class,
-                () -> merchantService.saveMerchantAndSendEmail(merchantDto, "en"));
-
-        verify(merchantInvitationRepository, times(1)).findByToken(token);
-    }
-
-    @Test
-    public void GivenValidMerchantInvitation_WhenMarkMerchantAsRegistered_ThenIsRegisteredIsTrue() {
+    void GivenValidMerchantInvitation_WhenMarkMerchantAsRegistered_ThenIsRegisteredIsTrue() {
         // Given
         MerchantInvitation merchantInvitation = new MerchantInvitation();
         merchantInvitation.setIsRegistered(false);
@@ -653,6 +592,14 @@ public class MerchantServiceImplTests {
                 .token(token)
                 .contactEmail("test@example.com")
                 .build();
+    }
+
+    private static Stream<Arguments> provideInvalidMerchantInvitations() {
+        return Stream.of(
+                Arguments.of(true, LocalDateTime.now().plusDays(1), "test@example.com", "GivenAlreadyRegisteredToken_WhenSaveMerchant_ThenThrowDtoValidateException"),
+                Arguments.of(false, LocalDateTime.now().plusDays(1), "different@example.com", "GivenDifferentEmailAddress_WhenSaveMerchant_ThenThrowDtoValidateException"),
+                Arguments.of(false, LocalDateTime.now().plusDays(1), "correct@example.com", "GivenMismatchedEmail_WhenSaveMerchant_ThenThrowDtoValidateException")
+        );
     }
 
 }

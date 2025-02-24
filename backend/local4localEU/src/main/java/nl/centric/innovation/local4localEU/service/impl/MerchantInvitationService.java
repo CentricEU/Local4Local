@@ -77,7 +77,7 @@ public class MerchantInvitationService {
         Page<MerchantInvitation> invitations = merchantInvitationRepository
                 .findAllByIsActiveTrueOrderByCreatedDateDesc(pageable);
 
-        return invitations.stream().map(InvitationDto::toDto).collect(Collectors.toList());
+        return invitations.stream().map(InvitationDto::toDto).toList();
     }
 
     public Integer countInvitations() {
@@ -131,17 +131,24 @@ public class MerchantInvitationService {
     }
 
     private boolean isEligibleForInvitation(String email) {
-        List<MerchantInvitation> existingInvitation = merchantInvitationRepository.findByEmail(email);
+        Optional<Merchant> merchant = merchantRepository.findByContactEmailIgnoreCase(email);
 
-        if (existingInvitation.isEmpty()) {
+        if (merchant.map(m -> m.getStatus() == MerchantStatusEnum.APPROVED || m.getStatus() == MerchantStatusEnum.PENDING).orElse(false)) {
+            return false;
+        }
+
+        List<MerchantInvitation> existingInvitations = merchantInvitationRepository.findByEmail(email);
+
+        if (existingInvitations.isEmpty()) {
             return true;
         }
 
-        Optional<Merchant> merchant = merchantRepository.findByContactEmailIgnoreCase(email);
+        MerchantInvitation lastInvitation = existingInvitations.getLast();
 
-        return !existingInvitation.getLast().getIsRegistered()
-                || (merchant.isPresent() && merchant.get().getStatus() == MerchantStatusEnum.REJECTED);
+        return !lastInvitation.getIsRegistered()
+                || merchant.map(m -> m.getStatus() == MerchantStatusEnum.REJECTED).orElse(false);
     }
+
 
     private MerchantInvitation createInvitation(String email, String message, Map<String, UUID> emailTokenMap) {
         MerchantInvitation invitation = MerchantInvitation.of(email, message);
