@@ -91,6 +91,10 @@ public class MerchantInvitationService {
             throw new DtoValidateNotFoundException(errorEntityNotFound);
         }
 
+        if(!merchantInvitation.get().isActive()) {
+            throw new DtoValidateNotFoundException(errorInvitationExpired);
+        }
+
         if (!isTokenValid(merchantInvitation.get().getTokenExpirationDate())) {
             throw new DtoValidateNotFoundException(errorInvitationExpired);
         }
