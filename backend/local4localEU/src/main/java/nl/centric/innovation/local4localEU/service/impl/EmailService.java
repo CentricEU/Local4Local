@@ -235,7 +235,8 @@ public class EmailService {
     private String getContentForInviteMerchant(Locale locale, String templateMiddlePart, String message) {
         String contentInfo = getEmailStringText(locale, templateMiddlePart, EmailStructureEnum.CONTENT.getStructure())
                 .replace(EmailHtmlEnum.LINE_BREAK.getTag(), EmailHtmlEnum.RN.getTag());
-        return StringUtils.joinStringPieces(message, EmailHtmlEnum.LINE_BREAK.getTag(), EmailHtmlEnum.LINE_BREAK.getTag(), contentInfo);
+        String messageContent = StringUtils.addStringBeforeAndAfter(message, EmailHtmlEnum.END.getTag(), contentInfo);
+        return StringUtils.joinStringPieces(messageContent, EmailHtmlEnum.LINE_BREAK.getTag(), EmailHtmlEnum.LINE_BREAK.getTag());
     }
 
     private String getContentForApproveMerchant(Locale locale, String templateMiddlePart, UUID token, String merchantName) {
