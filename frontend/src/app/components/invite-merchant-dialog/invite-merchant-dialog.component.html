@@ -41,7 +41,7 @@
 			</mat-chip-grid>
 			<input
 				[matChipInputFor]="emailChipGrid"
-				(matChipInputTokenEnd)="handleKeyup($event)"
+				(matChipInputTokenEnd)="handleKeyup($event, false)"
 				(keydown.space)="handleKeyup($event, true)" />
 			<mat-hint>{{ 'inviteMerchants.emailsHint' | translate }}</mat-hint>
 		</mat-form-field>

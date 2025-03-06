@@ -64,7 +64,7 @@ export class InviteMerchantDialogComponent implements OnInit {
 		this.showWarningDialog();
 	}
 
-	public handleKeyup(event: Event | MatChipInputEvent, isSpaceKey: boolean = false): void {
+	public handleKeyup(event: Event | MatChipInputEvent, isSpaceKey: boolean): void {
 		const inputElement = isSpaceKey
 			? ((event as Event).target as HTMLInputElement)
 			: (event as MatChipInputEvent).chipInput!.inputElement;
