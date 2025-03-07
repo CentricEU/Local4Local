@@ -64,9 +64,12 @@ export class InviteMerchantDialogComponent implements OnInit {
 		this.showWarningDialog();
 	}
 
-	public handleEnterKeyup(event: MatChipInputEvent): void {
+	public handleKeyup(event: Event | MatChipInputEvent, isSpaceKey: boolean): void {
+		const inputElement = isSpaceKey
+			? ((event as Event).target as HTMLInputElement)
+			: (event as MatChipInputEvent).chipInput!.inputElement;
+		const email = (inputElement.value || '').trim();
 		const emailRegex = new RegExp(RegexUtil.emailRegexPattern);
-		const email = (event.value || '').trim();
 
 		if (!email || !emailRegex.test(email)) {
 			this.emailError = 'inviteMerchants.error.emailPattern';
@@ -85,7 +88,11 @@ export class InviteMerchantDialogComponent implements OnInit {
 
 		this.merchantEmails.add(email);
 		this.emailError = '';
-		event.chipInput!.clear();
+		inputElement.value = '';
+
+		if (!isSpaceKey) {
+			(event as MatChipInputEvent).chipInput!.clear();
+		}
 	}
 
 	public removeEmailFromList(email: string): void {

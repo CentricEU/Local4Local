@@ -148,7 +148,7 @@
         "button": "Invite merchants",
         "emailAddresses": "E-mail address(es)",
         "invitationMessage": "Invitation Message",
-        "emailsHint": "You can add multiple email addresses by pressing Enter after each one.",
+        "emailsHint": "You can add multiple email addresses by pressing Enter or Space after each one.",
         "error": {
             "emailAddressesRequired": "Enter E-mail address(es).",
             "invitationMessageRequired": "Enter invitation message",

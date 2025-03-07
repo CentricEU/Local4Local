@@ -18,7 +18,7 @@ public enum EmailHtmlEnum {
     EXCL("!"),
     LINK_START("<a href=\"%s\">"),
     LINK_END("</a>"),
-    END(".");;
+    END(".");
 
     private final String html;
 

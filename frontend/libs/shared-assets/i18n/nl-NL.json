@@ -148,7 +148,7 @@
 		"button": "Nodig locaties uit",
 		"emailAddresses": "Emailadres(sen)",
 		"invitationMessage": "Uitnodiging",
-		"emailsHint": "Je kunt meerdere emailadressen toevoegen door na elk adres op Enter te drukken.",
+		"emailsHint": "Je kunt meerdere emailadressen toevoegen door na elk adres op Enter of Spatie te drukken.",
 		"error": {
 			"emailAddressesRequired": "Vul emailadres(sen) in.",
 			"invitationMessageRequired": "Vul uitnodiging in",

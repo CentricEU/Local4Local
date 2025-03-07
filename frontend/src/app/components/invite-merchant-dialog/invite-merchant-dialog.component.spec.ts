@@ -6,7 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatIconModule } from '@angular/material/icon';
-import { MatChipInput, MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
+import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -19,38 +19,20 @@ describe('InviteMerchantDialogComponent', () => {
 	let component: InviteMerchantDialogComponent;
 	let fixture: ComponentFixture<InviteMerchantDialogComponent>;
 	let invitationServiceMock: jest.Mocked<InvitationService>;
-	let mockChipInputEvent: MatChipInputEvent;
-
-	const dialogRefStub = {
-		close: () => undefined,
-		afterClosed: jest.fn(() => of({})),
-		backdropClick: jest.fn(() => of({}))
-	};
+	let dialogRefStub: any;
 
 	beforeEach(async () => {
-		const mockChipInput: Partial<MatChipInput> = {
-			clear: jest.fn()
-		};
-
 		global.structuredClone = jest.fn((val) => {
 			return JSON.parse(JSON.stringify(val));
 		});
 
-		const mockInputElement = document.createElement('input');
-		mockInputElement.value = 'test chip';
-
-		mockChipInputEvent = {
-			input: mockInputElement,
-			value: mockInputElement.value,
-			chipInput: mockChipInput as MatChipInput
-		} as MatChipInputEvent;
+		dialogRefStub = {
+			close: jest.fn(),
+			afterClosed: jest.fn(() => of({}))
+		};
 
 		invitationServiceMock = {
-			inviteMerchants: jest.fn(() =>
-				of({
-					subscribe: () => jest.fn()
-				})
-			)
+			inviteMerchants: jest.fn(() => of(true))
 		} as any;
 
 		await TestBed.configureTestingModule({
@@ -84,191 +66,305 @@ describe('InviteMerchantDialogComponent', () => {
 		expect(component).toBeTruthy();
 	});
 
-	it('should close the dialog when close method is called and form has no data', () => {
-		jest.spyOn(dialogRefStub, 'close');
-		component.closeDialog();
+	it('should add valid email and clear input', () => {
+		const inputElement = document.createElement('input');
+		inputElement.value = 'valid@example.com';
 
-		expect(dialogRefStub.close).toHaveBeenCalled();
+		const event = new KeyboardEvent('keyup', { key: 'Space', bubbles: true, cancelable: true });
+		Object.defineProperty(event, 'target', { value: inputElement, writable: true });
+		component.handleKeyup(event, true);
+
+		expect(component.merchantEmails.has('valid@example.com')).toBeTruthy();
+		expect(inputElement.value).toBe('');
 	});
 
-	it('should add e-mail to list if it is valid when enter key is pressed', () => {
-		mockChipInputEvent.value = 'email@domain.com';
-		component.handleEnterKeyup(mockChipInputEvent);
+	it('should not add duplicate emails', () => {
+		component.merchantEmails.add('duplicate@example.com');
+		const inputElement = document.createElement('input');
+		inputElement.value = 'duplicate@example.com';
 
-		expect([...component.merchantEmails]).toEqual(['email@domain.com']);
-	});
-
-	it('should display an error when trying to add an e-mail that is already in the list', () => {
-		component.merchantEmails.add('email@domain.com');
-
-		mockChipInputEvent.value = 'email@domain.com';
-		component.handleEnterKeyup(mockChipInputEvent);
+		const event = new KeyboardEvent('keyup', { key: 'Space', bubbles: true, cancelable: true });
+		Object.defineProperty(event, 'target', { value: inputElement, writable: true });
+		component.handleKeyup(event, true);
 
 		expect(component.emailError).toEqual('inviteMerchants.error.emailAlreadyInList');
 	});
 
-	it('should display an error when trying to add an invalid e-mail', () => {
-		mockChipInputEvent.value = 'invalidemail@';
-		component.handleEnterKeyup(mockChipInputEvent);
-		expect(component.emailError).toEqual('inviteMerchants.error.emailPattern');
+	it('should remove email from the list', () => {
+		component.merchantEmails.add('remove@example.com');
+		component.removeEmailFromList('remove@example.com');
+		expect(component.merchantEmails.has('remove@example.com')).toBeFalsy();
 	});
 
-	it('should display an error when trying to add more than 50 emails', () => {
-		for (let i = 1; i <= 51; i++) {
-			mockChipInputEvent.value = `email${i}@domain.com`;
-			component.handleEnterKeyup(mockChipInputEvent);
-		}
-		expect(component.emailError).toEqual('inviteMerchants.error.emailsLimitReached');
+	it('should validate empty invitation message', () => {
+		component.form.controls['invitationMessage'].setValue('');
+		expect(component.form.controls['invitationMessage'].valid).toBeFalsy();
 	});
 
-	it('should mark invitation message as invalid if empty', () => {
-		const invitationMessageControl = component.form.get('invitationMessage');
-		invitationMessageControl?.setValue('');
-
-		expect(invitationMessageControl?.valid).toBeFalsy();
-	});
-
-	it('should mark form as valid if there are emails provided and message is not empty', () => {
-		const invitationMessageControl = component.form.get('invitationMessage');
-		invitationMessageControl?.setValue('Invitation message.');
-
-		component.merchantEmails.add('email@domain.com');
-
+	it('should validate form when email and message are provided', () => {
+		component.merchantEmails.add('valid@example.com');
+		component.form.controls['invitationMessage'].setValue('A message.');
 		expect(component.isFormValid).toBeTruthy();
 	});
 
-	it('should remove given email from list', () => {
-		component.merchantEmails.add('email1@domain.com');
-		component.merchantEmails.add('email2@domain.com');
+	it('should call service to send invitations', () => {
+		jest.spyOn(component as any, 'getFormValuesToInviteMerchantsDto').mockReturnValue(
+			new InviteMerchantsDto(['valid@example.com'], 'A message.')
+		);
+		jest.spyOn(invitationServiceMock, 'inviteMerchants').mockReturnValue(of(false));
 
-		component.removeEmailFromList('email1@domain.com');
+		component['sendInvitations']();
 
-		expect([...component.merchantEmails]).toEqual(['email2@domain.com']);
+		expect(invitationServiceMock.inviteMerchants).toHaveBeenCalledWith(
+			new InviteMerchantsDto(['valid@example.com'], 'A message.')
+		);
 	});
 
-	it('should get the data from the form and return it as a dto', () => {
-		const invitationMessageControl = component.form.get('invitationMessage');
-		invitationMessageControl?.setValue('Invitation message.');
-
-		component.merchantEmails.add('email1@domain.com');
-
-		const result = component['getFormValuesToInviteMerchantsDto']();
-
-		expect(result.message).toBe('Invitation message.');
-	});
-
-	it('should send the invitations and close the dialog', () => {
-		jest.spyOn(component as any, 'getFormValuesToInviteMerchantsDto');
-		jest.spyOn(component as any, 'showToaster');
+	it('should close dialog on successful invitation', () => {
+		jest.spyOn(component as any, 'getFormValuesToInviteMerchantsDto').mockReturnValue(
+			new InviteMerchantsDto(['valid@example.com'], 'A message.')
+		);
+		jest.spyOn(invitationServiceMock, 'inviteMerchants').mockReturnValue(of(true));
 		jest.spyOn(dialogRefStub, 'close');
 
 		component['sendInvitations']();
 
-		expect(component['getFormValuesToInviteMerchantsDto']).toHaveBeenCalled();
-		expect(component['showToaster']).toHaveBeenCalled();
-		expect(invitationServiceMock.inviteMerchants).toHaveBeenCalled();
-		expect(dialogRefStub.close).toHaveBeenCalled();
+		expect(dialogRefStub.close).toHaveBeenCalledWith(true);
 	});
 
-	it('should not call sendInvitations if the form is invalid', () => {
-		jest.spyOn(component as any, 'sendInvitations');
-
-		const invitationMessageControl = component.form.get('invitationMessage');
-		invitationMessageControl?.setValue('');
-		component.merchantEmails.add('email1@');
-
-		component.inviteMerchants();
-
-		expect(component['sendInvitations']).not.toHaveBeenCalled();
-	});
-
-	it('should call sendInvitations if the form is valid', () => {
-		jest.spyOn(component as any, 'sendInvitations');
-
-		const invitationMessageControl = component.form.get('invitationMessage');
-		invitationMessageControl?.setValue('Invitation message.');
-
-		component.merchantEmails.add('email1@domain.com');
-
-		component.inviteMerchants();
-
-		expect(component['sendInvitations']).toHaveBeenCalled();
-	});
-
-	it('should close the dialog if there are no form changes', () => {
-		jest.spyOn(component, 'hasFormChanges').mockReturnValue(false);
-		jest.spyOn(dialogRefStub, 'close');
+	it('should show warning dialog if form has changes', () => {
+		jest.spyOn(component, 'hasFormChanges').mockReturnValue(true);
+		const dialogSpy = jest
+			.spyOn(component['dialog'], 'open')
+			.mockReturnValue({ afterClosed: () => of(true) } as any);
 
 		component.closeDialog();
-
-		expect(component.hasFormChanges).toHaveBeenCalled();
-		expect(dialogRefStub.close).toHaveBeenCalled();
-	});
-
-	it('should open warning dialog when showWarningDialog is called', () => {
-		const dialogSpy = jest.spyOn(component['dialog'], 'open').mockReturnValue({
-			afterClosed: () => of(true)
-		} as any);
-
-		component['showWarningDialog']();
-
 		expect(dialogSpy).toHaveBeenCalled();
 	});
 
-	it('should close the dialog if the user confirms the warning dialog', () => {
-		const dialogSpy = jest.spyOn(component['dialog'], 'open').mockReturnValue({
-			afterClosed: () => of(true)
-		} as any);
+	const testCases = [
+		{ message: true, emails: ['valid@example.com'], expected: true },
+		{ message: '', emails: ['valid@example.com'], expected: true },
+		{ message: true, emails: [], expected: true },
+		{ message: '', emails: [], expected: false }
+	];
 
-		jest.spyOn(dialogRefStub, 'close');
-
-		component['showWarningDialog']();
-
-		expect(dialogSpy).toHaveBeenCalled();
-		expect(dialogRefStub.close).toHaveBeenCalled();
+	testCases.forEach(({ message, emails, expected }) => {
+		it(`should return ${expected} if invitation message is "${message}" and merchant emails list is ${
+			emails.length ? 'not empty' : 'empty'
+		}`, () => {
+			component.form.controls['invitationMessage'].setValue(message);
+			component.merchantEmails.clear();
+			emails.forEach((email) => component.merchantEmails.add(email));
+			expect(component.hasFormChanges()).toBe(expected);
+		});
 	});
 
-	it('should call showWarningDialog if there are form changes', () => {
+	it('should return false if form has no changes', () => {
+		component.form.controls['invitationMessage'].setValue('');
+		component.merchantEmails.clear();
+		expect(component.hasFormChanges()).toBeFalsy();
+	});
+
+	it('should return true if form has invitation message', () => {
+		component.form.controls['invitationMessage'].setValue('A message.');
+		component.merchantEmails.clear();
+		expect(component.hasFormChanges()).toBeTruthy();
+	});
+
+	it('should return true if form has merchant emails', () => {
+		component.form.controls['invitationMessage'].setValue('');
+		component.merchantEmails.add('valid@example.com');
+		expect(component.hasFormChanges()).toBeTruthy();
+	});
+
+	it('should not send invitations if form is invalid', () => {
+		component.form.controls['invitationMessage'].setValue('');
+		const sendInvitationsSpy = jest.spyOn(component as any, 'sendInvitations');
+		component.inviteMerchants();
+		expect(sendInvitationsSpy).not.toHaveBeenCalled();
+	});
+
+	it('should send invitations if form is valid', () => {
+		component.form.controls['invitationMessage'].setValue('A message.');
+		component.merchantEmails.add('valid@example.com');
+		const sendInvitationsSpy = jest.spyOn(component as any, 'sendInvitations');
+		component.inviteMerchants();
+		expect(sendInvitationsSpy).toHaveBeenCalled();
+	});
+
+	it('should call showWarningDialog if form has changes on closeDialog', () => {
 		jest.spyOn(component, 'hasFormChanges').mockReturnValue(true);
 		const showWarningDialogSpy = jest.spyOn(component as any, 'showWarningDialog');
-
 		component.closeDialog();
-
-		expect(component.hasFormChanges).toHaveBeenCalled();
 		expect(showWarningDialogSpy).toHaveBeenCalled();
 	});
 
-	it('should call invitationService.inviteMerchants with correct data', () => {
-		const inviteMerchantsDto = new InviteMerchantsDto(['email@domain.com'], 'Invitation message.');
+	it('should not call showWarningDialog if form has no changes on closeDialog', () => {
+		jest.spyOn(component, 'hasFormChanges').mockReturnValue(false);
+		const showWarningDialogSpy = jest.spyOn(component as any, 'showWarningDialog');
+		component.closeDialog();
+		expect(showWarningDialogSpy).not.toHaveBeenCalled();
+	});
+
+	it('should call showToaster with success type on successful invitation', () => {
+		const inviteMerchantsDto = new InviteMerchantsDto(['valid@example.com'], 'A message.');
 		jest.spyOn(component as any, 'getFormValuesToInviteMerchantsDto').mockReturnValue(inviteMerchantsDto);
 		jest.spyOn(invitationServiceMock, 'inviteMerchants').mockReturnValue(of(true));
+		const showToasterSpy = jest.spyOn(component as any, 'showToaster');
+		component['sendInvitations']();
+		expect(showToasterSpy).toHaveBeenCalledWith(true, SnackbarType.SUCCESS);
+	});
+
+	it('should set email error if email pattern is invalid', () => {
+		const inputElement = document.createElement('input');
+		inputElement.value = 'invalid-email';
+
+		const event = new KeyboardEvent('keyup', { key: 'Space', bubbles: true, cancelable: true });
+		Object.defineProperty(event, 'target', { value: inputElement, writable: true });
+		component.handleKeyup(event, true);
+
+		expect(component.emailError).toEqual('inviteMerchants.error.emailPattern');
+		expect(component.merchantEmails.size).toBe(0);
+	});
+
+	it('should set email error if email is already in the list', () => {
+		component.merchantEmails.add('duplicate@example.com');
+		const inputElement = document.createElement('input');
+		inputElement.value = 'duplicate@example.com';
+
+		const event = new KeyboardEvent('keyup', { key: 'Space', bubbles: true, cancelable: true });
+		Object.defineProperty(event, 'target', { value: inputElement });
+		component.handleKeyup(event, true);
+
+		expect(component.emailError).toEqual('inviteMerchants.error.emailAlreadyInList');
+		expect(component.merchantEmails.size).toBe(1);
+	});
+
+	it('should set email error if email limit is reached', () => {
+		component.merchantEmails.add('email1@example.com');
+		component.merchantEmails.add('email2@example.com');
+		component.merchantEmails.add('email3@example.com');
+		component.merchantEmails.add('email4@example.com');
+		component.merchantEmails.add('email5@example.com');
+		const inputElement = document.createElement('input');
+		inputElement.value = 'newemail@example.com';
+
+		const event = new KeyboardEvent('keyup', { key: 'Space', bubbles: true, cancelable: true });
+		Object.defineProperty(event, 'target', { value: inputElement });
+		component.handleKeyup(event, true);
+
+		expect(component.emailError).toEqual('inviteMerchants.error.emailsLimitReached');
+		expect(component.merchantEmails.size).toBe(5);
+	});
+
+	it('should add valid email and clear input', () => {
+		const inputElement = document.createElement('input');
+		inputElement.value = 'valid@example.com';
+
+		const event = new KeyboardEvent('keyup', { key: 'Space', bubbles: true, cancelable: true });
+		Object.defineProperty(event, 'target', { value: inputElement });
+		component.handleKeyup(event, true);
+
+		expect(component.merchantEmails.has('valid@example.com')).toBeTruthy();
+		expect(inputElement.value).toBe('');
+		expect(component.emailError).toBe('');
+	});
+
+	it('should add valid email and clear input', () => {
+		const inputElement = document.createElement('input');
+		inputElement.value = 'valid@example.com';
+
+		const event = new KeyboardEvent('keyup', { key: 'Space', bubbles: true, cancelable: true });
+		Object.defineProperty(event, 'target', { value: inputElement });
+		component.handleKeyup(event, true);
+
+		expect(component.merchantEmails.has('valid@example.com')).toBeTruthy();
+		expect(inputElement.value).toBe('');
+		expect(component.emailError).toBe('');
+	});
+
+	it('should set email error if email pattern is invalid', () => {
+		const inputElement = document.createElement('input');
+		inputElement.value = 'invalid-email';
+
+		const event = new KeyboardEvent('keyup', { key: 'Space', bubbles: true, cancelable: true });
+		Object.defineProperty(event, 'target', { value: inputElement });
+		component.handleKeyup(event, true);
+
+		expect(component.emailError).toEqual('inviteMerchants.error.emailPattern');
+		expect(component.merchantEmails.size).toBe(0);
+	});
+
+	it('should set email error if email is already in the list', () => {
+		component.merchantEmails.add('duplicate@example.com');
+		const inputElement = document.createElement('input');
+		inputElement.value = 'duplicate@example.com';
+
+		const event = new KeyboardEvent('keyup', { key: 'Space', bubbles: true, cancelable: true });
+		Object.defineProperty(event, 'target', { value: inputElement });
+		component.handleKeyup(event, true);
+
+		expect(component.emailError).toEqual('inviteMerchants.error.emailAlreadyInList');
+		expect(component.merchantEmails.size).toBe(1);
+	});
+
+	it('should set email error if email limit is reached', () => {
+		component.merchantEmails.add('email1@example.com');
+		component.merchantEmails.add('email2@example.com');
+		component.merchantEmails.add('email3@example.com');
+		component.merchantEmails.add('email4@example.com');
+		component.merchantEmails.add('email5@example.com');
+		const inputElement = document.createElement('input');
+		inputElement.value = 'newemail@example.com';
+
+		const event = new KeyboardEvent('keyup', { key: 'Space', bubbles: true, cancelable: true });
+		Object.defineProperty(event, 'target', { value: inputElement });
+		component.handleKeyup(event, true);
+
+		expect(component.emailError).toEqual('inviteMerchants.error.emailsLimitReached');
+		expect(component.merchantEmails.size).toBe(5);
+	});
+
+	it('should call service to send invitations', () => {
+		const inviteMerchantsDto = new InviteMerchantsDto(['valid@example.com'], 'A message.');
+		jest.spyOn(component as any, 'getFormValuesToInviteMerchantsDto').mockReturnValue(inviteMerchantsDto);
+		jest.spyOn(invitationServiceMock, 'inviteMerchants').mockReturnValue(of(true));
+		const showToasterSpy = jest.spyOn(component as any, 'showToaster');
+		const dialogRefCloseSpy = jest.spyOn(dialogRefStub, 'close');
 
 		component['sendInvitations']();
 
 		expect(invitationServiceMock.inviteMerchants).toHaveBeenCalledWith(inviteMerchantsDto);
+		expect(dialogRefCloseSpy).toHaveBeenCalledWith(true);
+		expect(showToasterSpy).toHaveBeenCalledWith(true, SnackbarType.SUCCESS);
 	});
 
-	it('should close the dialog and show success toaster if invitation is successful', () => {
-		const inviteMerchantsDto = new InviteMerchantsDto(['email@domain.com'], 'Invitation message.');
+	it('should not call showToaster with info type if invitation service returns true', () => {
+		const inviteMerchantsDto = new InviteMerchantsDto(['valid@example.com'], 'A message.');
 		jest.spyOn(component as any, 'getFormValuesToInviteMerchantsDto').mockReturnValue(inviteMerchantsDto);
 		jest.spyOn(invitationServiceMock, 'inviteMerchants').mockReturnValue(of(true));
-		jest.spyOn(component['dialogRef'], 'close');
-		jest.spyOn(component as any, 'showToaster');
+		const showToasterSpy = jest.spyOn(component as any, 'showToaster');
 
 		component['sendInvitations']();
 
-		expect(component['dialogRef'].close).toHaveBeenCalledWith(true);
-		expect(component['showToaster']).toHaveBeenCalledWith(true, SnackbarType.SUCCESS);
+		expect(showToasterSpy).not.toHaveBeenCalledWith(false, SnackbarType.INFO);
 	});
 
-	it('should show info toaster if invitation result is false', () => {
-		const inviteMerchantsDto = new InviteMerchantsDto(['email@domain.com'], 'Invitation message.');
-		jest.spyOn(component as any, 'getFormValuesToInviteMerchantsDto').mockReturnValue(inviteMerchantsDto);
-		jest.spyOn(invitationServiceMock, 'inviteMerchants').mockReturnValue(of(false));
-		jest.spyOn(component as any, 'showToaster');
+	it('should clear input and emailError when email is valid', () => {
+		const chipInputMock = {
+			inputElement: document.createElement('input'),
+			clear: jest.fn()
+		};
 
-		component['sendInvitations']();
+		chipInputMock.inputElement.value = 'valid@example.com';
 
-		expect(component['showToaster']).toHaveBeenCalledWith(true, SnackbarType.SUCCESS);
+		const event = { chipInput: chipInputMock } as unknown as MatChipInputEvent;
+
+		component.handleKeyup(event, false);
+
+		expect(component.merchantEmails.has('valid@example.com')).toBeTruthy();
+		expect(chipInputMock.clear).toHaveBeenCalled();
+		expect(component.emailError).toBe('');
 	});
 });

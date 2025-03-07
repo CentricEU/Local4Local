@@ -1,9 +1,6 @@
 <section mat-dialog-title class="dialog-header">
 	<span>{{ 'inviteMerchants.title' | translate }}</span>
-	<button
-		mat-icon-button
-		[attr.aria-label]="'general.button.cancel' | translate"
-		(click)="closeDialog()">
+	<button mat-icon-button [attr.aria-label]="'general.button.cancel' | translate" (click)="closeDialog()">
 		<mat-icon>close</mat-icon>
 	</button>
 </section>
@@ -42,8 +39,10 @@
 				</mat-chip-row>
 				}
 			</mat-chip-grid>
-			<input [matChipInputFor]="emailChipGrid" (matChipInputTokenEnd)="handleEnterKeyup($event)" />
-
+			<input
+				[matChipInputFor]="emailChipGrid"
+				(matChipInputTokenEnd)="handleKeyup($event, false)"
+				(keydown.space)="handleKeyup($event, true)" />
 			<mat-hint>{{ 'inviteMerchants.emailsHint' | translate }}</mat-hint>
 		</mat-form-field>
 		@if (!!emailError) {
