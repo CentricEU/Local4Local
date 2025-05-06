@@ -1,23 +1,23 @@
 {
-  "title": {
-    "merchants": "...Merchants",
-    "changeLanguage": "...Change language"
-  },
-  "category": {
-    "all": "...All",
-    "foodAndBeverage": "...Food & Beverage",
-    "retail": "...Retail",
-    "healthAndWellness": "...Health & Wellness",
-    "services": "...Services",
-    "entertainmentAndLeisure": "...Entertainment & Leisure",
-    "specialtyStores": "...Specialty stores",
-    "technologyAndCommunications": "...Technology & Communications",
-    "homeImprovement": "...Home Improvement",
-    "other": "...Other"
-  },
-  "language": {
-    "en": "...English",
-    "nl": "...Dutch",
-    "de": "...German"
-  }
+	"title": {
+		"merchants": "Handelaars",
+		"changeLanguage": "Taal wijzigen"
+	},
+	"category": {
+		"all": "Alle",
+		"foodAndBeverage": "Eten & Drinken",
+		"retail": "Detailhandel",
+		"healthAndWellness": "Gezondheid & Welzijn",
+		"services": "Diensten",
+		"entertainmentAndLeisure": "Amusement & Vrije tijd",
+		"specialtyStores": "Speciaalzaken",
+		"technologyAndCommunications": "Technologie & Communicatie",
+		"homeImprovement": "Woningverbetering",
+		"other": "Overig"
+	},
+	"language": {
+		"en": "Engels",
+		"nl": "Nederlands",
+		"de": "Duits"
+	}
 }
