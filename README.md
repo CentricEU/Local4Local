@@ -30,8 +30,8 @@ Before starting, ensure you have the following installed on your machine:
 2. Run the following commands:
 
    ```bash
-   git clone https://github.com/Centric-RO/Local4Local.git
-   cd Local4LocalEU
+   git clone https://github.com/CentricEU/Local4Local.git
+   cd Local4Local
    ```
 
 ---
