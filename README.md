@@ -31,7 +31,7 @@ Before starting, ensure you have the following installed on your machine:
 
    ```bash
    git clone https://github.com/Centric-RO/Local4Local.git
-   cd Local4LocalEU
+   cd CentricEU/Loca4Local
    ```
 
 ---
