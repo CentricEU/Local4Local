@@ -1,6 +1,10 @@
 # 🌍 Local4LocalEU Project
 
-Welcome to the **Local4LocalEU** project! This README provides all the necessary instructions to set up and run the application on your local machine. 
+Welcome to the **Local4LocalEU** project! 'Localforlocal' project evolved into the 'Gemeentepassen' project. This README provides all the necessary instructions to set up and run the application on your local machine.
+
+The repository for the 'Gemeentepassen' project is here: [https://github.com/CentricEU/local4local.](https://github.com/CentricEU/gemeentepassen)
+
+The project is founded by the EU NGI Program.
 
 The project is composed of:
 
