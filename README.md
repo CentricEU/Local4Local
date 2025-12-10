@@ -1,28 +1,30 @@
 # 🌍 Local4LocalEU Project
 
-Welcome to the **Local4LocalEU** project! 
+Welcome to the **Local4LocalEU** project! 'Localforlocal' project evolved into the 'Gemeentepassen' project. This README provides all the necessary instructions to set up and run the application on your local machine.
 
-This README provides all the necessary instructions to set up and run the application on your local machine.
+The repository for the 'Gemeentepassen' project is here: [https://github.com/CentricEU/local4local.](https://github.com/CentricEU/gemeentepassen)
 
-This project manages local services and municipal connections. The Local4LocalEU established here evolved into the Gemeentepassen project. 
+The project is founded by the EU NGI Program.
 
-The project is funded by the EU NGI Program and consists of an Angular frontend, Spring Boot backend, and PostgreSQL database.
+The project is composed of:
 
-
-->  The Gemeentepassen repository is available at https://github.com/CentricEU/gemeentepassen.
+- **Frontend:** Angular
+- **Backend:** Spring Boot
+- **Database:** PostgreSQL
 
 ---
 
 ## 🚀 Prerequisites
 
 Before starting, ensure you have the following installed on your machine:
-
+- **PostgreSQL:** version 12 or higher
+- **Maven:** 3.9.11
 - **Node.js:** Version 20.11.1 or higher ([Download Node.js](https://nodejs.org/))
 - **Angular CLI:** Version 18.1.0 or higher ([Install Angular CLI](https://angular.io/cli))
 - **Java Development Kit (JDK):** Version 21 ([Download JDK](https://www.oracle.com/java/technologies/javase-downloads.html))
 - **PostgreSQL:** Version 12 or higher ([Download PostgreSQL](https://www.postgresql.org/download/))
 - **AWS Account:** A valid AWS account to configure the AWS CLI ([Create an AWS Account](https://aws.amazon.com/))
-- **Maven** 3.9.11 (https://maven.apache.org/download.cgi)
+- **AWS CLI**
 
 ---
 
@@ -125,16 +127,62 @@ npm start
 
 ## 🐞 Troubleshooting
 
-### Backend Issues
+### Database Connection Issues
 
-- **Database Connection Error:** Ensure PostgreSQL is running and the credentials in `application.properties` are correct.
-- **Port Conflicts:**  Verify that port `8080` is free or update the port in `application.properties`.
+**Symptoms:**
 
-### Frontend Issues
+- Backend fails to start
+- Connection refused errors in logs
 
-- **Dependency Errors:** Run `npm install` to ensure all dependencies are installed.
-- **Port Conflicts:** Verify that port `4200` is free or update the Angular CLI configuration.
+**Solutions:**
 
+- Verify PostgreSQL service is running
+- Confirm credentials in `application.properties` match your database configuration
+- Ensure database name is `local4localEU` as specified in the connection URL
+
+### Port Conflicts
+
+**Symptoms:**
+
+- Application fails to start
+- "Address already in use" errors
+
+**Required Ports:**
+
+- Backend: 8080
+- Frontend: 4200
+
+**Solutions:**
+
+- Check that required ports are available before starting applications
+- Stop conflicting services or modify port configuration in application properties or Angular CLI configuration
+
+### Frontend Dependency Errors
+
+**Symptoms:**
+
+- npm install fails
+- Peer dependency warnings
+
+**Solutions:**
+
+- Use the `--legacy-peer-deps` flag during installation
+- Verify Node.js version 20.11.1 or higher is installed by running `node --version`
+- Ensure Angular CLI version 18.1.0 or higher is installed
+
+### AWS Configuration Issues
+
+**Symptoms:**
+
+- Backend cannot access AWS services
+- Authentication errors in logs
+
+**Solutions:**
+
+- Verify AWS CLI is properly installed
+- Confirm credentials are configured by checking the `.aws` folder in your user directory
+- Run `aws configure` again to update credentials if needed
+- Ensure your AWS account has the necessary permissions
 ---
 
 
