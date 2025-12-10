@@ -1,16 +1,15 @@
 # 🌍 Local4LocalEU Project
 
-Welcome to the **Local4LocalEU** project! 'Localforlocal' project evolved into the 'Gemeentepassen' project. This README provides all the necessary instructions to set up and run the application on your local machine.
+Welcome to the **Local4LocalEU** project! 
 
-The repository for the 'Gemeentepassen' project is here: [https://github.com/CentricEU/local4local.](https://github.com/CentricEU/gemeentepassen)
+This README provides all the necessary instructions to set up and run the application on your local machine.
 
-The project is founded by the EU NGI Program.
+This project manages local services and municipal connections. The Local4LocalEU established here evolved into the Gemeentepassen project. 
 
-The project is composed of:
+The project is funded by the EU NGI Program and consists of an Angular frontend, Spring Boot backend, and PostgreSQL database.
 
-- **Frontend:** Angular
-- **Backend:** Spring Boot
-- **Database:** PostgreSQL
+
+->  The Gemeentepassen repository is available at https://github.com/CentricEU/gemeentepassen.
 
 ---
 
@@ -23,6 +22,7 @@ Before starting, ensure you have the following installed on your machine:
 - **Java Development Kit (JDK):** Version 21 ([Download JDK](https://www.oracle.com/java/technologies/javase-downloads.html))
 - **PostgreSQL:** Version 12 or higher ([Download PostgreSQL](https://www.postgresql.org/download/))
 - **AWS Account:** A valid AWS account to configure the AWS CLI ([Create an AWS Account](https://aws.amazon.com/))
+- **Maven** 3.9.11 (https://maven.apache.org/download.cgi)
 
 ---
 
